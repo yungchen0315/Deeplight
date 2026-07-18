@@ -33,11 +33,19 @@
     save.ballastLevel = 0;
     save.research = [];
 
-    // 重構（refits）永久保留，重新套用其中「開局附贈」類效果（例如種苗庫的起始水母）。
+    // 重構（refits）永久保留，重新套用其中「開局附贈」類效果（例如種苗庫的起始水母、
+    // 起錨協議的起始深度）。startDepth 需要在 computeEffects 依賴的 modules/research 都
+    // 重置後才讀取，故放在歸零之後。
     const eff = Econ.computeEffects(save);
     Object.keys(eff.startModules).forEach((moduleId) => {
       save.modules[moduleId] = { count: eff.startModules[moduleId], upgradeTier: 0 };
     });
+    if (eff.startDepth > 0) {
+      save.depth = eff.startDepth;
+      save.maxDepthThisRun = eff.startDepth;
+      const zone = D.zoneForDepth(eff.startDepth);
+      save.currentZone = zone ? zone.id : 0;
+    }
 
     return { ok: true, gained };
   }

@@ -1,18 +1,28 @@
 /* ============================================================================
- * mathUtils.js — 通用數學工具：大數字格式化（萬／億／兆）、夾限、隨機。
+ * mathUtils.js — 通用數學工具：大數字格式化（萬／億／兆／京／垓，或科學記號）、
+ * 夾限、隨機。numberFormat 由設定同步進來，模組層級變數，不需要每次呼叫都傳。
  * ==========================================================================*/
 (function () {
+  let numberFormat = 'zh'; // 'zh' | 'sci'
+
+  function setNumberFormat(fmt) { numberFormat = fmt === 'sci' ? 'sci' : 'zh'; }
+
   function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
   function lerp(a, b, t) { return a + (b - a) * t; }
 
-  /** 大數字格式化：1000 以下顯示整數，之後依萬／億／兆分級，取合適小數位數。 */
+  /** 大數字格式化：1000 以下顯示整數，之後依單位分級／科學記號，取合適小數位數。 */
   function formatNum(n) {
     if (n === undefined || n === null || Number.isNaN(n)) return '0';
     const sign = n < 0 ? '-' : '';
     n = Math.abs(n);
     if (n < 1000) return sign + Math.floor(n).toString();
-    const units = [[1e12, '兆'], [1e8, '億'], [1e4, '萬']];
+    if (numberFormat === 'sci') {
+      const exp = Math.floor(Math.log10(n));
+      const mantissa = n / Math.pow(10, exp);
+      return sign + mantissa.toFixed(2) + 'e' + exp;
+    }
+    const units = [[1e20, '垓'], [1e16, '京'], [1e12, '兆'], [1e8, '億'], [1e4, '萬']];
     for (let i = 0; i < units.length; i++) {
       const [v, label] = units[i];
       if (n >= v) {
@@ -47,6 +57,7 @@
 
   window.App.Utils.clamp = clamp;
   window.App.Utils.lerp = lerp;
+  window.App.Utils.setNumberFormat = setNumberFormat;
   window.App.Utils.formatNum = formatNum;
   window.App.Utils.formatRate = formatRate;
   window.App.Utils.randomInt = randomInt;

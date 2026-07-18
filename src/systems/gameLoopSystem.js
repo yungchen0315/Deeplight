@@ -10,7 +10,7 @@
   /**
    * @param {SaveGame} save
    * @param {number} dtMs 距離上次 tick 的實際毫秒數。
-   * @returns {{newAchievements: AchievementDef[]}}
+   * @returns {{newAchievements: AchievementDef[], autoTapped: boolean}}
    */
   function tick(save, dtMs) {
     const dtSec = Math.max(0, dtMs / 1000);
@@ -18,9 +18,19 @@
     const gained = gps * dtSec;
     save.glow += gained;
     save.stats.totalGlowEarned += gained;
+    save.stats.playSeconds = (save.stats.playSeconds || 0) + dtSec;
     Descent.advance(save, dtSec);
+
+    // 自動採光（f9 重構）：每秒發生機率 = autoTapPerSec × dt，避免另存一份小數累加器。
+    let autoTapped = false;
+    const eff = Econ.computeEffects(save);
+    if (eff.autoTapPerSec > 0 && Math.random() < eff.autoTapPerSec * dtSec) {
+      Econ.applyTap(save);
+      autoTapped = true;
+    }
+
     const newAchievements = Achievement.checkAchievements(save);
-    return { newAchievements };
+    return { newAchievements, autoTapped };
   }
 
   window.App.Systems.GameLoop = { tick };

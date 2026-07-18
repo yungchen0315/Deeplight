@@ -1,5 +1,6 @@
 /* ============================================================================
- * modulesScreen.js — 「模組」分頁：壓載升級 + 6 種發光模組購買／升級列表。
+ * modulesScreen.js — 「模組」分頁：壓載升級 + 發光模組購買／升級列表，支援
+ * x1／x10／xMax 批量購買。
  * ==========================================================================*/
 (function () {
   const U = window.App.Utils;
@@ -7,6 +8,10 @@
   const PR = window.App.UI.PixelRenderer;
   const Econ = window.App.Systems.Economy;
   const Toast = window.App.UI.Toast;
+  const Audio = window.App.Systems.Audio;
+  const FX = window.App.UI.FX;
+
+  let buyQty = 1; // 1 | 10 | 'max'，畫面切換分頁時重置，不存檔。
 
   function render(container, save, onChange) {
     U.clearNode(container);
@@ -21,7 +26,7 @@
       const btn = U.el('button', 'smallBtn' + (save.glow < ballastCost ? ' disabled' : ''), '升級 · ' + U.formatNum(ballastCost));
       U.onTap(btn, () => {
         const r = Econ.buyBallast(save);
-        if (r.ok) onChange(); else Toast.toast(r.reason);
+        if (r.ok) { Audio.play('buy'); FX.popButton(btn); onChange(); } else { Audio.play('error'); Toast.toast(r.reason); }
       });
       row.appendChild(btn);
     } else {
@@ -31,7 +36,17 @@
     container.appendChild(ballastPanel);
 
     const listPanel = U.el('div', 'panel');
-    listPanel.appendChild(U.el('div', 'panelTitle', '發光模組'));
+    const titleRow = U.el('div', 'panelTitleRow');
+    titleRow.appendChild(U.el('div', 'panelTitle', '發光模組'));
+    const qtyToggle = U.el('div', 'qtyToggle');
+    [1, 10, 'max'].forEach((q) => {
+      const b = U.el('button', 'qtyBtn' + (buyQty === q ? ' qtyActive' : ''), q === 'max' ? 'xMax' : 'x' + q);
+      U.onTap(b, () => { buyQty = q; render(container, save, onChange); });
+      qtyToggle.appendChild(b);
+    });
+    titleRow.appendChild(qtyToggle);
+    listPanel.appendChild(titleRow);
+
     const eff = Econ.computeEffects(save);
     D.MODULE_DEFS.forEach((def) => {
       const state = save.modules[def.id] || { count: 0, upgradeTier: 0 };
@@ -49,11 +64,14 @@
       info.appendChild(U.el('div', 'moduleSub', '單體 ' + U.formatRate(unitProd) + '/s'));
       row.appendChild(info);
 
-      const cost = Econ.moduleCost(save, def.id);
-      const buyBtn = U.el('button', 'smallBtn' + (save.glow < cost ? ' disabled' : ''), '購買 · ' + U.formatNum(cost));
+      const qty = buyQty === 'max' ? Econ.maxAffordableQty(save, def.id) : buyQty;
+      const cost = Econ.moduleCostForQty(save, def.id, qty || 1);
+      const affordable = qty > 0 && save.glow >= cost;
+      const label = (buyQty === 'max' ? 'x' + Math.max(qty, 0) + ' · ' : 'x' + buyQty + ' · ') + U.formatNum(cost);
+      const buyBtn = U.el('button', 'smallBtn' + (affordable ? '' : ' disabled'), label);
       U.onTap(buyBtn, () => {
-        const r = Econ.buyModule(save, def.id);
-        if (r.ok) onChange(); else Toast.toast(r.reason);
+        const r = Econ.buyModule(save, def.id, buyQty);
+        if (r.ok) { Audio.play('buy'); FX.popButton(buyBtn); onChange(); } else { Audio.play('error'); Toast.toast(r.reason); }
       });
       row.appendChild(buyBtn);
       listPanel.appendChild(row);
@@ -65,7 +83,7 @@
         const upBtn = U.el('button', 'smallBtn' + (save.glow < upgradeInfo.cost ? ' disabled' : ''), U.formatNum(upgradeInfo.cost));
         U.onTap(upBtn, () => {
           const r = Econ.buyModuleUpgrade(save, def.id);
-          if (r.ok) onChange(); else Toast.toast(r.reason);
+          if (r.ok) { Audio.play('upgrade'); FX.popButton(upBtn); onChange(); } else { Audio.play('error'); Toast.toast(r.reason); }
         });
         upRow.appendChild(upBtn);
         listPanel.appendChild(upRow);

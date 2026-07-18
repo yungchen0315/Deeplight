@@ -109,6 +109,19 @@
     for (let i = 0; i < 5; i++) { const cx = 2 + i * 3; ellipse(g, cx, 8, 2, 5, 'DIM'); }
     dots(g, [[3, 8], [7, 7], [11, 9]], 'GLOW');
   });
+  SPRITES.mod_lure = modSprite((g) => {
+    [3, 8, 13].forEach((cx) => {
+      vline(g, cx, 6, 8, 'BORDER');
+      circle(g, cx, 5, 2, 'AMBER');
+      dots(g, [[cx, 5]], 'GLOW2');
+    });
+  });
+  SPRITES.mod_reactor = modSprite((g) => {
+    ellipse(g, 8, 9, 6, 5, 'PANEL2');
+    circle(g, 8, 9, 3, 'VIOLET');
+    dots(g, [[8, 9], [7, 8]], 'PEARL');
+    dots(g, [[3, 13], [5, 14], [11, 14], [13, 13]], 'RED');
+  });
 
   /* -------------------------------------------------------------- 生物 */
 
@@ -180,6 +193,38 @@
     ellipse(g, 9, 8, 6, 4, 'INK');
     for (let x = 4; x <= 8; x++) for (let y = 5; y <= 11; y++) if ((x + y) % 2 === 0) setPx(g, x, y, 'FOAM');
     dots(g, [[5, 7], [5, 9]], 'GLOW');
+  });
+  SPRITES.c_dragonfish = creatureSprite(24, 8, (g) => {
+    for (let i = 0; i < 20; i++) { const y = 4 + Math.round(Math.sin(i / 4) * 2); setPx(g, 1 + i, y, 'INK'); }
+    dots(g, [[3, 6], [8, 5], [13, 6], [18, 5]], 'GLOW');
+    dots(g, [[21, 4]], 'RED');
+  });
+  SPRITES.c_seapig = creatureSprite(16, 16, (g) => {
+    ellipse(g, 8, 9, 6, 5, 'PINK');
+    dots(g, [[4, 13], [6, 14], [10, 14], [12, 13], [5, 6], [11, 6]], 'DIM');
+    dots(g, [[6, 7], [10, 7]], 'INK');
+  });
+  SPRITES.c_ghostshark = creatureSprite(24, 16, (g) => {
+    ellipse(g, 11, 8, 9, 4, 'DIM');
+    rect(g, 9, 2, 2, 5, 'DIM');
+    for (let x = 2; x <= 20; x += 3) hline(g, x, 8, 2, 'BORDER');
+    dots(g, [[6, 6]], 'FOAM');
+  });
+  SPRITES.c_giantsquid = creatureSprite(16, 24, (g) => {
+    ellipse(g, 8, 6, 5, 5, 'HULL2');
+    dots(g, [[6, 5]], 'PEARL');
+    for (let t = 0; t < 8; t++) vline(g, 2 + t * 1.7 | 0, 11, 12 - (t % 3), 'HULL2');
+  });
+
+  /* -------------------------------------------------------------- 介面圖示 */
+
+  SPRITES.icon_gear = iconSprite((g) => {
+    dots(g, [[3, 0], [4, 0], [0, 3], [0, 4], [7, 3], [7, 4], [3, 7], [4, 7]], 'DIM');
+    circle(g, 4, 4, 2, 'DIM');
+    setPx(g, 4, 4, 'PANEL2');
+  });
+  SPRITES.icon_boost = iconSprite((g) => {
+    dots(g, [[4, 0], [3, 1], [4, 1], [2, 2], [3, 2], [4, 3], [3, 4], [2, 5], [3, 5], [4, 5], [3, 6], [2, 7]], 'AMBER');
   });
 
   window.App.Data.SPRITES = SPRITES;

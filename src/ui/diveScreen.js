@@ -1,7 +1,8 @@
 /* ============================================================================
  * diveScreen.js — 「潛航」主畫面：海域場景、點擊採光、路過生物點擊收集、
- * 錨點閘門按鈕。生物用個別 canvas sprite + CSS transition 橫向漂過畫面，
- * 不用單一大 canvas 手刻動畫迴圈，較不容易出現碰撞判定錯誤。
+ * 錨點閘門按鈕、誘光進度條、珍珠加護面板。生物用個別 canvas sprite + CSS
+ * transition 橫向漂過畫面，不用單一大 canvas 手刻動畫迴圈，較不容易出現碰撞
+ * 判定錯誤。
  * ==========================================================================*/
 (function () {
   const U = window.App.Utils;
@@ -12,6 +13,8 @@
   const Creature = window.App.Systems.Creature;
   const Modals = window.App.UI.Modals;
   const Toast = window.App.UI.Toast;
+  const Audio = window.App.Systems.Audio;
+  const FX = window.App.UI.FX;
 
   let sceneEl = null;
   let hudRefs = null;
@@ -19,11 +22,13 @@
   let saveRef = null;
   let onChangeRef = null;
   let active = false;
+  let lastZoneId = null;
 
   function render(container, save, onChange) {
     saveRef = save;
     onChangeRef = onChange;
     active = true;
+    lastZoneId = null;
     U.clearNode(container);
 
     const scene = U.el('div', 'diveScene');
@@ -63,33 +68,52 @@
     const depthLabel = U.el('div', 'depthLabel', '');
     scene.appendChild(depthLabel);
 
-    hudRefs = { haloWrap, pendingBadge, gateBtn, depthLabel };
+    // 誘光進度條：累積點擊次數，滿了強制刷一隻生物。
+    const lureWrap = U.el('div', 'lureWrap');
+    const lureFill = U.el('div', 'lureFill');
+    lureWrap.appendChild(lureFill);
+    lureWrap.appendChild(U.el('div', 'lureIcon', '🐟'));
+    scene.appendChild(lureWrap);
+
+    // 珍珠加護按鈕。
+    const boostBtn = U.el('button', 'pearlBoostBtn', '');
+    scene.appendChild(boostBtn);
+    U.onTap(boostBtn, () => usePearlBoost());
+
+    hudRefs = { haloWrap, pendingBadge, gateBtn, depthLabel, lureFill, boostBtn };
 
     // 點擊水域＝手動採光（點在生物/按鈕上時各自的 handler 會 stopPropagation）。
     U.onTap(scene, (e) => {
-      if (e && e.target && e.target.closest && (e.target.closest('.creatureSprite') || e.target.closest('.gateBtn') || e.target.closest('.pendingBadge'))) return;
-      tapWater();
+      Audio.unlock(saveRef);
+      if (e && e.target && e.target.closest && (e.target.closest('.creatureSprite') || e.target.closest('.gateBtn') || e.target.closest('.pendingBadge') || e.target.closest('.pearlBoostBtn'))) return;
+      tapWater(e);
     });
 
     scheduleSpawn();
     tick(save);
+
+    if (!save.tutorial.done) {
+      save.tutorial.done = true;
+      Modals.showWelcome();
+    }
   }
 
-  function tapWater() {
-    const B = D.BALANCE;
-    saveRef.glow += B.CLICK_TAP_GLOW;
-    saveRef.stats.totalTaps += 1;
-    spawnTapParticle();
+  function tapWater(e) {
+    const amt = Econ.applyTap(saveRef);
+    Audio.play('tap');
+    let xPct = 45 + Math.random() * 10, yPct = 50 + Math.random() * 10;
+    if (e && sceneEl && e.clientX !== undefined) {
+      const rect = sceneEl.getBoundingClientRect();
+      if (rect.width) { xPct = ((e.clientX - rect.left) / rect.width) * 100; yPct = ((e.clientY - rect.top) / rect.height) * 100; }
+    }
+    FX.popNumber(sceneEl, xPct, yPct, '+' + U.formatNum(amt));
+    if (saveRef.tapLureProgress % D.BALANCE.TAPS_PER_LURE === 0) forceSpawnSoon();
     if (onChangeRef) onChangeRef();
   }
 
-  function spawnTapParticle() {
-    if (!sceneEl) return;
-    const p = U.el('div', 'tapParticle', '+' + D.BALANCE.CLICK_TAP_GLOW);
-    p.style.left = (40 + Math.random() * 20) + '%';
-    p.style.top = (55 + Math.random() * 10) + '%';
-    sceneEl.appendChild(p);
-    setTimeout(() => p.remove(), 900);
+  function forceSpawnSoon() {
+    if (spawnTimeoutId) clearTimeout(spawnTimeoutId);
+    spawnTimeoutId = setTimeout(spawnCreature, 250);
   }
 
   function scheduleSpawn() {
@@ -119,14 +143,21 @@
     });
 
     let collected = false;
-    U.onTap(wrap, () => {
+    U.onTap(wrap, (e) => {
       if (collected) return;
       collected = true;
       const result = Creature.collect(saveRef, def.id);
+      const wrapRect = wrap.getBoundingClientRect();
+      const sceneRect = sceneEl.getBoundingClientRect();
+      const xPct = sceneRect.width ? ((wrapRect.left + wrapRect.width / 2 - sceneRect.left) / sceneRect.width) * 100 : 50;
+      const yPct = sceneRect.height ? ((wrapRect.top + wrapRect.height / 2 - sceneRect.top) / sceneRect.height) * 100 : 50;
       wrap.remove();
       if (result.ok) {
+        Audio.play(def.rare ? 'rare' : 'collect');
+        FX.popNumber(sceneEl, xPct, yPct, '+' + U.formatNum(result.burst), 'popBig');
+        FX.burst(sceneEl, xPct, yPct, def.rare ? 'VIOLET' : 'GLOW2', def.rare ? 16 : 10);
         Toast.toast('+' + U.formatNum(result.burst) + ' 螢光' + (result.gotSample ? '　+1 樣本' : ''));
-        if (result.isFirst) Modals.showDiscoveryCard(def);
+        if (result.isFirst) { Audio.play('discovery'); Modals.showDiscoveryCard(def); }
         checkAchievements();
         if (onChangeRef) onChangeRef();
       }
@@ -141,8 +172,10 @@
   function claimPending() {
     const result = Creature.claimPending(saveRef);
     if (!result.ok) { Toast.toast(result.reason || '沒有待領取的生物'); return; }
+    Audio.play('collect');
+    FX.popNumber(sceneEl, 50, 30, '+' + U.formatNum(result.burst), 'popBig');
     Toast.toast('+' + U.formatNum(result.burst) + ' 螢光' + (result.gotSample ? '　+1 樣本' : ''));
-    if (result.isFirst) Modals.showDiscoveryCard(result.def);
+    if (result.isFirst) { Audio.play('discovery'); Modals.showDiscoveryCard(result.def); }
     checkAchievements();
     if (onChangeRef) onChangeRef();
     tick(saveRef);
@@ -150,15 +183,27 @@
 
   function passGate() {
     const result = Descent.passGate(saveRef);
-    if (!result.ok) { Toast.toast(result.reason); return; }
+    if (!result.ok) { Audio.play('error'); Toast.toast(result.reason); return; }
+    Audio.play('gate');
+    FX.shake(document.getElementById('screens'), 4, 250);
+    FX.burst(sceneEl, 50, 50, 'AMBER', 24);
     Toast.toast('已加固艙體，進入「' + result.zone.name + '」');
     if (onChangeRef) onChangeRef();
     tick(saveRef);
   }
 
+  function usePearlBoost() {
+    const result = Econ.buyPearlBoost(saveRef);
+    if (!result.ok) { Audio.play('error'); Toast.toast(result.reason); return; }
+    Audio.play('upgrade');
+    FX.popButton(hudRefs.boostBtn);
+    Toast.toast('珍珠加護 +' + D.BALANCE.PEARL_BOOST_HOURS + ' 小時（全產量 x' + D.BALANCE.PEARL_BOOST_MULT + '）');
+    if (onChangeRef) onChangeRef();
+  }
+
   function checkAchievements() {
     const newly = window.App.Systems.Achievement.checkAchievements(saveRef);
-    newly.forEach((a) => Toast.toast('成就解鎖：' + a.name + (a.pearl ? '　+' + a.pearl + ' 珍珠' : '')));
+    newly.forEach((a) => { Audio.play('achievement'); Toast.toast('成就解鎖：' + a.name + (a.pearl ? '　+' + a.pearl + ' 珍珠' : '')); });
   }
 
   /** 由 bootstrap 每個 tick 呼叫，只更新數字/樣式，不重建生物節點（避免打斷 CSS transition）。 */
@@ -181,6 +226,7 @@
     const zone = D.zoneForDepth(save.depth) || D.ZONE_DEFS[0];
     sceneEl.style.background = D.PALETTE[zone.bg];
     hudRefs.depthLabel.textContent = Math.floor(save.depth) + ' m　' + zone.name;
+    if (zone.id !== lastZoneId) { lastZoneId = zone.id; Audio.setAmbientZone(zone.id); }
 
     if (Descent.atGate(save)) {
       const z = D.zoneById(save.currentZone);
@@ -190,6 +236,19 @@
     } else {
       hudRefs.gateBtn.style.display = 'none';
     }
+
+    const lureFraction = (save.tapLureProgress % D.BALANCE.TAPS_PER_LURE) / D.BALANCE.TAPS_PER_LURE;
+    hudRefs.lureFill.style.width = (lureFraction * 100) + '%';
+
+    const remainMs = (save.boostUntil || 0) - Date.now();
+    if (remainMs > 0) {
+      hudRefs.boostBtn.textContent = '⚡ 加護中 ' + Math.ceil(remainMs / 60000) + 'm';
+      hudRefs.boostBtn.classList.add('boostActive');
+    } else {
+      hudRefs.boostBtn.textContent = '🔮 珍珠加護 (' + save.pearls + ')';
+      hudRefs.boostBtn.classList.remove('boostActive');
+    }
+    hudRefs.boostBtn.classList.toggle('disabled', save.pearls < 1 && remainMs <= 0);
   }
 
   function deactivate() {

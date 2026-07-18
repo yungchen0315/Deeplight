@@ -1,6 +1,7 @@
 /* ============================================================================
- * economySystem.js — 螢光產出、模組成本／升級、壓載成本、研究＋重構效果彙總。
- * 對應企劃書第 3、4b、4c 節公式，所有數值常數來自 data/balance.js。
+ * economySystem.js — 螢光產出、模組成本／升級、壓載成本、研究＋重構效果彙總、
+ * 點擊採光、珍珠加護。對應企劃書第 3、4b、4c 節公式，所有數值常數來自
+ * data/balance.js。
  * ==========================================================================*/
 (function () {
   const D = window.App.Data;
@@ -19,7 +20,11 @@
       offlineMult: 1,
       rareChanceMult: 1,
       startDescentBonus: 0,
-      startModules: {}
+      startModules: {},
+      burstSeconds: B.CREATURE_BURST_SECONDS,
+      startDepth: 0,
+      corePct: B.CORE_PRODUCTION_BONUS_PCT,
+      autoTapPerSec: 0
     };
     function apply(e) {
       if (!e) return;
@@ -35,15 +40,21 @@
         case 'rareChanceMult': eff.rareChanceMult *= e.value; break;
         case 'startDescentBonus': eff.startDescentBonus += e.value; break;
         case 'startModule': eff.startModules[e.module] = (eff.startModules[e.module] || 0) + e.value; break;
+        case 'burstSeconds': eff.burstSeconds = Math.max(eff.burstSeconds, e.value); break;
+        case 'startDepth': eff.startDepth = Math.max(eff.startDepth, e.value); break;
+        case 'corePctOverride': eff.corePct = Math.max(eff.corePct, e.value); break;
+        case 'autoTapPerSec': eff.autoTapPerSec += e.value; break;
         default: break;
       }
     }
     (save.research || []).forEach((id) => { const r = D.researchById(id); if (r) apply(r.effect); });
     (save.refits || []).forEach((id) => { const f = D.refitById(id); if (f) apply(f.effect); });
-    eff.allProdMult *= 1 + (save.cores || 0) * B.CORE_PRODUCTION_BONUS_PCT / 100;
+    eff.allProdMult *= 1 + (save.cores || 0) * eff.corePct / 100;
     // 深淵圖鑑每記錄一種生物 +2% 全螢光產量，永久保留、跨轉生不重置（企劃書第 6 節）。
     const bestiaryCount = Object.keys(save.bestiary || {}).length;
     eff.allProdMult *= 1 + bestiaryCount * B.BESTIARY_PROD_BONUS_PCT / 100;
+    // 珍珠加護：消耗珍珠換來的限時全產量倍率。
+    if (save.boostUntil && Date.now() < save.boostUntil) eff.allProdMult *= B.PEARL_BOOST_MULT;
     return eff;
   }
 
@@ -77,7 +88,29 @@
     return Math.round(def.baseCost * Math.pow(B.MODULE_COST_GROWTH, count));
   }
 
-  /** 該模組下一個尚未購買的升級節點資訊；還沒解鎖門檻或已買滿三階時回傳 null。 */
+  /** 買 qty 個（從目前持有數 n 開始）的總花費：baseCost * g^n * (g^qty - 1) / (g - 1)。 */
+  function moduleCostForQty(save, moduleId, qty) {
+    if (qty <= 0) return 0;
+    const def = D.moduleById(moduleId);
+    const n = (save.modules[moduleId] || { count: 0 }).count;
+    const g = B.MODULE_COST_GROWTH;
+    return Math.round(def.baseCost * Math.pow(g, n) * (Math.pow(g, qty) - 1) / (g - 1));
+  }
+
+  /** 目前螢光最多能買幾個此模組（xMax）。 */
+  function maxAffordableQty(save, moduleId) {
+    const def = D.moduleById(moduleId);
+    const n = (save.modules[moduleId] || { count: 0 }).count;
+    const g = B.MODULE_COST_GROWTH;
+    const glow = save.glow;
+    const firstCost = def.baseCost * Math.pow(g, n);
+    if (glow < firstCost) return 0;
+    const rhs = 1 + (glow * (g - 1)) / firstCost;
+    const k = Math.floor(Math.log(rhs) / Math.log(g));
+    return Math.max(0, k);
+  }
+
+  /** 該模組下一個尚未購買的升級節點資訊；還沒解鎖門檻或已買滿所有階時回傳 null。 */
   function moduleUpgradeInfo(save, moduleId) {
     const def = D.moduleById(moduleId);
     const state = save.modules[moduleId] || { count: 0, upgradeTier: 0 };
@@ -88,13 +121,16 @@
     return { tier, threshold, cost, unlocked: state.count >= threshold };
   }
 
-  function buyModule(save, moduleId) {
-    const cost = moduleCost(save, moduleId);
+  function buyModule(save, moduleId, qty) {
+    qty = qty || 1;
+    if (qty === 'max') qty = maxAffordableQty(save, moduleId);
+    if (qty <= 0) return { ok: false, reason: '螢光不足' };
+    const cost = moduleCostForQty(save, moduleId, qty);
     if (save.glow < cost) return { ok: false, reason: '螢光不足' };
     save.glow -= cost;
     if (!save.modules[moduleId]) save.modules[moduleId] = { count: 0, upgradeTier: 0 };
-    save.modules[moduleId].count += 1;
-    return { ok: true };
+    save.modules[moduleId].count += qty;
+    return { ok: true, qty, cost };
   }
 
   function buyModuleUpgrade(save, moduleId) {
@@ -126,8 +162,46 @@
     return base * eff.descentMult;
   }
 
+  /** 手動點擊水域的螢光獎勵：目前每秒產量的固定比例（有下限），讓點擊在任何階段都值得做。 */
+  function tapReward(save) {
+    return Math.max(B.CLICK_TAP_MIN, glowPerSec(save) * B.CLICK_TAP_GPS_FRACTION);
+  }
+
+  /** 套用一次點擊採光（手動或自動皆呼叫此函式，UI 層另外處理音效/特效）。 */
+  function applyTap(save) {
+    const amt = tapReward(save);
+    save.glow += amt;
+    save.stats.totalGlowEarned += amt;
+    save.stats.totalTaps = (save.stats.totalTaps || 0) + 1;
+    save.tapLureProgress = (save.tapLureProgress || 0) + 1;
+    return amt;
+  }
+
+  /** 消耗珍珠換取限時全產量倍率加護；疊加時距今上限 PEARL_BOOST_MAX_AHEAD_HOURS。 */
+  function buyPearlBoost(save) {
+    if (save.pearls < 1) return { ok: false, reason: '珍珠不足' };
+    const now = Date.now();
+    const maxAhead = now + B.PEARL_BOOST_MAX_AHEAD_HOURS * 3600 * 1000;
+    const base = Math.max(now, save.boostUntil || 0);
+    if (base >= maxAhead) return { ok: false, reason: '加護時數已達上限' };
+    save.pearls -= 1;
+    save.boostUntil = Math.min(maxAhead, base + B.PEARL_BOOST_HOURS * 3600 * 1000);
+    return { ok: true };
+  }
+
+  /** 消耗珍珠直接獲得數小時的當前產量。 */
+  function buyPearlInstant(save) {
+    if (save.pearls < B.PEARL_INSTANT_COST) return { ok: false, reason: '珍珠不足' };
+    save.pearls -= B.PEARL_INSTANT_COST;
+    const gained = glowPerSec(save) * B.PEARL_INSTANT_HOURS * 3600;
+    save.glow += gained;
+    save.stats.totalGlowEarned += gained;
+    return { ok: true, gained };
+  }
+
   window.App.Systems.Economy = {
-    computeEffects, moduleUnitProd, glowPerSec, moduleCost, moduleUpgradeInfo,
-    buyModule, buyModuleUpgrade, ballastCost, buyBallast, descentRate
+    computeEffects, moduleUnitProd, glowPerSec, moduleCost, moduleCostForQty, maxAffordableQty, moduleUpgradeInfo,
+    buyModule, buyModuleUpgrade, ballastCost, buyBallast, descentRate,
+    tapReward, applyTap, buyPearlBoost, buyPearlInstant
   };
 })();

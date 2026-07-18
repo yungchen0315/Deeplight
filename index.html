@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>潛燈 DEEPLIGHT</title>
+<meta name="description" content="深海放置掛機遊戲——你是深海觀測站的站長，唯一的目標是不斷往下潛。">
+<meta name="theme-color" content="#050810">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-maskable.svg">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,6 +17,9 @@
   <span class="topItem"><span class="topLabel">◆</span><span id="topGlow">0</span><span class="topSub" id="topGlowRate">0/s</span></span>
   <span class="topItem"><span class="topLabel">深度</span><span id="topDepth">0 m</span></span>
   <span class="topItem"><span class="topLabel">🧪</span><span id="topSamples">0</span></span>
+  <span class="topItem"><span class="topLabel">◈</span><span id="topCores">0</span></span>
+  <span class="topItem"><span class="topLabel">✦</span><span id="topPearls">0</span></span>
+  <span class="topItem topBoostChip" id="topBoost" style="display:none"></span>
 </div>
 
 <div id="screens">
@@ -56,11 +64,15 @@
 <script src="src/systems/prestigeSystem.js"></script>
 <script src="src/systems/offlineSystem.js"></script>
 <script src="src/systems/achievementSystem.js"></script>
+<script src="src/systems/audioSystem.js"></script>
+<script src="src/systems/dailySystem.js"></script>
 <script src="src/systems/gameLoopSystem.js"></script>
 
 <script src="src/ui/pixelRenderer.js"></script>
+<script src="src/ui/fx.js"></script>
 <script src="src/ui/toast.js"></script>
 <script src="src/ui/modals.js"></script>
+<script src="src/ui/settingsModal.js"></script>
 <script src="src/ui/topBar.js"></script>
 <script src="src/ui/bottomNav.js"></script>
 <script src="src/ui/diveScreen.js"></script>

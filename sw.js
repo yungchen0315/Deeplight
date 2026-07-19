@@ -58,6 +58,7 @@ const PRECACHE_URLS = [
   'src/ui/diveScreen.js',
   'src/ui/modulesScreen.js',
   'src/ui/researchScreen.js',
+  'src/ui/shareCard.js',
   'src/ui/surfaceScreen.js',
   'src/ui/covenantScreen.js',
   'src/ui/bootstrap.js'

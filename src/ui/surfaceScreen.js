@@ -174,6 +174,13 @@
       '遊玩時間：' + Math.floor((s.playSeconds || 0) / 60) + ' 分鐘'
     ];
     lines.forEach((line) => statsPanel.appendChild(U.el('div', 'subHint', line)));
+    const shareBtn = U.el('button', 'smallBtn settingsFullBtn', '下載潛航護照（分享用圖卡）');
+    U.onTap(shareBtn, () => {
+      window.App.UI.ShareCard.generateAndDownload(save);
+      Audio.play('buy');
+      Toast.toast('已產生潛航護照圖卡');
+    });
+    statsPanel.appendChild(shareBtn);
     statsPanel.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.1　·　更多設定請點頂欄齒輪圖示'));
     container.appendChild(statsPanel);
   }

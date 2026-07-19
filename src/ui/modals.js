@@ -41,10 +41,26 @@
       iconWrap.appendChild(PR.spriteCanvasEl(creatureDef.icon, 6));
       box.appendChild(iconWrap);
       box.appendChild(U.el('div', 'modalLine discoveryName', creatureDef.name + (creatureDef.rare ? '　★稀有' : '')));
-      box.appendChild(U.el('div', 'modalLine', '已記錄進深淵圖鑑，永久 +2% 全螢光產量'));
+      box.appendChild(U.el('div', 'modalLine', '已記錄進深淵圖鑑。多次目擊同一種生物會提升牠的圖鑑星級，永久增加全螢光產量'));
       const btn = U.el('button', 'modalBtn', '太好了');
       U.onTap(btn, () => { close(); if (onClose) onClose(); });
       box.appendChild(btn);
+    });
+  }
+
+  /** 通用確認彈窗，取代原生 window.confirm——原生對話框在部分 WebView/TWA 包裝下
+   *  樣式不一致、也打斷遊戲的沉浸感，統一用同一套 modal 樣式呈現。 */
+  function showConfirm(message, onConfirm, opts) {
+    opts = opts || {};
+    showModal((box, close) => {
+      box.appendChild(U.el('div', 'modalTitle', opts.title || '請確認'));
+      box.appendChild(U.el('div', 'modalLine', message));
+      const confirmBtn = U.el('button', 'modalBtn' + (opts.danger ? ' dangerBtn' : ''), opts.confirmLabel || '確定');
+      U.onTap(confirmBtn, () => { close(); onConfirm(); });
+      box.appendChild(confirmBtn);
+      const cancelBtn = U.el('button', 'modalBtn', opts.cancelLabel || '取消');
+      U.onTap(cancelBtn, () => { close(); if (opts.onCancel) opts.onCancel(); });
+      box.appendChild(cancelBtn);
     });
   }
 
@@ -77,5 +93,5 @@
     renderPage();
   }
 
-  window.App.UI.Modals = { showModal, showOfflineReport, showDiscoveryCard, showWelcome };
+  window.App.UI.Modals = { showModal, showOfflineReport, showDiscoveryCard, showWelcome, showConfirm };
 })();

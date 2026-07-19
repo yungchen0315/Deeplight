@@ -8,6 +8,7 @@
   const Audio = window.App.Systems.Audio;
   const FX = window.App.UI.FX;
   const Toast = window.App.UI.Toast;
+  const Modals = window.App.UI.Modals;
 
   function toggleRow(label, checked, onToggle) {
     const row = U.el('div', 'settingsRow');
@@ -82,9 +83,10 @@
       U.onTap(confirmBtn, () => {
         const parsed = Save.importString(ta.value);
         if (!parsed) { Toast.toast('存檔格式錯誤'); return; }
-        if (!window.confirm('匯入將覆蓋目前的存檔進度，確定嗎？')) return;
-        Save.save(parsed);
-        location.reload();
+        Modals.showConfirm('匯入將覆蓋目前的存檔進度，確定嗎？', () => {
+          Save.save(parsed);
+          location.reload();
+        }, { title: '匯入存檔', danger: true, onCancel: () => open(save, onChange) });
       });
       box.insertBefore(confirmBtn, importBtn.nextSibling);
       box.insertBefore(ta, confirmBtn);
@@ -97,10 +99,10 @@
 
     const resetBtn = U.el('button', 'smallBtn dangerBtn settingsFullBtn', '重置存檔');
     U.onTap(resetBtn, () => {
-      if (window.confirm('確定要重置存檔嗎？此動作無法復原。')) {
+      Modals.showConfirm('確定要重置存檔嗎？此動作無法復原。', () => {
         Save.reset();
         location.reload();
-      }
+      }, { title: '重置存檔', danger: true, confirmLabel: '重置', onCancel: () => open(save, onChange) });
     });
     box.appendChild(resetBtn);
     box.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.1'));

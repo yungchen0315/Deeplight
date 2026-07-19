@@ -10,6 +10,7 @@
   const Toast = window.App.UI.Toast;
   const Audio = window.App.Systems.Audio;
   const FX = window.App.UI.FX;
+  const Modals = window.App.UI.Modals;
 
   const BRANCH_META = {
     light: { name: '光之脈', icon: 'icon_sigil_light' },
@@ -69,14 +70,15 @@
       infoPanel.appendChild(U.el('div', 'subHint', '締結後會清空本輪進度、壓力核心與重構升級（印記與印記樹永久保留）'));
       const btn = U.el('button', 'prestigeBtn', '締結深淵協約');
       U.onTap(btn, () => {
-        if (!window.confirm('締結深淵協約會清空壓力核心與重構升級，確定嗎？')) return;
-        const r = Covenant.enact(save);
-        if (r.ok) {
-          Audio.play('prestige');
-          FX.shake(document.getElementById('screens'), 6, 400);
-          Toast.toast('締結深淵協約！獲得 ' + r.gained + ' 顆深淵印記');
-          onChange();
-        } else { Audio.play('error'); Toast.toast(r.reason); }
+        Modals.showConfirm('締結深淵協約會清空壓力核心與重構升級，確定嗎？', () => {
+          const r = Covenant.enact(save);
+          if (r.ok) {
+            Audio.play('prestige');
+            FX.shake(document.getElementById('screens'), 6, 400);
+            Toast.toast('締結深淵協約！獲得 ' + r.gained + ' 顆深淵印記');
+            onChange();
+          } else { Audio.play('error'); Toast.toast(r.reason); }
+        }, { title: '締結深淵協約', confirmLabel: '締結' });
       });
       infoPanel.appendChild(btn);
     }

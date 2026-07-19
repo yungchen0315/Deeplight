@@ -1,5 +1,5 @@
 /* ============================================================================
- * moduleDefs.js — 8 種發光模組（企劃書第 4b 節 + v1.1 深淵帶擴充）。cost(n) 與
+ * moduleDefs.js — 16 種發光模組（企劃書第 4b 節 + v1.1/Phase2/Phase3 擴充）。cost(n) 與
  * 升級節點的計算交給 economySystem，這裡只放靜態資料。
  * ==========================================================================*/
 (function () {
@@ -15,7 +15,11 @@
     { id: 'pillar', name: '虛淵光柱', icon: 'mod_pillar', baseCost: 2000000000, baseProd: 500000, unlockDepth: 9000 },
     { id: 'whaletemple', name: '古鯨聖殿', icon: 'mod_whaletemple', baseCost: 24000000000, baseProd: 2800000, unlockDepth: 14000 },
     { id: 'voidbeacon', name: '虛無燈塔', icon: 'mod_voidbeacon', baseCost: 3.5e11, baseProd: 3.2e7, unlockDepth: 23000 },
-    { id: 'starcore', name: '星塵核心', icon: 'mod_starcore', baseCost: 5e12, baseProd: 2.1e8, unlockDepth: 30000 }
+    { id: 'starcore', name: '星塵核心', icon: 'mod_starcore', baseCost: 5e12, baseProd: 2.1e8, unlockDepth: 30000 },
+    { id: 'plainlight', name: '平原光帶', icon: 'mod_plainlight', baseCost: 7e13, baseProd: 5e9, unlockDepth: 40000 },
+    { id: 'seismocore', name: '震波核心', icon: 'mod_seismocore', baseCost: 9e14, baseProd: 3.5e10, unlockDepth: 48000 },
+    { id: 'ventforge', name: '熱泉鍛爐', icon: 'mod_ventforge', baseCost: 1.2e16, baseProd: 2.4e11, unlockDepth: 60000 },
+    { id: 'magmaheart', name: '岩漿之心', icon: 'mod_magmaheart', baseCost: 1.5e17, baseProd: 1.6e12, unlockDepth: 70000 }
   ];
 
   function moduleById(id) { return MODULE_DEFS.find((m) => m.id === id); }

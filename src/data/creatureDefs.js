@@ -1,5 +1,5 @@
 /* ============================================================================
- * creatureDefs.js — 24 種深淵圖鑑生物（企劃書第 8 節 + v1.1/Phase2/Phase3 擴充）。
+ * creatureDefs.js — 32 種深淵圖鑑生物（企劃書第 8 節 + v1.1/Phase2/Phase3 擴充）。
  * 每海域 4 種，各含 1 稀有種。首次遇見必掉樣本，之後依 balance 機率掉落。lore
  * 是圖鑑詳細彈窗（bestiaryDetailModal.js）顯示的一小段風味文字，純敘事用途，
  * 不影響任何遊戲數值。
@@ -59,7 +59,25 @@
     { id: 'starfish_abyssal', name: '深淵海星', icon: 'c_starfish_abyssal', zone: 5, rare: false,
       lore: '紫色的巨大海星，一動也不動地趴在海床上，可能一年只移動幾公尺——在無光帶，耐心是最划算的生存策略。' },
     { id: 'leviathan', name: '深淵巨獸', icon: 'c_leviathan', zone: 5, rare: true,
-      lore: '沒有人能確定牠的真實大小，因為潛燈號的燈暈從來沒能把牠整個照亮過。目擊紀錄裡，只有一雙在黑暗中反光的紅色眼睛。' }
+      lore: '沒有人能確定牠的真實大小，因為潛燈號的燈暈從來沒能把牠整個照亮過。目擊紀錄裡，只有一雙在黑暗中反光的紅色眼睛。' },
+    // 深海平原
+    { id: 'plainskate', name: '平原鰩', icon: 'c_plainskate', zone: 6, rare: false,
+      lore: '扁平的身體貼著平坦的海床滑行，這片大平原一望無際，牠似乎永遠在尋找下一片沉積物豐富的區域。' },
+    { id: 'nodulecrab', name: '結核蟹', icon: 'c_nodulecrab', zone: 6, rare: false,
+      lore: '殼上長滿了海床礦物結核，走起路來喀啦作響，幾乎跟牠棲息的地質融為一體，是天然的偽裝高手。' },
+    { id: 'ghostfish', name: '幽光魚', icon: 'c_ghostfish', zone: 6, rare: false,
+      lore: '身體幾乎沒有色素、薄得透光，在平原上緩慢漂游，遠遠看只像一團模糊的光斑。' },
+    { id: 'silenthunter', name: '寂靜獵手', icon: 'c_silenthunter', zone: 6, rare: true,
+      lore: '在這片毫無遮蔽的平原上，牠演化出完全無聲的游動方式——連水流擾動都壓到最低，獵物往往到最後一刻才察覺牠的存在。' },
+    // 熱泉海淵
+    { id: 'ventshrimp', name: '熱泉蝦', icon: 'c_ventshrimp', zone: 7, rare: false,
+      lore: '成群聚集在熱泉噴口周圍，靠背部特化的感光器偵測熱泉噴發的微光，在滾燙的礦物噴流邊緣討生活。' },
+    { id: 'tubeworm', name: '管蟲叢', icon: 'c_tubeworm', zone: 7, rare: false,
+      lore: '沒有嘴也沒有消化道，體內共生的細菌直接把熱泉噴出的化學物質轉換成能量——這裡的生態系不靠陽光，靠地熱運轉。' },
+    { id: 'magmaeel', name: '熔岩鰻', icon: 'c_magmaeel', zone: 7, rare: false,
+      lore: '皮膚演化出驚人的耐熱能力，能貼著熱泉噴口的邊緣游動而不受傷，橘紅色的體色是牠獨有的保護色。' },
+    { id: 'abyssalphoenix', name: '深淵火鳥', icon: 'c_abyssalphoenix', zone: 7, rare: true,
+      lore: '在熱泉的高溫水流中若隱若現，鰭緣的螢光隨水流搖曳如燃燒的羽翼，是這片灼熱深淵裡最不真實的一幕。' }
   ];
 
   function creatureById(id) { return CREATURE_DEFS.find((c) => c.id === id); }

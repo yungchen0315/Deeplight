@@ -1,5 +1,5 @@
 /* ============================================================================
- * zoneDefs.js — 五段海域主幹（企劃書第 4a 節 + v1.1/Phase2 擴充）。depth 會被夾在
+ * zoneDefs.js — 八段海域主幹（企劃書第 4a 節 + v1.1/Phase2/Phase3 擴充）。depth 會被夾在
  * [minDepth, anchorDepth] 之間，直到玩家花 gateCost 通過錨點才能進入下一海域。
  * filterHue 是 CSS hue-rotate 濾鏡角度，讓深層海域有獨立色調又不必新增色盤顏色
  * （企劃書要求全遊戲硬上限 20 色，見 palette.js）。
@@ -12,7 +12,9 @@
     { id: 3, name: '深淵帶', minDepth: 4000, anchorDepth: 11000, mult: 40, bg: 'INK', filterHue: 0, gateCost: 1000000000000 },
     { id: 4, name: '海溝幽域', minDepth: 11000, anchorDepth: 20000, mult: 150, bg: 'INK', filterHue: 250, gateCost: 500000000000000 },
     { id: 5, name: '無光帶', minDepth: 20000, anchorDepth: 35000, mult: 600, bg: 'INK', filterHue: 120, gateCost: 300000000000000000 },
-    { id: 6, name: '深海平原．即將開放', minDepth: 35000, anchorDepth: 35000, mult: 600, bg: 'INK', filterHue: 120, gateCost: null, comingSoon: true }
+    { id: 6, name: '深海平原', minDepth: 35000, anchorDepth: 55000, mult: 2200, bg: 'INK', filterHue: 40, gateCost: 2e20 },
+    { id: 7, name: '熱泉海淵', minDepth: 55000, anchorDepth: 80000, mult: 9000, bg: 'INK', filterHue: 300, gateCost: 6e23 },
+    { id: 8, name: '深海溝底．即將開放', minDepth: 80000, anchorDepth: 80000, mult: 9000, bg: 'INK', filterHue: 300, gateCost: null, comingSoon: true }
   ];
 
   function zoneById(id) { return ZONE_DEFS.find((z) => z.id === id); }

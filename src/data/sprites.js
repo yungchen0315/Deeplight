@@ -143,6 +143,24 @@
     circle(g, 8, 8, 2, 'GLOW2');
     dots(g, [[8, 1], [1, 8], [15, 8], [8, 15], [3, 3], [13, 3], [3, 13], [13, 13]], 'PEARL');
   });
+  SPRITES.mod_plainlight = modSprite((g) => {
+    hline(g, 1, 8, 14, 'BORDER');
+    for (let x = 2; x < 15; x += 3) dots(g, [[x, 7], [x, 9]], 'GLOW');
+  });
+  SPRITES.mod_seismocore = modSprite((g) => {
+    circle(g, 8, 8, 6, 'DIM');
+    for (let r = 2; r <= 4; r += 2) circle(g, 8, 8, r, null);
+    dots(g, [[8, 8], [8, 4], [8, 12], [4, 8], [12, 8]], 'AMBER');
+  });
+  SPRITES.mod_ventforge = modSprite((g) => {
+    for (let row = 0; row < 10; row++) { const w = 12 - row; hline(g, 8 - Math.floor(w / 2), 14 - row, w, row < 3 ? 'RED' : 'INK'); }
+    dots(g, [[7, 3], [8, 1], [9, 4]], 'AMBER');
+  });
+  SPRITES.mod_magmaheart = modSprite((g) => {
+    circle(g, 8, 8, 6, 'INK');
+    circle(g, 8, 8, 3, 'RED');
+    dots(g, [[8, 8], [7, 7]], 'AMBER');
+  });
 
   /* -------------------------------------------------------------- 生物 */
 
@@ -271,6 +289,43 @@
     ellipse(g, 12, 8, 11, 6, 'INK');
     dots(g, [[4, 6], [20, 6]], 'RED');
     for (let x = 3; x <= 21; x += 3) dots(g, [[x, 12]], 'GLOW2');
+  });
+  SPRITES.c_plainskate = creatureSprite(24, 16, (g) => {
+    ellipse(g, 12, 8, 10, 5, 'DIM');
+    vline(g, 12, 13, 3, 'DIM');
+    dots(g, [[8, 7], [16, 7]], 'INK');
+  });
+  SPRITES.c_nodulecrab = creatureSprite(16, 16, (g) => {
+    ellipse(g, 8, 9, 6, 4, 'HULL2');
+    dots(g, [[3, 7], [13, 7], [2, 9], [14, 9]], 'BORDER');
+    dots(g, [[6, 8], [10, 8], [8, 10]], 'DIM');
+  });
+  SPRITES.c_ghostfish = creatureSprite(16, 16, (g) => {
+    ellipse(g, 8, 8, 6, 3, 'FOAM');
+    dots(g, [[8, 8]], 'GLOW2');
+  });
+  SPRITES.c_silenthunter = creatureSprite(24, 16, (g) => {
+    ellipse(g, 12, 8, 11, 4, 'DIM');
+    for (let x = 2; x <= 22; x += 4) hline(g, x, 8, 2, 'INK');
+    dots(g, [[19, 6], [19, 10]], 'RED');
+  });
+  SPRITES.c_ventshrimp = creatureSprite(16, 16, (g) => {
+    ellipse(g, 8, 8, 5, 3, 'PINK');
+    dots(g, [[4, 7], [12, 7]], 'AMBER');
+    for (let t = 0; t < 4; t++) vline(g, 5 + t * 2, 11, 3, 'PINK');
+  });
+  SPRITES.c_tubeworm = creatureSprite(16, 16, (g) => {
+    for (let i = 0; i < 5; i++) vline(g, 2 + i * 3, 2, 12, i % 2 === 0 ? 'PINK' : 'FOAM');
+    dots(g, [[2, 2], [5, 2], [8, 2], [11, 2], [14, 2]], 'RED');
+  });
+  SPRITES.c_magmaeel = creatureSprite(24, 8, (g) => {
+    for (let i = 0; i < 20; i++) { const y = 4 + Math.round(Math.sin(i / 3) * 2); setPx(g, 1 + i, y, 'AMBER'); }
+    dots(g, [[2, 3]], 'RED');
+  });
+  SPRITES.c_abyssalphoenix = creatureSprite(24, 16, (g) => {
+    ellipse(g, 10, 8, 7, 4, 'AMBER');
+    for (let t = 0; t < 6; t++) vline(g, 15 + t, 6 + (t % 3), 3, 'RED');
+    dots(g, [[7, 7]], 'GLOW2');
   });
 
   /* -------------------------------------------------------------- 介面圖示 */

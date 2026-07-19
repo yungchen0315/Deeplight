@@ -131,6 +131,8 @@
       ta.value = text;
       box.insertBefore(ta, exportBtn.nextSibling);
       ta.focus(); ta.select();
+      // 玩家主動匯出了，視同「剛備份過」，把下次提醒往後推。
+      save.nextBackupReminderAt = Date.now() + window.App.Data.BALANCE.BACKUP_REMINDER_INTERVAL_MS;
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(() => Toast.toast('已複製存檔到剪貼簿')).catch(() => Toast.toast('請手動複製上方文字'));
       } else {

@@ -44,6 +44,7 @@
  *   隨時在設定裡暫停，例如想手動控制花費節奏時。
  * @property {Array<{ts:number, message:string}>} eventLog 重大事件時間軸（轉生/協約/
  *   盟約/里程碑等），最多保留最近 50 筆，純記錄用途不影響數值。
+ * @property {number} nextBackupReminderAt 下次提示玩家匯出存檔備份的時戳（ms）。
  * ==========================================================================*/
 (function () {
   function createDefaultSave(now) {
@@ -105,7 +106,8 @@
         autoBuyEnabled: true, autoGateEnabled: true, autoCollectEnabled: true,
         autoTapEnabled: true, autoClaimQuestsEnabled: true
       },
-      eventLog: []
+      eventLog: [],
+      nextBackupReminderAt: now + window.App.Data.BALANCE.BACKUP_REMINDER_INTERVAL_MS
     };
   }
 

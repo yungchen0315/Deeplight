@@ -88,6 +88,11 @@
     PACT_NIGHTSHARD_DIVISOR: 50,
     PACT_NIGHTSHARD_EXPONENT: 0.5, // floor(sqrt(累積賺過的深淵印記 / divisor))
 
+    // 存檔備份提醒：存檔只在本機瀏覽器，定期提示玩家匯出備份，避免換裝置/清瀏覽器
+    // 資料時整份進度消失卻毫無防備。
+    BACKUP_REMINDER_INTERVAL_MS: 14 * 24 * 3600 * 1000,
+    BACKUP_REMINDER_MIN_DEPTH: 1000,
+
     AUTOSAVE_INTERVAL_MS: 10000,
     TICK_INTERVAL_MS: 250
   };

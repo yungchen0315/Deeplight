@@ -16,7 +16,15 @@
     { id: 'r9', name: '深淵適壓', cost: 40, desc: '全螢光產量 +75%', effect: { type: 'allProdMult', value: 1.75 } },
     { id: 'r10', name: '鈦合金壓載', cost: 50, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 } },
     { id: 'r11', name: '深淵誘光', cost: 65, desc: '生物爆發獎勵時長 30s → 60s', effect: { type: 'burstSeconds', value: 60 } },
-    { id: 'r12', name: '螢光共振', cost: 80, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 } }
+    { id: 'r12', name: '螢光共振', cost: 80, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 } },
+    { id: 'r13', name: '無光適應', cost: 100, desc: '全螢光產量 +75%', effect: { type: 'allProdMult', value: 1.75 } },
+    { id: 'r14', name: '虛淵導航', cost: 130, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 } },
+    { id: 'r15', name: '深壓共鳴腔', cost: 160, desc: '虛淵光柱與古鯨聖殿產量 x2', effect: { type: 'moduleMultMany', modules: ['pillar', 'whaletemple'], value: 2 } },
+    { id: 'r16', name: '無光之心', cost: 200, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 } },
+    { id: 'r17', name: '虛無感應', cost: 250, desc: '全螢光產量 +100%', effect: { type: 'allProdMult', value: 2 } },
+    { id: 'r18', name: '星塵壓載', cost: 300, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 } },
+    { id: 'r19', name: '虛無燈塔陣列', cost: 380, desc: '虛無燈塔與星塵核心產量 x2', effect: { type: 'moduleMultMany', modules: ['voidbeacon', 'starcore'], value: 2 } },
+    { id: 'r20', name: '深海盡頭之光', cost: 500, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 } }
   ];
 
   function researchById(id) { return RESEARCH_DEFS.find((r) => r.id === id); }

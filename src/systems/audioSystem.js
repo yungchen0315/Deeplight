@@ -11,7 +11,15 @@
   let currentZoneId = 0;
   let soundOn = true;
   let ambientOn = true;
+  let sfxVolumeFrac = 0.7; // 0~1，來自 settings.sfxVolume / 100
+  let ambientVolumeFrac = 0.4;
   let started = false;
+
+  const SFX_MAX_GAIN = 0.5;
+  const AMBIENT_MAX_GAIN = 0.25;
+
+  function currentSfxGain() { return soundOn ? sfxVolumeFrac * SFX_MAX_GAIN : 0; }
+  function currentAmbientGain() { return ambientOn ? ambientVolumeFrac * AMBIENT_MAX_GAIN : 0; }
 
   function ensureContext() {
     if (ctx) return ctx;
@@ -22,10 +30,10 @@
     masterGain.gain.value = 1;
     masterGain.connect(ctx.destination);
     sfxGain = ctx.createGain();
-    sfxGain.gain.value = soundOn ? 0.5 : 0;
+    sfxGain.gain.value = currentSfxGain();
     sfxGain.connect(masterGain);
     ambientGain = ctx.createGain();
-    ambientGain.gain.value = ambientOn ? 0.25 : 0;
+    ambientGain.gain.value = currentAmbientGain();
     ambientGain.connect(masterGain);
     return ctx;
   }
@@ -166,8 +174,10 @@
   function syncSettings(save) {
     soundOn = !!save.settings.sound;
     ambientOn = !!save.settings.ambient;
-    if (sfxGain) sfxGain.gain.value = soundOn ? 0.5 : 0;
-    if (ambientGain) ambientGain.gain.value = ambientOn ? 0.25 : 0;
+    sfxVolumeFrac = (typeof save.settings.sfxVolume === 'number' ? save.settings.sfxVolume : 70) / 100;
+    ambientVolumeFrac = (typeof save.settings.ambientVolume === 'number' ? save.settings.ambientVolume : 40) / 100;
+    if (sfxGain) sfxGain.gain.value = currentSfxGain();
+    if (ambientGain) ambientGain.gain.value = currentAmbientGain();
     if (ctx) {
       if (ambientOn && !ambientNodes) startAmbient();
       if (!ambientOn && ambientNodes) stopAmbient();

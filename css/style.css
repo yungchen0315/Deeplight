@@ -347,3 +347,73 @@ button { font-family: inherit; border: none; cursor: pointer; }
   background: #0A1220; color: #D6E5F3; border: 1px solid #33455C; font-size: 11px;
   font-family: monospace; resize: vertical;
 }
+.settingsSliderRow { flex-direction: column; align-items: stretch; gap: 4px; }
+.settingsSliderWrap { display: flex; align-items: center; gap: 8px; }
+.settingsSlider { flex: 1 1 auto; accent-color: #45E8BC; }
+.settingsSliderValue { font-size: 11px; color: #7E92A8; width: 34px; text-align: right; }
+
+/* ---------------------------------------------------------------------- */
+/* 高對比模式：加深文字對比、加粗邊框，方便弱視/強光環境閱讀                       */
+/* ---------------------------------------------------------------------- */
+body.highContrast { color: #FFFFFF; }
+body.highContrast .topLabel, body.highContrast .subHint, body.highContrast .moduleSub,
+body.highContrast .researchDesc, body.highContrast .refitDesc, body.highContrast .achDesc,
+body.highContrast .bestiarySeen, body.highContrast .dailyDay { color: #B8C6D6; }
+body.highContrast .panel, body.highContrast .modalBox { border-width: 2px; }
+body.highContrast .smallBtn, body.highContrast .modalBtn, body.highContrast .qtyBtn { border-width: 2px !important; }
+
+/* ---------------------------------------------------------------------- */
+/* 每日任務入口＋清單                                                        */
+/* ---------------------------------------------------------------------- */
+.questBtn {
+  position: absolute; left: 12px; top: 26px;
+  background: #1B2836; color: #FFB454; border: 1px solid #33455C !important;
+  width: 24px; height: 24px; font-size: 12px; line-height: 1; z-index: 6;
+  display: flex; align-items: center; justify-content: center;
+}
+.questRow { padding: 8px 0; border-bottom: 1px solid #1B2836; text-align: left; }
+.questRow.questClaimed { opacity: 0.5; }
+.questLabel { font-size: 12px; margin-bottom: 4px; }
+.questBarWrap { height: 6px; background: #0A1220; border: 1px solid #33455C; margin-bottom: 6px; }
+.questBarFill { height: 100%; background: #FFB454; transition: width 0.2s linear; }
+
+/* ---------------------------------------------------------------------- */
+/* 週末活動橫幅                                                              */
+/* ---------------------------------------------------------------------- */
+.weekendBanner {
+  position: absolute; left: 50%; top: 12px; transform: translateX(-50%) translateY(-140%);
+  background: rgba(178,61,255,0.18); border: 1px solid #B784FF; color: #EFE3FF;
+  padding: 4px 10px; font-size: 11px; white-space: nowrap; z-index: 6;
+  opacity: 0; transition: opacity 0.3s, transform 0.3s;
+}
+.weekendBanner.weekendBannerShow { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ---------------------------------------------------------------------- */
+/* 金燈魚                                                                    */
+/* ---------------------------------------------------------------------- */
+.creatureSprite.creatureGolden { filter: drop-shadow(0 0 8px #F2C14E); }
+.goldenChoiceBtn { color: #F2C14E; border-color: #F2C14E !important; }
+
+/* ---------------------------------------------------------------------- */
+/* 協約分頁：印記樹分支標題                                                   */
+/* ---------------------------------------------------------------------- */
+.sigilBranchTitle { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: bold; color: #FFB454; }
+
+/* ---------------------------------------------------------------------- */
+/* 圖鑑星級                                                                  */
+/* ---------------------------------------------------------------------- */
+.bestiaryStars { font-size: 10px; color: #F2C14E; margin-top: 2px; }
+
+/* ---------------------------------------------------------------------- */
+/* 潛航紀錄（里程碑）                                                        */
+/* ---------------------------------------------------------------------- */
+.milestoneList { max-height: 240px; overflow-y: auto; margin-top: 6px; }
+
+/* ---------------------------------------------------------------------- */
+/* 遊戲說明彈窗                                                              */
+/* ---------------------------------------------------------------------- */
+.compendiumBox { max-height: 82vh; display: flex; flex-direction: column; }
+.compendiumScroll { overflow-y: auto; text-align: left; margin: 6px 0; }
+.compendiumSection { margin-bottom: 14px; }
+.compendiumSectionTitle { font-size: 14px; font-weight: bold; color: #45E8BC; margin-bottom: 4px; }
+.compendiumLine { font-size: 12px; color: #D6E5F3; margin-bottom: 4px; line-height: 1.5; }

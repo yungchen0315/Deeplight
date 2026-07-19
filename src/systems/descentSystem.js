@@ -24,19 +24,29 @@
     return D.zoneById(save.currentZone + 1);
   }
 
-  /** 支付通過目前錨點，進入下一海域；成功時附帶 3 SP 獎勵（企劃書第 4a 節）。 */
+  /** 目前錨點實際要付的螢光（套用深之錨印記樹的閘門成本折扣）。 */
+  function gateCost(save, eff) {
+    const zone = D.zoneById(save.currentZone) || D.ZONE_DEFS[0];
+    if (zone.gateCost === null || zone.gateCost === undefined) return null;
+    return Math.round(zone.gateCost * (eff || Econ.computeEffects(save)).gateCostMult);
+  }
+
+  /** 支付通過目前錨點，進入下一海域；成功時附帶隨海域遞增的 SP 獎勵（企劃書第 4a 節）。 */
   function passGate(save) {
     const zone = D.zoneById(save.currentZone) || D.ZONE_DEFS[0];
     if (zone.comingSoon) return { ok: false, reason: '此海域尚未開放' };
     if (save.depth < zone.anchorDepth) return { ok: false, reason: '尚未抵達錨點' };
-    if (save.glow < zone.gateCost) return { ok: false, reason: '螢光不足' };
+    const cost = gateCost(save);
+    if (cost === null) return { ok: false, reason: '此海域尚未開放' };
+    if (save.glow < cost) return { ok: false, reason: '螢光不足' };
     const next = nextZone(save);
     if (!next) return { ok: false, reason: '已達目前版本最深處' };
-    save.glow -= zone.gateCost;
+    save.glow -= cost;
     save.currentZone += 1;
-    save.samples = (save.samples || 0) + 3;
+    save.samples = (save.samples || 0) + 3 + 3 * zone.id;
+    save.stats.totalGatesPassed = (save.stats.totalGatesPassed || 0) + 1;
     return { ok: true, zone: next };
   }
 
-  window.App.Systems.Descent = { advance, atGate, nextZone, passGate };
+  window.App.Systems.Descent = { advance, atGate, nextZone, gateCost, passGate };
 })();

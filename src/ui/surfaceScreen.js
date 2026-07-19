@@ -1,6 +1,7 @@
 /* ============================================================================
- * surfaceScreen.js — 「海面」分頁：每日簽到、重返海面（轉生）、重構升級、成就、
- * 統計。設定（音效/存檔匯出匯入/重置）移至頂欄齒輪按鈕開啟的彈窗。
+ * surfaceScreen.js — 「海面」分頁：每日簽到、重返海面（轉生）、潛航紀錄（深度
+ * 里程碑）、珍珠加護、重構升級、成就、統計。設定（音效/存檔匯出匯入/重置）移至
+ * 頂欄齒輪按鈕開啟的彈窗。
  * ==========================================================================*/
 (function () {
   const U = window.App.Utils;
@@ -8,6 +9,7 @@
   const PR = window.App.UI.PixelRenderer;
   const Prestige = window.App.Systems.Prestige;
   const Daily = window.App.Systems.Daily;
+  const Milestone = window.App.Systems.Milestone;
   const Toast = window.App.UI.Toast;
   const Audio = window.App.Systems.Audio;
   const FX = window.App.UI.FX;
@@ -41,6 +43,37 @@
     container.appendChild(panel);
   }
 
+  function renderMilestones(container, save, onChange) {
+    const panel = U.el('div', 'panel');
+    const unclaimed = Milestone.unclaimedReachedCount(save);
+    panel.appendChild(U.el('div', 'panelTitle',
+      '潛航紀錄（' + save.milestonesClaimed.length + ' / ' + D.MILESTONE_DEFS.length + '）' + (unclaimed > 0 ? '　🔔 ' + unclaimed + ' 個待領取' : '')));
+    panel.appendChild(U.el('div', 'subHint', '每個里程碑只能領一次，領取當下才結算獎勵——產量愈高時再回來領愈划算'));
+    const list = U.el('div', 'milestoneList');
+    D.MILESTONE_DEFS.forEach((def) => {
+      const claimed = Milestone.isClaimed(save, def.id);
+      const reached = Milestone.isReached(save, def);
+      const row = U.el('div', 'refitRow' + (claimed ? ' refitOwned' : ''));
+      row.appendChild(U.el('span', 'refitName', (claimed ? '✔ ' : '') + def.depth + 'm　' + def.name));
+      if (!claimed) {
+        if (reached) {
+          const btn = U.el('button', 'smallBtn', '領取');
+          U.onTap(btn, () => {
+            const r = Milestone.claim(save, def.id);
+            if (r.ok) { Audio.play('buy'); FX.popButton(btn); Toast.toast('+' + U.formatNum(r.gained) + ' 螢光'); onChange(); }
+            else { Audio.play('error'); Toast.toast(r.reason); }
+          });
+          row.appendChild(btn);
+        } else {
+          row.appendChild(U.el('span', 'maxedHint', '尚未抵達'));
+        }
+      }
+      list.appendChild(row);
+    });
+    panel.appendChild(list);
+    container.appendChild(panel);
+  }
+
   function render(container, save, onChange) {
     U.clearNode(container);
 
@@ -65,6 +98,8 @@
     prestigePanel.appendChild(btn);
     if (!eligible) prestigePanel.appendChild(U.el('div', 'lockedHint', '需下潛至 ' + D.BALANCE.PRESTIGE_MIN_DEPTH + ' 公尺才能轉生'));
     container.appendChild(prestigePanel);
+
+    renderMilestones(container, save, onChange);
 
     const boostPanel = U.el('div', 'panel');
     boostPanel.appendChild(U.el('div', 'panelTitle', '深海珍珠（' + save.pearls + '）'));
@@ -128,11 +163,25 @@
       '累計點擊：' + (s.totalTaps || 0),
       '累計壓力核心：' + (s.totalCoresEarned || 0),
       '收錄生物：' + Object.keys(save.bestiary).length + ' / ' + D.CREATURE_DEFS.length,
+      '購買模組次數：' + (s.totalModulesBought || 0),
+      '收集生物次數：' + (s.totalCreaturesCollected || 0),
+      '完成研究：' + (s.totalResearchBought || 0) + ' / ' + D.RESEARCH_DEFS.length,
+      '通過閘門：' + (s.totalGatesPassed || 0) + ' 次',
+      '捕獲金燈魚：' + (s.totalGoldenCaught || 0) + ' 隻',
       '轉生次數：' + save.prestigeCount,
+      '深淵協約次數：' + save.covenantCount,
+      '深淵印記：' + save.sigils.length + ' / ' + D.SIGIL_DEFS.length,
       '遊玩時間：' + Math.floor((s.playSeconds || 0) / 60) + ' 分鐘'
     ];
     lines.forEach((line) => statsPanel.appendChild(U.el('div', 'subHint', line)));
-    statsPanel.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.1　·　更多設定請點頂欄齒輪圖示'));
+    const shareBtn = U.el('button', 'smallBtn settingsFullBtn', '下載潛航護照（分享用圖卡）');
+    U.onTap(shareBtn, () => {
+      window.App.UI.ShareCard.generateAndDownload(save);
+      Audio.play('buy');
+      Toast.toast('已產生潛航護照圖卡');
+    });
+    statsPanel.appendChild(shareBtn);
+    statsPanel.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.3　·　更多設定請點頂欄齒輪圖示'));
     container.appendChild(statsPanel);
   }
 

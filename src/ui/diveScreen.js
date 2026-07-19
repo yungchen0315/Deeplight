@@ -1,8 +1,8 @@
 /* ============================================================================
  * diveScreen.js — 「潛航」主畫面：海域場景、點擊採光、路過生物點擊收集、
- * 錨點閘門按鈕、誘光進度條、珍珠加護面板。生物用個別 canvas sprite + CSS
- * transition 橫向漂過畫面，不用單一大 canvas 手刻動畫迴圈，較不容易出現碰撞
- * 判定錯誤。
+ * 錨點閘門按鈕、誘光進度條、珍珠加護面板、每日任務入口、金燈魚事件、週末活動
+ * 橫幅。生物用個別 canvas sprite + CSS transition 橫向漂過畫面，不用單一大
+ * canvas 手刻動畫迴圈，較不容易出現碰撞判定錯誤。
  * ==========================================================================*/
 (function () {
   const U = window.App.Utils;
@@ -11,6 +11,9 @@
   const Econ = window.App.Systems.Economy;
   const Descent = window.App.Systems.Descent;
   const Creature = window.App.Systems.Creature;
+  const Quest = window.App.Systems.Quest;
+  const Golden = window.App.Systems.Golden;
+  const Event = window.App.Systems.Event;
   const Modals = window.App.UI.Modals;
   const Toast = window.App.UI.Toast;
   const Audio = window.App.Systems.Audio;
@@ -23,12 +26,16 @@
   let onChangeRef = null;
   let active = false;
   let lastZoneId = null;
+  let goldenActive = false;
+  let weekendShown = false;
 
   function render(container, save, onChange) {
     saveRef = save;
     onChangeRef = onChange;
     active = true;
     lastZoneId = null;
+    goldenActive = false;
+    weekendShown = false;
     U.clearNode(container);
 
     const scene = U.el('div', 'diveScene');
@@ -75,17 +82,26 @@
     lureWrap.appendChild(U.el('div', 'lureIcon', '🐟'));
     scene.appendChild(lureWrap);
 
+    // 每日任務入口。
+    const questBtn = U.el('button', 'questBtn', '📋');
+    scene.appendChild(questBtn);
+    U.onTap(questBtn, () => openQuestModal());
+
     // 珍珠加護按鈕。
     const boostBtn = U.el('button', 'pearlBoostBtn', '');
     scene.appendChild(boostBtn);
     U.onTap(boostBtn, () => usePearlBoost());
 
-    hudRefs = { haloWrap, pendingBadge, gateBtn, depthLabel, lureFill, boostBtn };
+    // 週末活動橫幅。
+    const weekendBanner = U.el('div', 'weekendBanner', '🎉 週末大遷徙：生物出現速度 x2');
+    scene.appendChild(weekendBanner);
+
+    hudRefs = { haloWrap, pendingBadge, gateBtn, depthLabel, lureFill, boostBtn, questBtn, weekendBanner };
 
     // 點擊水域＝手動採光（點在生物/按鈕上時各自的 handler 會 stopPropagation）。
     U.onTap(scene, (e) => {
       Audio.unlock(saveRef);
-      if (e && e.target && e.target.closest && (e.target.closest('.creatureSprite') || e.target.closest('.gateBtn') || e.target.closest('.pendingBadge') || e.target.closest('.pearlBoostBtn'))) return;
+      if (e && e.target && e.target.closest && (e.target.closest('.creatureSprite') || e.target.closest('.gateBtn') || e.target.closest('.pendingBadge') || e.target.closest('.pearlBoostBtn') || e.target.closest('.questBtn'))) return;
       tapWater(e);
     });
 
@@ -99,15 +115,15 @@
   }
 
   function tapWater(e) {
-    const amt = Econ.applyTap(saveRef);
+    const result = Econ.applyTap(saveRef);
     Audio.play('tap');
     let xPct = 45 + Math.random() * 10, yPct = 50 + Math.random() * 10;
     if (e && sceneEl && e.clientX !== undefined) {
       const rect = sceneEl.getBoundingClientRect();
       if (rect.width) { xPct = ((e.clientX - rect.left) / rect.width) * 100; yPct = ((e.clientY - rect.top) / rect.height) * 100; }
     }
-    FX.popNumber(sceneEl, xPct, yPct, '+' + U.formatNum(amt));
-    if (saveRef.tapLureProgress % D.BALANCE.TAPS_PER_LURE === 0) forceSpawnSoon();
+    FX.popNumber(sceneEl, xPct, yPct, '+' + U.formatNum(result.amount));
+    if (result.lureTriggered) forceSpawnSoon();
     if (onChangeRef) onChangeRef();
   }
 
@@ -122,11 +138,30 @@
     spawnTimeoutId = setTimeout(spawnCreature, delay);
   }
 
+  function collectOnScreenCreature(def, wrap, collectedRef) {
+    if (collectedRef.done) return;
+    collectedRef.done = true;
+    const result = Creature.collect(saveRef, def.id);
+    const wrapRect = wrap.getBoundingClientRect();
+    const sceneRect = sceneEl.getBoundingClientRect();
+    const xPct = sceneRect.width ? ((wrapRect.left + wrapRect.width / 2 - sceneRect.left) / sceneRect.width) * 100 : 50;
+    const yPct = sceneRect.height ? ((wrapRect.top + wrapRect.height / 2 - sceneRect.top) / sceneRect.height) * 100 : 50;
+    wrap.remove();
+    if (result.ok) {
+      Audio.play(def.rare ? 'rare' : 'collect');
+      FX.popNumber(sceneEl, xPct, yPct, '+' + U.formatNum(result.burst), 'popBig');
+      FX.burst(sceneEl, xPct, yPct, def.rare ? 'VIOLET' : 'GLOW2', def.rare ? 16 : 10);
+      Toast.toast('+' + U.formatNum(result.burst) + ' 螢光' + (result.gotSample ? '　+1 樣本' : '') + (result.gotPearl ? '　+1 珍珠' : ''));
+      if (result.isFirst) { Audio.play('discovery'); Modals.showDiscoveryCard(def); }
+      checkAchievements();
+      if (onChangeRef) onChangeRef();
+    }
+  }
+
   function spawnCreature() {
     if (!active || !sceneEl) return;
     const def = Creature.rollSpecies(saveRef);
     if (!def) { scheduleSpawn(); return; }
-    const sprite = D.SPRITES[def.icon];
     const scale = 3;
     const wrap = U.el('div', 'creatureSprite' + (def.rare ? ' creatureRare' : ''));
     wrap.appendChild(PR.spriteCanvasEl(def.icon, scale));
@@ -142,31 +177,113 @@
       wrap.style.left = goingRight ? '110%' : '-15%';
     });
 
-    let collected = false;
-    U.onTap(wrap, (e) => {
-      if (collected) return;
-      collected = true;
-      const result = Creature.collect(saveRef, def.id);
-      const wrapRect = wrap.getBoundingClientRect();
-      const sceneRect = sceneEl.getBoundingClientRect();
-      const xPct = sceneRect.width ? ((wrapRect.left + wrapRect.width / 2 - sceneRect.left) / sceneRect.width) * 100 : 50;
-      const yPct = sceneRect.height ? ((wrapRect.top + wrapRect.height / 2 - sceneRect.top) / sceneRect.height) * 100 : 50;
-      wrap.remove();
-      if (result.ok) {
-        Audio.play(def.rare ? 'rare' : 'collect');
-        FX.popNumber(sceneEl, xPct, yPct, '+' + U.formatNum(result.burst), 'popBig');
-        FX.burst(sceneEl, xPct, yPct, def.rare ? 'VIOLET' : 'GLOW2', def.rare ? 16 : 10);
-        Toast.toast('+' + U.formatNum(result.burst) + ' 螢光' + (result.gotSample ? '　+1 樣本' : ''));
-        if (result.isFirst) { Audio.play('discovery'); Modals.showDiscoveryCard(def); }
-        checkAchievements();
-        if (onChangeRef) onChangeRef();
-      }
-    });
+    const collectedRef = { done: false };
+    U.onTap(wrap, () => collectOnScreenCreature(def, wrap, collectedRef));
 
-    const timeoutId = setTimeout(() => { if (!collected) wrap.remove(); }, lifespanMs + 200);
-    wrap.addEventListener('transitionend', () => { clearTimeout(timeoutId); if (!collected) wrap.remove(); });
+    const eff = Econ.computeEffects(saveRef);
+    if (eff.autoCollect) {
+      setTimeout(() => collectOnScreenCreature(def, wrap, collectedRef), D.BALANCE.AUTO_COLLECT_DELAY_MS);
+    }
+
+    const timeoutId = setTimeout(() => { if (!collectedRef.done) wrap.remove(); }, lifespanMs + 200);
+    wrap.addEventListener('transitionend', () => { clearTimeout(timeoutId); if (!collectedRef.done) wrap.remove(); });
 
     scheduleSpawn();
+  }
+
+  function spawnGolden() {
+    if (!active || !sceneEl || goldenActive) return;
+    goldenActive = true;
+    const wrap = U.el('div', 'creatureSprite creatureGolden');
+    wrap.appendChild(PR.spriteCanvasEl('c_golden', 3));
+    const topPct = 20 + Math.random() * 45;
+    wrap.style.top = topPct + '%';
+    const goingRight = Math.random() < 0.5;
+    wrap.style.left = goingRight ? '-15%' : '110%';
+    sceneEl.appendChild(wrap);
+
+    const lifespanMs = D.BALANCE.GOLDEN_LIFESPAN_MS;
+    requestAnimationFrame(() => {
+      wrap.style.transition = 'left ' + (lifespanMs / 1000) + 's linear';
+      wrap.style.left = goingRight ? '110%' : '-15%';
+    });
+
+    let caught = false;
+    function missGolden() {
+      if (caught) return;
+      goldenActive = false;
+      Golden.scheduleNext(saveRef);
+      wrap.remove();
+    }
+    U.onTap(wrap, () => {
+      if (caught) return;
+      caught = true;
+      wrap.remove();
+      openGoldenChoiceModal();
+    });
+    const timeoutId = setTimeout(missGolden, lifespanMs + 200);
+    wrap.addEventListener('transitionend', () => { clearTimeout(timeoutId); missGolden(); });
+  }
+
+  function openGoldenChoiceModal() {
+    const choices = Golden.rollChoices();
+    Modals.showModal((box, close) => {
+      box.appendChild(U.el('div', 'modalTitle', '捕獲金燈魚！'));
+      box.appendChild(U.el('div', 'modalLine', '選擇一項限時增益：'));
+      choices.forEach((def) => {
+        const btn = U.el('button', 'modalBtn goldenChoiceBtn', def.label);
+        U.onTap(btn, () => {
+          const r = Golden.applyBuff(saveRef, def.id);
+          saveRef.stats.totalGoldenCaught = (saveRef.stats.totalGoldenCaught || 0) + 1;
+          Golden.scheduleNext(saveRef);
+          goldenActive = false;
+          close();
+          Audio.play('rare');
+          if (r.gained) Toast.toast('+' + U.formatNum(r.gained) + ' 螢光');
+          else Toast.toast('已套用：' + def.label);
+          checkAchievements();
+          if (onChangeRef) onChangeRef();
+        });
+        box.appendChild(btn);
+      });
+    });
+  }
+
+  function openQuestModal() {
+    Quest.ensureToday(saveRef);
+    Modals.showModal((box, close) => {
+      box.appendChild(U.el('div', 'modalTitle', '每日任務'));
+      saveRef.quests.items.forEach((item) => {
+        const tpl = D.questTemplateById(item.tplId);
+        if (!tpl) return;
+        const progress = Quest.progressFor(saveRef, item);
+        const done = Quest.isDone(saveRef, item);
+        const row = U.el('div', 'questRow' + (item.claimed ? ' questClaimed' : ''));
+        row.appendChild(U.el('div', 'questLabel', (item.claimed ? '✔ ' : '') + tpl.label + '（' + Math.floor(progress) + ' / ' + item.target + tpl.unit + '）'));
+        const barWrap = U.el('div', 'questBarWrap');
+        const bar = U.el('div', 'questBarFill');
+        bar.style.width = (Math.min(1, progress / item.target) * 100) + '%';
+        barWrap.appendChild(bar);
+        row.appendChild(barWrap);
+        if (!item.claimed) {
+          const btn = U.el('button', 'smallBtn' + (done ? '' : ' disabled'), '領取 · ' + tpl.reward + ' SP');
+          U.onTap(btn, () => {
+            const r = Quest.claim(saveRef, item.tplId);
+            if (r.ok) {
+              Audio.play('daily'); FX.popButton(btn);
+              Toast.toast('任務完成：+' + r.reward + ' 樣本' + (r.bonus ? '　全部完成 +' + r.bonus + ' 珍珠' : ''));
+              if (onChangeRef) onChangeRef();
+              close(); openQuestModal();
+            } else { Audio.play('error'); Toast.toast(r.reason); }
+          });
+          row.appendChild(btn);
+        }
+        box.appendChild(row);
+      });
+      const closeBtn = U.el('button', 'modalBtn', '關閉');
+      U.onTap(closeBtn, close);
+      box.appendChild(closeBtn);
+    });
   }
 
   function claimPending() {
@@ -174,7 +291,7 @@
     if (!result.ok) { Toast.toast(result.reason || '沒有待領取的生物'); return; }
     Audio.play('collect');
     FX.popNumber(sceneEl, 50, 30, '+' + U.formatNum(result.burst), 'popBig');
-    Toast.toast('+' + U.formatNum(result.burst) + ' 螢光' + (result.gotSample ? '　+1 樣本' : ''));
+    Toast.toast('+' + U.formatNum(result.burst) + ' 螢光' + (result.gotSample ? '　+1 樣本' : '') + (result.gotPearl ? '　+1 珍珠' : ''));
     if (result.isFirst) { Audio.play('discovery'); Modals.showDiscoveryCard(result.def); }
     checkAchievements();
     if (onChangeRef) onChangeRef();
@@ -225,14 +342,15 @@
 
     const zone = D.zoneForDepth(save.depth) || D.ZONE_DEFS[0];
     sceneEl.style.background = D.PALETTE[zone.bg];
+    sceneEl.style.filter = zone.filterHue ? ('hue-rotate(' + zone.filterHue + 'deg)') : '';
     hudRefs.depthLabel.textContent = Math.floor(save.depth) + ' m　' + zone.name;
     if (zone.id !== lastZoneId) { lastZoneId = zone.id; Audio.setAmbientZone(zone.id); }
 
     if (Descent.atGate(save)) {
-      const z = D.zoneById(save.currentZone);
-      hudRefs.gateBtn.textContent = '加固艙體 · ' + U.formatNum(z.gateCost) + ' 螢光';
+      const cost = Descent.gateCost(save);
+      hudRefs.gateBtn.textContent = '加固艙體 · ' + U.formatNum(cost) + ' 螢光';
       hudRefs.gateBtn.style.display = 'block';
-      hudRefs.gateBtn.classList.toggle('gateBtnReady', save.glow >= z.gateCost);
+      hudRefs.gateBtn.classList.toggle('gateBtnReady', save.glow >= cost);
     } else {
       hudRefs.gateBtn.style.display = 'none';
     }
@@ -249,6 +367,11 @@
       hudRefs.boostBtn.classList.remove('boostActive');
     }
     hudRefs.boostBtn.classList.toggle('disabled', save.pearls < 1 && remainMs <= 0);
+
+    if (!weekendShown && Event.isWeekend()) { weekendShown = true; hudRefs.weekendBanner.classList.add('weekendBannerShow'); }
+    else if (weekendShown && !Event.isWeekend()) { weekendShown = false; hudRefs.weekendBanner.classList.remove('weekendBannerShow'); }
+
+    if (!goldenActive && Golden.dueToSpawn(save)) spawnGolden();
   }
 
   function deactivate() {
@@ -257,5 +380,5 @@
     spawnTimeoutId = null;
   }
 
-  window.App.UI.DiveScreen = { render, tick, deactivate };
+  window.App.UI.DiveScreen = { render, tick, deactivate, forceSpawnSoon };
 })();

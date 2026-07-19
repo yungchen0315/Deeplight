@@ -53,6 +53,35 @@
 
     DAILY_CYCLE_LENGTH: 7,
 
+    // 深淵協約（第二層轉生）：解鎖門檻、印記換算公式。
+    COVENANT_MIN_PRESTIGE_COUNT: 5,
+    COVENANT_MIN_DEPTH: 11000,
+    COVENANT_SIGIL_DIVISOR: 20,
+    COVENANT_SIGIL_EXPONENT: 0.5, // floor(sqrt(累積壓力核心 / divisor))
+
+    // 圖鑑星級：目擊次數達到門檻升星，每星 +0.5% 全產量（取代 v1.1 的扁平 +2%/種）。
+    BESTIARY_STAR_THRESHOLDS: [1, 5, 15, 40, 100],
+    BESTIARY_STAR_PROD_PCT: 0.5,
+
+    // 金燈魚：主動遊玩期間限定的稀有快速生物，點擊後二選一強力短效增益。
+    GOLDEN_SPAWN_INTERVAL_MS: [600000, 1200000], // 10~20 分鐘
+    GOLDEN_LIFESPAN_MS: 4000,
+    GOLDEN_PROD_MULT: 7,
+    GOLDEN_PROD_SECONDS: 77,
+    GOLDEN_INSTANT_MINUTES: 15,
+    GOLDEN_DESCENT_MULT: 5,
+    GOLDEN_DESCENT_SECONDS: 120,
+
+    // 每日任務：3 題／天，從範本池決定性抽取（依日期字串 seed，不需要伺服器）。
+    QUEST_COUNT_PER_DAY: 3,
+    QUEST_ALL_DONE_PEARL: 1,
+
+    // 週末活動：本地時間週六日，生物出現間隔減半。
+    WEEKEND_SPAWN_INTERVAL_MULT: 0.5,
+
+    // 自動化重構（深淵協約印記樹解鎖）。
+    AUTO_COLLECT_DELAY_MS: 3000,
+
     AUTOSAVE_INTERVAL_MS: 10000,
     TICK_INTERVAL_MS: 250
   };

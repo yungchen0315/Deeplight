@@ -7,6 +7,8 @@
   const Models = window.App.Models;
   const GameLoop = window.App.Systems.GameLoop;
   const Offline = window.App.Systems.Offline;
+  const Quest = window.App.Systems.Quest;
+  const Hint = window.App.Systems.Hint;
   const Audio = window.App.Systems.Audio;
   const FX = window.App.UI.FX;
   const U = window.App.Utils;
@@ -18,19 +20,36 @@
   const ModulesScreen = window.App.UI.ModulesScreen;
   const ResearchScreen = window.App.UI.ResearchScreen;
   const SurfaceScreen = window.App.UI.SurfaceScreen;
+  const CovenantScreen = window.App.UI.CovenantScreen;
   const B = window.App.Data.BALANCE;
 
   let save;
   let currentScreenId = 'dive';
   let lastTickAt;
   let lastSaveAt;
+  let saveFailureWarned = false;
 
   function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  /** localStorage 可能因隱私瀏覽模式／儲存空間配額用盡而寫入失敗且不拋例外——
+   *  Save.save() 遇到這種情況只會安靜回傳 false。之前完全沒有任何呼叫端檢查這個
+   *  回傳值，代表玩家可能在完全沒有警告的情況下持續遊玩、卻從未真正存檔成功，
+   *  分頁一關就整份進度消失。這裡只在第一次偵測到失敗時提示一次，避免每次自動
+   *  存檔都彈一次 toast 洗版。 */
+  function trySave() {
+    const ok = Save.save(save);
+    if (!ok && !saveFailureWarned) {
+      saveFailureWarned = true;
+      window.App.UI.Toast.toast('⚠️ 存檔失敗，目前進度可能無法保存，請確認瀏覽器儲存空間或隱私瀏覽設定');
+    }
+    return ok;
+  }
 
   function applySettings() {
     U.setNumberFormat(save.settings.numberFormat);
     FX.syncSettings(save);
     Audio.syncSettings(save);
+    document.body.classList.toggle('highContrast', !!save.settings.highContrast);
   }
 
   function renderScreen(screenId) {
@@ -43,6 +62,7 @@
       if (screenId === 'modules') ModulesScreen.render(container, save, onChange);
       else if (screenId === 'research') ResearchScreen.render(container, save, onChange);
       else if (screenId === 'surface') SurfaceScreen.render(container, save, onChange);
+      else if (screenId === 'covenant') CovenantScreen.render(container, save, onChange);
     }
   }
 
@@ -50,6 +70,7 @@
     const now = Date.now();
     const dtMs = now - lastTickAt;
     lastTickAt = now;
+    Quest.ensureToday(save, now);
     const result = GameLoop.tick(save, dtMs);
     TopBar.refresh(save);
     if (currentScreenId === 'dive') DiveScreen.tick(save);
@@ -57,8 +78,14 @@
       Audio.play('achievement');
       window.App.UI.Toast.toast('成就解鎖：' + a.name + (a.pearl ? '　+' + a.pearl + ' 珍珠' : ''));
     });
-    if (result.autoTapped && currentScreenId !== 'dive') { /* 自動點擊不重繪非潛航分頁，避免打斷操作 */ }
-    if (now - lastSaveAt >= B.AUTOSAVE_INTERVAL_MS) { Save.save(save); lastSaveAt = now; }
+    if (result.autoTapped && result.lureTriggered && currentScreenId === 'dive') DiveScreen.forceSpawnSoon();
+    if (result.autoGatedZone) {
+      Audio.play('gate');
+      window.App.UI.Toast.toast('自動通過閘門，進入「' + result.autoGatedZone.name + '」');
+    }
+    if ((result.autoBoughtModule || result.autoGatedZone) && currentScreenId !== 'dive') renderScreen(currentScreenId);
+    Hint.checkHints(save).forEach((msg) => window.App.UI.Toast.toast(msg));
+    if (now - lastSaveAt >= B.AUTOSAVE_INTERVAL_MS) { trySave(); lastSaveAt = now; }
   }
 
   function registerServiceWorker() {
@@ -81,6 +108,7 @@
     lastSaveAt = now;
 
     applySettings();
+    Quest.ensureToday(save, now);
 
     renderScreen(currentScreenId);
     TopBar.refresh(save);
@@ -94,13 +122,13 @@
     });
 
     if (offlineReport) Modals.showOfflineReport(offlineReport);
-    if (isNewSave) Save.save(save);
+    if (isNewSave) trySave();
 
     setInterval(loopTick, B.TICK_INTERVAL_MS);
 
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
-        Save.save(save);
+        trySave();
       } else {
         const n = Date.now();
         const report = Offline.settle(save, n);
@@ -113,7 +141,7 @@
       }
     });
 
-    window.addEventListener('beforeunload', () => Save.save(save));
+    window.addEventListener('beforeunload', () => trySave());
 
     registerServiceWorker();
   }

@@ -9,26 +9,35 @@
    *  避免舊存檔已有的 settings/stats 物件蓋掉新版才新增的子欄位。 */
   function migrate(saveGame) {
     const def = window.App.Models.createDefaultSave(Date.now());
+    const priorVersion = saveGame.version || 1;
     Object.keys(def).forEach((k) => { if (saveGame[k] === undefined) saveGame[k] = def[k]; });
     if (!saveGame.modules) saveGame.modules = {};
     if (!saveGame.bestiary) saveGame.bestiary = {};
     if (!Array.isArray(saveGame.research)) saveGame.research = [];
     if (!Array.isArray(saveGame.refits)) saveGame.refits = [];
+    if (!Array.isArray(saveGame.sigils)) saveGame.sigils = [];
     if (!Array.isArray(saveGame.achievements)) saveGame.achievements = [];
+    if (!Array.isArray(saveGame.milestonesClaimed)) saveGame.milestonesClaimed = [];
 
     saveGame.stats = Object.assign({}, def.stats, saveGame.stats);
     saveGame.settings = Object.assign({}, def.settings, saveGame.settings);
     saveGame.daily = Object.assign({}, def.daily, saveGame.daily);
+    saveGame.quests = Object.assign({}, def.quests, saveGame.quests);
+    if (!Array.isArray(saveGame.quests.items)) saveGame.quests.items = [];
     saveGame.tutorial = Object.assign({}, def.tutorial, saveGame.tutorial);
     if (!Array.isArray(saveGame.tutorial.seenHints)) saveGame.tutorial.seenHints = [];
 
     if (typeof saveGame.tapLureProgress !== 'number') saveGame.tapLureProgress = 0;
     if (typeof saveGame.boostUntil !== 'number') saveGame.boostUntil = 0;
+    if (saveGame.tempBuff === undefined) saveGame.tempBuff = null;
+    if (typeof saveGame.nextGoldenAt !== 'number') saveGame.nextGoldenAt = Date.now() + 600000;
+    if (typeof saveGame.covenantCount !== 'number') saveGame.covenantCount = 0;
+    if (typeof saveGame.sigilPoints !== 'number') saveGame.sigilPoints = 0;
 
     // 舊存檔（v1，無 tutorial 欄位、但已有進度）視為已看過教學，避免老玩家被重新導覽。
-    if (saveGame.version < 2 && saveGame.maxDepthEver > 0) saveGame.tutorial.done = true;
+    if (priorVersion < 2 && saveGame.maxDepthEver > 0) saveGame.tutorial.done = true;
 
-    saveGame.version = 2;
+    saveGame.version = 3;
     return saveGame;
   }
 

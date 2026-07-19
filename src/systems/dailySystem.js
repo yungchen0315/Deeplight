@@ -35,7 +35,7 @@
     return Object.assign({ day: idx + 1 }, table[idx]);
   }
 
-  function previewCycle(save) {
+  function previewCycle() {
     const list = [];
     for (let i = 1; i <= B.DAILY_CYCLE_LENGTH; i++) list.push(rewardForStreak(i));
     return list;
@@ -71,6 +71,7 @@
       }
       save.samples = (save.samples || 0) + 10;
     }
+    save.stats.totalDailyClaims = (save.stats.totalDailyClaims || 0) + 1;
     return { ok: true, reward, streak: save.daily.streak };
   }
 

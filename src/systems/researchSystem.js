@@ -19,6 +19,7 @@
     if (!check.ok) return check;
     save.samples -= check.def.cost;
     save.research.push(id);
+    save.stats.totalResearchBought = (save.stats.totalResearchBought || 0) + 1;
     return { ok: true };
   }
 

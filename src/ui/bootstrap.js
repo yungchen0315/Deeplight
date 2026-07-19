@@ -34,6 +34,7 @@
     U.setNumberFormat(save.settings.numberFormat);
     FX.syncSettings(save);
     Audio.syncSettings(save);
+    document.body.classList.toggle('highContrast', !!save.settings.highContrast);
   }
 
   function renderScreen(screenId) {

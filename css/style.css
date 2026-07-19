@@ -347,6 +347,20 @@ button { font-family: inherit; border: none; cursor: pointer; }
   background: #0A1220; color: #D6E5F3; border: 1px solid #33455C; font-size: 11px;
   font-family: monospace; resize: vertical;
 }
+.settingsSliderRow { flex-direction: column; align-items: stretch; gap: 4px; }
+.settingsSliderWrap { display: flex; align-items: center; gap: 8px; }
+.settingsSlider { flex: 1 1 auto; accent-color: #45E8BC; }
+.settingsSliderValue { font-size: 11px; color: #7E92A8; width: 34px; text-align: right; }
+
+/* ---------------------------------------------------------------------- */
+/* 高對比模式：加深文字對比、加粗邊框，方便弱視/強光環境閱讀                       */
+/* ---------------------------------------------------------------------- */
+body.highContrast { color: #FFFFFF; }
+body.highContrast .topLabel, body.highContrast .subHint, body.highContrast .moduleSub,
+body.highContrast .researchDesc, body.highContrast .refitDesc, body.highContrast .achDesc,
+body.highContrast .bestiarySeen, body.highContrast .dailyDay { color: #B8C6D6; }
+body.highContrast .panel, body.highContrast .modalBox { border-width: 2px; }
+body.highContrast .smallBtn, body.highContrast .modalBtn, body.highContrast .qtyBtn { border-width: 2px !important; }
 
 /* ---------------------------------------------------------------------- */
 /* 每日任務入口＋清單                                                        */

@@ -33,7 +33,8 @@
  * @property {{dayKey:string, items:Array, allBonusClaimed:boolean}} quests 每日任務狀態。
  * @property {{done:boolean, seenHints:string[]}} tutorial 新手引導完成狀態與已顯示過的提示 id。
  * @property {Object} stats 永久保留的統計數字（見下方預設值列出的完整欄位）。
- * @property {{sound:boolean, ambient:boolean, reducedMotion:boolean, numberFormat:string}} settings
+ * @property {{sound:boolean, ambient:boolean, sfxVolume:number, ambientVolume:number,
+ *   reducedMotion:boolean, highContrast:boolean, numberFormat:string}} settings
  * ==========================================================================*/
 (function () {
   function createDefaultSave(now) {
@@ -82,7 +83,7 @@
         totalGatesPassed: 0,
         totalGoldenCaught: 0
       },
-      settings: { sound: true, ambient: true, reducedMotion: false, numberFormat: 'zh' }
+      settings: { sound: true, ambient: true, sfxVolume: 70, ambientVolume: 40, reducedMotion: false, highContrast: false, numberFormat: 'zh' }
     };
   }
 

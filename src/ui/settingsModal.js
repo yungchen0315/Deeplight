@@ -24,6 +24,31 @@
     return row;
   }
 
+  function sliderRow(label, value, onInput) {
+    const row = U.el('div', 'settingsRow settingsSliderRow');
+    row.appendChild(U.el('span', 'settingsLabel', label));
+    const wrap = U.el('div', 'settingsSliderWrap');
+    const input = document.createElement('input');
+    input.type = 'range';
+    input.min = '0';
+    input.max = '100';
+    input.value = String(value);
+    input.className = 'settingsSlider';
+    const valueLabel = U.el('span', 'settingsSliderValue', value + '%');
+    input.addEventListener('input', () => {
+      valueLabel.textContent = input.value + '%';
+      onInput(parseInt(input.value, 10));
+    });
+    wrap.appendChild(input);
+    wrap.appendChild(valueLabel);
+    row.appendChild(wrap);
+    return row;
+  }
+
+  function applyHighContrast(save) {
+    document.body.classList.toggle('highContrast', !!save.settings.highContrast);
+  }
+
   function open(save, onChange) {
     const overlay = document.getElementById('modalOverlay');
     U.clearNode(overlay);
@@ -35,11 +60,24 @@
     box.appendChild(toggleRow('音效', save.settings.sound, (v) => {
       save.settings.sound = v; Audio.syncSettings(save); onChange();
     }));
+    box.appendChild(sliderRow('音效音量', save.settings.sfxVolume, (v) => {
+      save.settings.sfxVolume = v; Audio.syncSettings(save);
+    }));
+    const testSoundBtn = U.el('button', 'smallBtn settingsFullBtn', '測試音效');
+    U.onTap(testSoundBtn, () => { Audio.unlock(save); Audio.play('collect'); });
+    box.appendChild(testSoundBtn);
+
     box.appendChild(toggleRow('環境音', save.settings.ambient, (v) => {
       save.settings.ambient = v; Audio.syncSettings(save); onChange();
     }));
+    box.appendChild(sliderRow('環境音音量', save.settings.ambientVolume, (v) => {
+      save.settings.ambientVolume = v; Audio.syncSettings(save);
+    }));
     box.appendChild(toggleRow('減少動態效果', save.settings.reducedMotion, (v) => {
       save.settings.reducedMotion = v; FX.syncSettings(save); onChange();
+    }));
+    box.appendChild(toggleRow('高對比模式', save.settings.highContrast, (v) => {
+      save.settings.highContrast = v; applyHighContrast(save); onChange();
     }));
     box.appendChild(toggleRow('數字格式：科學記號', save.settings.numberFormat === 'sci', (v) => {
       save.settings.numberFormat = v ? 'sci' : 'zh'; U.setNumberFormat(save.settings.numberFormat); onChange();

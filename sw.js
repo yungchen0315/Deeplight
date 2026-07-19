@@ -55,6 +55,7 @@ const PRECACHE_URLS = [
   'src/ui/modals.js',
   'src/ui/settingsModal.js',
   'src/ui/compendiumModal.js',
+  'src/ui/bestiaryDetailModal.js',
   'src/ui/topBar.js',
   'src/ui/bottomNav.js',
   'src/ui/diveScreen.js',

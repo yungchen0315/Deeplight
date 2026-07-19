@@ -51,6 +51,7 @@
         const maxStar = D.BALANCE.BESTIARY_STAR_THRESHOLDS.length;
         cell.appendChild(U.el('div', 'bestiarySeen', '目擊 ' + seen.seen + ' 次'));
         cell.appendChild(U.el('div', 'bestiaryStars', '★'.repeat(starLvl) + '☆'.repeat(maxStar - starLvl)));
+        U.onTap(cell, () => window.App.UI.BestiaryDetailModal.open(def, seen));
       } else {
         cell.appendChild(U.el('div', 'bestiaryUnknownMark', '?'));
       }

@@ -1,39 +1,65 @@
 /* ============================================================================
- * creatureDefs.js — 16 種深淵圖鑑生物（企劃書第 8 節 + v1.1 深淵帶擴充）。
- * 每海域 4 種，各含 1 稀有種。首次遇見必掉樣本，之後依 balance 機率掉落。
+ * creatureDefs.js — 24 種深淵圖鑑生物（企劃書第 8 節 + v1.1/Phase2/Phase3 擴充）。
+ * 每海域 4 種，各含 1 稀有種。首次遇見必掉樣本，之後依 balance 機率掉落。lore
+ * 是圖鑑詳細彈窗（bestiaryDetailModal.js）顯示的一小段風味文字，純敘事用途，
+ * 不影響任何遊戲數值。
  * ==========================================================================*/
 (function () {
   const CREATURE_DEFS = [
     // 透光帶
-    { id: 'moonjelly', name: '月水母', icon: 'c_moonjelly', zone: 0, rare: false },
-    { id: 'sardine', name: '沙丁魚群', icon: 'c_sardine', zone: 0, rare: false },
-    { id: 'turtle', name: '海龜', icon: 'c_turtle', zone: 0, rare: false },
-    { id: 'sunfish', name: '翻車魚', icon: 'c_sunfish', zone: 0, rare: true },
+    { id: 'moonjelly', name: '月水母', icon: 'c_moonjelly', zone: 0, rare: false,
+      lore: '透光帶最常見的住客，傘狀身體幾乎透明，只有邊緣泛著一圈微弱的螢光。牠們不主動攻擊，只是隨洋流漂浮，偶爾被潛燈號的燈暈吸引過來張望。' },
+    { id: 'sardine', name: '沙丁魚群', icon: 'c_sardine', zone: 0, rare: false,
+      lore: '成千上萬條銀色小魚組成的魚群，整齊得像一片會呼吸的金屬布。牠們對光線很敏感，燈暈一亮，魚群就會齊刷刷轉向。' },
+    { id: 'turtle', name: '海龜', icon: 'c_turtle', zone: 0, rare: false,
+      lore: '悠哉地划水而過的老海龜，殼上長了些藤壺，看起來已經在這片海域游了很多年。牠對潛燈號毫無興趣，連頭都懶得轉。' },
+    { id: 'sunfish', name: '翻車魚', icon: 'c_sunfish', zone: 0, rare: true,
+      lore: '體型龐大卻異常溫馴的翻車魚，喜歡側身躺在陽光灑落的水層曬「日光浴」。在透光帶遇見牠算是難得的運氣。' },
     // 暮光帶
-    { id: 'hatchet', name: '斧頭魚', icon: 'c_hatchet', zone: 1, rare: false },
-    { id: 'krill', name: '磷蝦雲', icon: 'c_krill', zone: 1, rare: false },
-    { id: 'siphon', name: '管水母', icon: 'c_siphon', zone: 1, rare: false },
-    { id: 'vampsquid', name: '吸血鬼烏賊', icon: 'c_vampsquid', zone: 1, rare: true },
+    { id: 'hatchet', name: '斧頭魚', icon: 'c_hatchet', zone: 1, rare: false,
+      lore: '扁平如刀刃的銀色身體，腹部一整排發光器對著下方，用來抵消從上方灑下的微光、避免被更深處的掠食者發現輪廓。' },
+    { id: 'krill', name: '磷蝦雲', icon: 'c_krill', zone: 1, rare: false,
+      lore: '密密麻麻的磷蝦聚成一團雲霧狀的群體，是暮光帶食物鏈最底層卻也最重要的一環。牠們微弱的生物光讓整片雲霧像會呼吸的星塵。' },
+    { id: 'siphon', name: '管水母', icon: 'c_siphon', zone: 1, rare: false,
+      lore: '看似一隻生物，其實是由無數個體組成的群落，每個個體各司其職——推進、捕食、消化，分工精密得像一台活的機器。' },
+    { id: 'vampsquid', name: '吸血鬼烏賊', icon: 'c_vampsquid', zone: 1, rare: true,
+      lore: '名字聽起來嚇人，其實個性膽小，遇到威脅只會把自己蜷成一團、露出滿佈發光器的內側斗篷，藉此嚇退對手。牠不吸血，只吃海雪。' },
     // 午夜帶
-    { id: 'angler', name: '鮟鱇魚', icon: 'c_angler', zone: 2, rare: false },
-    { id: 'gulper', name: '吞噬鰻', icon: 'c_gulper', zone: 2, rare: false },
-    { id: 'isopod', name: '大王具足蟲', icon: 'c_isopod', zone: 2, rare: false },
-    { id: 'barreleye', name: '桶眼魚', icon: 'c_barreleye', zone: 2, rare: true },
+    { id: 'angler', name: '鮟鱇魚', icon: 'c_angler', zone: 2, rare: false,
+      lore: '頭頂那根發光的釣竿其實是特化的背鰭棘，尖端的共生菌負責發光，專門引誘被光線吸引過來的小魚。潛燈號的燈暈對牠來說大概像是同行競爭對手。' },
+    { id: 'gulper', name: '吞噬鰻', icon: 'c_gulper', zone: 2, rare: false,
+      lore: '嘴巴大得不成比例，胃可以撐開吞下比自己還大的獵物——在食物稀少的午夜帶，遇到什麼都不能放過。' },
+    { id: 'isopod', name: '大王具足蟲', icon: 'c_isopod', zone: 2, rare: false,
+      lore: '長得像放大版的潮蟲，行動緩慢、外殼堅硬，靠著極低的代謝速率在幾乎沒有食物的深海撐上好幾個月不進食。' },
+    { id: 'barreleye', name: '桶眼魚', icon: 'c_barreleye', zone: 2, rare: true,
+      lore: '頭部是透明的，兩顆管狀的眼睛可以在透明頭殼裡朝上轉動，直接望穿頭頂、搜尋獵物在微光中投下的剪影。' },
     // 深淵帶
-    { id: 'dragonfish', name: '黑龍魚', icon: 'c_dragonfish', zone: 3, rare: false },
-    { id: 'seapig', name: '海豬', icon: 'c_seapig', zone: 3, rare: false },
-    { id: 'ghostshark', name: '幽靈鯊', icon: 'c_ghostshark', zone: 3, rare: false },
-    { id: 'giantsquid', name: '大王烏賊', icon: 'c_giantsquid', zone: 3, rare: true },
+    { id: 'dragonfish', name: '黑龍魚', icon: 'c_dragonfish', zone: 3, rare: false,
+      lore: '全身漆黑到幾乎能吸收所有光線，下顎一根發光的觸鬚是牠唯一的裝飾，也是誘捕獵物的餌。' },
+    { id: 'seapig', name: '海豬', icon: 'c_seapig', zone: 3, rare: false,
+      lore: '半透明、粉紅色，用一叢特化的管足在海床上緩慢爬行，靠濾食沉積在海底的有機碎屑維生，是深海清道夫。' },
+    { id: 'ghostshark', name: '幽靈鯊', icon: 'c_ghostshark', zone: 3, rare: false,
+      lore: '銀灰色的身體在燈暈邊緣一閃而過，動作安靜得幾乎沒有聲響，像海裡的傳說多於真實生物。' },
+    { id: 'giantsquid', name: '大王烏賊', icon: 'c_giantsquid', zone: 3, rare: true,
+      lore: '傳說中的深海巨怪，眼睛比人的頭還大，觸手上佈滿吸盤。目擊紀錄極其稀少，能記錄下牠，值得在艙壁上刻一筆。' },
     // 海溝幽域
-    { id: 'lanternoctopus', name: '燈塔章魚', icon: 'c_lanternoctopus', zone: 4, rare: false },
-    { id: 'glasssquid', name: '玻璃烏賊', icon: 'c_glasssquid', zone: 4, rare: false },
-    { id: 'styxeel', name: '冥河鰻', icon: 'c_styxeel', zone: 4, rare: false },
-    { id: 'ancientjelly', name: '古神水母', icon: 'c_ancientjelly', zone: 4, rare: true },
+    { id: 'lanternoctopus', name: '燈塔章魚', icon: 'c_lanternoctopus', zone: 4, rare: false,
+      lore: '八隻腕足上各自長著一顆會發光的吸盤，游動時像一整排小燈籠在黑暗中搖曳，是這片海溝裡少見的「主動發光體」。' },
+    { id: 'glasssquid', name: '玻璃烏賊', icon: 'c_glasssquid', zone: 4, rare: false,
+      lore: '身體幾乎完全透明，內臟被壓縮進一小團不透光的組織裡，藏在視線死角，讓掠食者難以鎖定牠的輪廓。' },
+    { id: 'styxeel', name: '冥河鰻', icon: 'c_styxeel', zone: 4, rare: false,
+      lore: '細長如絲帶，通體慘白無眼，靠著側線感應水流變化捕食——在這個深度，視覺早就沒有用武之地了。' },
+    { id: 'ancientjelly', name: '古神水母', icon: 'c_ancientjelly', zone: 4, rare: true,
+      lore: '巨大、緩慢、通體珍珠白，觸手垂落如同神殿的簾幕。沒有人知道牠已經在這片海溝漂浮了多久。' },
     // 無光帶
-    { id: 'voidray', name: '虛無魟', icon: 'c_voidray', zone: 5, rare: false },
-    { id: 'echoworm', name: '回聲蠕蟲', icon: 'c_echoworm', zone: 5, rare: false },
-    { id: 'starfish_abyssal', name: '深淵海星', icon: 'c_starfish_abyssal', zone: 5, rare: false },
-    { id: 'leviathan', name: '深淵巨獸', icon: 'c_leviathan', zone: 5, rare: true }
+    { id: 'voidray', name: '虛無魟', icon: 'c_voidray', zone: 5, rare: false,
+      lore: '扁平的身體幾乎與周圍的黑暗融為一體，只有游動時翼緣邊際那一絲若有似無的螢光洩露牠的存在。' },
+    { id: 'echoworm', name: '回聲蠕蟲', icon: 'c_echoworm', zone: 5, rare: false,
+      lore: '靠身體兩側規律收縮發出的微弱聲波在海床上「聽」出地形與獵物位置，在這個深度，聲音比光更可靠。' },
+    { id: 'starfish_abyssal', name: '深淵海星', icon: 'c_starfish_abyssal', zone: 5, rare: false,
+      lore: '紫色的巨大海星，一動也不動地趴在海床上，可能一年只移動幾公尺——在無光帶，耐心是最划算的生存策略。' },
+    { id: 'leviathan', name: '深淵巨獸', icon: 'c_leviathan', zone: 5, rare: true,
+      lore: '沒有人能確定牠的真實大小，因為潛燈號的燈暈從來沒能把牠整個照亮過。目擊紀錄裡，只有一雙在黑暗中反光的紅色眼睛。' }
   ];
 
   function creatureById(id) { return CREATURE_DEFS.find((c) => c.id === id); }

@@ -403,6 +403,8 @@ body.highContrast .smallBtn, body.highContrast .modalBtn, body.highContrast .qty
 /* 圖鑑星級                                                                  */
 /* ---------------------------------------------------------------------- */
 .bestiaryStars { font-size: 10px; color: #F2C14E; margin-top: 2px; }
+.bestiaryCell:not(.bestiaryUnknown) { cursor: pointer; }
+.bestiaryLore { text-align: left; margin-top: 10px; padding-top: 10px; border-top: 1px solid #1B2836; color: #B8C6D6; }
 
 /* ---------------------------------------------------------------------- */
 /* 潛航紀錄（里程碑）                                                        */

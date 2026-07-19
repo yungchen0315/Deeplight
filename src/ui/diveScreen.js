@@ -99,15 +99,15 @@
   }
 
   function tapWater(e) {
-    const amt = Econ.applyTap(saveRef);
+    const result = Econ.applyTap(saveRef);
     Audio.play('tap');
     let xPct = 45 + Math.random() * 10, yPct = 50 + Math.random() * 10;
     if (e && sceneEl && e.clientX !== undefined) {
       const rect = sceneEl.getBoundingClientRect();
       if (rect.width) { xPct = ((e.clientX - rect.left) / rect.width) * 100; yPct = ((e.clientY - rect.top) / rect.height) * 100; }
     }
-    FX.popNumber(sceneEl, xPct, yPct, '+' + U.formatNum(amt));
-    if (saveRef.tapLureProgress % D.BALANCE.TAPS_PER_LURE === 0) forceSpawnSoon();
+    FX.popNumber(sceneEl, xPct, yPct, '+' + U.formatNum(result.amount));
+    if (result.lureTriggered) forceSpawnSoon();
     if (onChangeRef) onChangeRef();
   }
 
@@ -257,5 +257,5 @@
     spawnTimeoutId = null;
   }
 
-  window.App.UI.DiveScreen = { render, tick, deactivate };
+  window.App.UI.DiveScreen = { render, tick, deactivate, forceSpawnSoon };
 })();

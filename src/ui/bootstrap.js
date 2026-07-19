@@ -57,7 +57,7 @@
       Audio.play('achievement');
       window.App.UI.Toast.toast('成就解鎖：' + a.name + (a.pearl ? '　+' + a.pearl + ' 珍珠' : ''));
     });
-    if (result.autoTapped && currentScreenId !== 'dive') { /* 自動點擊不重繪非潛航分頁，避免打斷操作 */ }
+    if (result.autoTapped && result.lureTriggered && currentScreenId === 'dive') DiveScreen.forceSpawnSoon();
     if (now - lastSaveAt >= B.AUTOSAVE_INTERVAL_MS) { Save.save(save); lastSaveAt = now; }
   }
 

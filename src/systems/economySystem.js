@@ -167,14 +167,19 @@
     return Math.max(B.CLICK_TAP_MIN, glowPerSec(save) * B.CLICK_TAP_GPS_FRACTION);
   }
 
-  /** 套用一次點擊採光（手動或自動皆呼叫此函式，UI 層另外處理音效/特效）。 */
+  /** 套用一次點擊採光（手動或自動皆呼叫此函式，UI 層另外處理音效/特效）。
+   *  回傳 lureTriggered＝這一次是否「跨越」了誘光門檻（用 floor 比較前後值，而不是
+   *  檢查目前值是否恰好整除），這樣自動採光（f9 重構）跳著推進時也不會把某次剛好落在
+   *  整數倍上的觸發時機吃掉——只看「現在的數字」在自動點擊時完全有可能永遠錯過。 */
   function applyTap(save) {
     const amt = tapReward(save);
     save.glow += amt;
     save.stats.totalGlowEarned += amt;
     save.stats.totalTaps = (save.stats.totalTaps || 0) + 1;
-    save.tapLureProgress = (save.tapLureProgress || 0) + 1;
-    return amt;
+    const before = save.tapLureProgress || 0;
+    save.tapLureProgress = before + 1;
+    const lureTriggered = Math.floor(before / B.TAPS_PER_LURE) !== Math.floor(save.tapLureProgress / B.TAPS_PER_LURE);
+    return { amount: amt, lureTriggered };
   }
 
   /** 消耗珍珠換取限時全產量倍率加護；疊加時距今上限 PEARL_BOOST_MAX_AHEAD_HOURS。 */

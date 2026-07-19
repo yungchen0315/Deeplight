@@ -23,14 +23,16 @@
 
     // 自動採光（f9 重構）：每秒發生機率 = autoTapPerSec × dt，避免另存一份小數累加器。
     let autoTapped = false;
+    let lureTriggered = false;
     const eff = Econ.computeEffects(save);
     if (eff.autoTapPerSec > 0 && Math.random() < eff.autoTapPerSec * dtSec) {
-      Econ.applyTap(save);
+      const result = Econ.applyTap(save);
       autoTapped = true;
+      lureTriggered = result.lureTriggered;
     }
 
     const newAchievements = Achievement.checkAchievements(save);
-    return { newAchievements, autoTapped };
+    return { newAchievements, autoTapped, lureTriggered };
   }
 
   window.App.Systems.GameLoop = { tick };

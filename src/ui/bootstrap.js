@@ -27,8 +27,23 @@
   let currentScreenId = 'dive';
   let lastTickAt;
   let lastSaveAt;
+  let saveFailureWarned = false;
 
   function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  /** localStorage 可能因隱私瀏覽模式／儲存空間配額用盡而寫入失敗且不拋例外——
+   *  Save.save() 遇到這種情況只會安靜回傳 false。之前完全沒有任何呼叫端檢查這個
+   *  回傳值，代表玩家可能在完全沒有警告的情況下持續遊玩、卻從未真正存檔成功，
+   *  分頁一關就整份進度消失。這裡只在第一次偵測到失敗時提示一次，避免每次自動
+   *  存檔都彈一次 toast 洗版。 */
+  function trySave() {
+    const ok = Save.save(save);
+    if (!ok && !saveFailureWarned) {
+      saveFailureWarned = true;
+      window.App.UI.Toast.toast('⚠️ 存檔失敗，目前進度可能無法保存，請確認瀏覽器儲存空間或隱私瀏覽設定');
+    }
+    return ok;
+  }
 
   function applySettings() {
     U.setNumberFormat(save.settings.numberFormat);
@@ -70,7 +85,7 @@
     }
     if ((result.autoBoughtModule || result.autoGatedZone) && currentScreenId !== 'dive') renderScreen(currentScreenId);
     Hint.checkHints(save).forEach((msg) => window.App.UI.Toast.toast(msg));
-    if (now - lastSaveAt >= B.AUTOSAVE_INTERVAL_MS) { Save.save(save); lastSaveAt = now; }
+    if (now - lastSaveAt >= B.AUTOSAVE_INTERVAL_MS) { trySave(); lastSaveAt = now; }
   }
 
   function registerServiceWorker() {
@@ -107,13 +122,13 @@
     });
 
     if (offlineReport) Modals.showOfflineReport(offlineReport);
-    if (isNewSave) Save.save(save);
+    if (isNewSave) trySave();
 
     setInterval(loopTick, B.TICK_INTERVAL_MS);
 
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
-        Save.save(save);
+        trySave();
       } else {
         const n = Date.now();
         const report = Offline.settle(save, n);
@@ -126,7 +141,7 @@
       }
     });
 
-    window.addEventListener('beforeunload', () => Save.save(save));
+    window.addEventListener('beforeunload', () => trySave());
 
     registerServiceWorker();
   }

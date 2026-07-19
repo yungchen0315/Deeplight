@@ -57,6 +57,10 @@
     });
     box.appendChild(replayBtn);
 
+    const compendiumBtn = U.el('button', 'smallBtn settingsFullBtn', '遊戲說明');
+    U.onTap(compendiumBtn, () => window.App.UI.CompendiumModal.open());
+    box.appendChild(compendiumBtn);
+
     const exportBtn = U.el('button', 'smallBtn settingsFullBtn', '匯出存檔');
     U.onTap(exportBtn, () => {
       const text = Save.exportString(save);

@@ -143,6 +143,7 @@ button { font-family: inherit; border: none; cursor: pointer; }
 .ballastRow { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
 
 .moduleRow { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid #1B2836; }
+.moduleInfoWrap { flex: 1; display: flex; align-items: center; gap: 8px; cursor: pointer; }
 .moduleInfo { flex: 1; }
 .moduleName { font-size: 13px; }
 .moduleSub { font-size: 11px; color: #7E92A8; }

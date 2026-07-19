@@ -69,12 +69,15 @@
       }
 
       const row = U.el('div', 'moduleRow');
-      row.appendChild(PR.spriteCanvasEl(def.icon, 2));
+      const infoWrap = U.el('div', 'moduleInfoWrap');
+      infoWrap.appendChild(PR.spriteCanvasEl(def.icon, 2));
       const info = U.el('div', 'moduleInfo');
       info.appendChild(U.el('div', 'moduleName', def.name + '（持有 ' + state.count + '）'));
       const unitProd = Econ.moduleUnitProd(save, eff, def.id);
       info.appendChild(U.el('div', 'moduleSub', '單體 ' + U.formatRate(unitProd) + '/s'));
-      row.appendChild(info);
+      infoWrap.appendChild(info);
+      U.onTap(infoWrap, () => window.App.UI.ModuleDetailModal.open(def));
+      row.appendChild(infoWrap);
 
       const qty = buyQty === 'max' ? Econ.maxAffordableQty(save, def.id) : buyQty;
       const cost = Econ.moduleCostForQty(save, def.id, qty || 1);

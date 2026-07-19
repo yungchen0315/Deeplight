@@ -71,6 +71,7 @@
       }
       save.samples = (save.samples || 0) + 10;
     }
+    save.stats.totalDailyClaims = (save.stats.totalDailyClaims || 0) + 1;
     return { ok: true, reward, streak: save.daily.streak };
   }
 

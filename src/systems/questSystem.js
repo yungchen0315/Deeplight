@@ -62,6 +62,7 @@
     const tpl = D.questTemplateById(tplId);
     item.claimed = true;
     save.samples = (save.samples || 0) + tpl.reward;
+    save.stats.totalQuestsCompleted = (save.stats.totalQuestsCompleted || 0) + 1;
     let bonus = 0;
     if (allClaimed(save) && !save.quests.allBonusClaimed) {
       save.quests.allBonusClaimed = true;

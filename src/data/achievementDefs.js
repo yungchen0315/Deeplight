@@ -1,6 +1,8 @@
 /* ============================================================================
- * achievementDefs.js — 12 個成就（企劃書第 7 節 + v1.1 深淵帶擴充），部分掉深海
- * 珍珠。condition(state) 由 achievementSystem 呼叫；state 是完整 SaveGame。
+ * achievementDefs.js — 29 個成就（企劃書第 7 節 + v1.1/Phase2 擴充），部分掉深海
+ * 珍珠。condition(state) 由 achievementSystem 呼叫；state 是完整 SaveGame，只在
+ * 該成就尚未解鎖時才會被呼叫（見 achievementSystem.js），所以就算條件內部呼叫
+ * Economy.computeEffects 之類稍重的函式也不會變成長期的每 tick 負擔。
  * ==========================================================================*/
 (function () {
   const ACHIEVEMENT_DEFS = [
@@ -39,7 +41,29 @@
     { id: 'golden_10', name: '幸運之網', desc: '捕捉 10 隻金燈魚', pearl: 2,
       condition: (s) => (s.stats.totalGoldenCaught || 0) >= 10 },
     { id: 'bestiary_full', name: '深海全書', desc: '深淵圖鑑集滿所有生物', pearl: 3,
-      condition: (s) => Object.keys(s.bestiary).length >= window.App.Data.CREATURE_DEFS.length }
+      condition: (s) => Object.keys(s.bestiary).length >= window.App.Data.CREATURE_DEFS.length },
+    { id: 'daily_7', name: '一週的約定', desc: '累計簽到 7 次', pearl: 1,
+      condition: (s) => (s.stats.totalDailyClaims || 0) >= 7 },
+    { id: 'daily_30', name: '風雨無阻', desc: '累計簽到 30 次', pearl: 2,
+      condition: (s) => (s.stats.totalDailyClaims || 0) >= 30 },
+    { id: 'quests_20', name: '任務達人', desc: '累計完成 20 個每日任務', pearl: 2,
+      condition: (s) => (s.stats.totalQuestsCompleted || 0) >= 20 },
+    { id: 'milestones_10', name: '潛航紀錄・上篇', desc: '領取 10 個深度里程碑', pearl: 1,
+      condition: (s) => (s.milestonesClaimed || []).length >= 10 },
+    { id: 'milestones_all', name: '潛航紀錄・全篇', desc: '領取所有深度里程碑', pearl: 3,
+      condition: (s) => (s.milestonesClaimed || []).length >= window.App.Data.MILESTONE_DEFS.length },
+    { id: 'research_all', name: '學貫深淵', desc: '完成所有研究', pearl: 2,
+      condition: (s) => s.research.length >= window.App.Data.RESEARCH_DEFS.length },
+    { id: 'refits_all', name: '全面重構', desc: '購買所有重構升級', pearl: 2,
+      condition: (s) => s.refits.length >= window.App.Data.REFIT_DEFS.length },
+    { id: 'ballast_max', name: '極限壓載', desc: '壓載升級到目前上限', pearl: 1,
+      condition: (s) => s.ballastLevel >= window.App.Systems.Economy.effectiveBallastMax(s) },
+    { id: 'gates_5', name: '破浪前行', desc: '累計通過 5 次錨點閘門', pearl: 1,
+      condition: (s) => (s.stats.totalGatesPassed || 0) >= 5 },
+    { id: 'upgrades_10', name: '精益求精', desc: '累計購買 10 次模組升級', pearl: 1,
+      condition: (s) => (s.stats.totalModuleUpgrades || 0) >= 10 },
+    { id: 'boosts_5', name: '珍珠商人', desc: '累計使用 5 次珍珠加護', pearl: 0,
+      condition: (s) => (s.stats.totalPearlBoostsUsed || 0) >= 5 }
   ];
 
   window.App.Data.ACHIEVEMENT_DEFS = ACHIEVEMENT_DEFS;

@@ -96,6 +96,10 @@
       if (save.tempBuff.kind === 'prod') eff.allProdMult *= save.tempBuff.mult;
       else if (save.tempBuff.kind === 'descent') eff.descentMult *= save.tempBuff.mult;
     }
+    // 季節活動（見 eventSystem.js）：固定日期的全螢光產量加成。
+    const Event = window.App.Systems.Event;
+    const seasonal = Event && Event.currentSeasonalEvent();
+    if (seasonal) eff.allProdMult *= seasonal.prodMult;
     // 自動化開關：已解鎖的自動化效果仍可在設定裡暫停，兩者是「有沒有」跟「要不要」
     // 的不同問題——買了自動化節點不代表玩家永遠想要它每秒都在花螢光。
     const st = save.settings || {};

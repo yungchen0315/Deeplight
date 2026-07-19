@@ -97,6 +97,9 @@
     });
     prestigePanel.appendChild(btn);
     if (!eligible) prestigePanel.appendChild(U.el('div', 'lockedHint', '需下潛至 ' + D.BALANCE.PRESTIGE_MIN_DEPTH + ' 公尺才能轉生'));
+    const calcBtn = U.el('button', 'smallBtn', '轉生試算');
+    U.onTap(calcBtn, () => window.App.UI.PrestigeCalculatorModal.open(save));
+    prestigePanel.appendChild(calcBtn);
     container.appendChild(prestigePanel);
 
     renderMilestones(container, save, onChange);

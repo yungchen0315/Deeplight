@@ -13,11 +13,14 @@
   }
 
   /** floor(sqrt(累積賺過的深淵印記 / divisor))，用「賺過的總量」而非目前持有量，
-   *  避免玩家為了刷夜輝刻意不點印記樹、囤積印記點數再締結盟約。 */
-  function previewNightshards(save) {
-    if (!save.stats || !save.stats.totalSigilPointsEarned) return 0;
-    return Math.floor(Math.pow(save.stats.totalSigilPointsEarned / B.PACT_NIGHTSHARD_DIVISOR, B.PACT_NIGHTSHARD_EXPONENT));
+   *  避免玩家為了刷夜輝刻意不點印記樹、囤積印記點數再締結盟約。抽成純函式供試算
+   *  面板對任意假設總量計算。 */
+  function nightshardsForSigilPoints(totalSigilPoints) {
+    if (!totalSigilPoints) return 0;
+    return Math.floor(Math.pow(totalSigilPoints / B.PACT_NIGHTSHARD_DIVISOR, B.PACT_NIGHTSHARD_EXPONENT));
   }
+
+  function previewNightshards(save) { return nightshardsForSigilPoints(save.stats && save.stats.totalSigilPointsEarned); }
 
   /** 依「星海羅盤・傳承」是否已點，決定每個印記樹分支保留最高階已購項目或全部清空。 */
   function resetSigils(save, eff) {
@@ -86,5 +89,5 @@
     return { ok: true };
   }
 
-  window.App.Systems.Pact = { eligible, previewNightshards, enact, buyNode };
+  window.App.Systems.Pact = { eligible, previewNightshards, nightshardsForSigilPoints, enact, buyNode };
 })();

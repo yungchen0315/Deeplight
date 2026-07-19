@@ -13,11 +13,14 @@
   }
 
   /** floor(sqrt(累積壓力核心 / divisor))：企劃書 Phase 2 公式，用「賺過的核心總量」而非
-   *  「目前持有量」計算，避免玩家為了刷印記刻意不買重構、囤積核心再協約。 */
-  function previewSigilPoints(save) {
-    if (!save.stats || !save.stats.totalCoresEarned) return 0;
-    return Math.floor(Math.pow(save.stats.totalCoresEarned / B.COVENANT_SIGIL_DIVISOR, B.COVENANT_SIGIL_EXPONENT));
+   *  「目前持有量」計算，避免玩家為了刷印記刻意不買重構、囤積核心再協約。抽成純函式
+   *  供試算面板對任意假設總量計算。 */
+  function sigilPointsForCores(totalCores) {
+    if (!totalCores) return 0;
+    return Math.floor(Math.pow(totalCores / B.COVENANT_SIGIL_DIVISOR, B.COVENANT_SIGIL_EXPONENT));
   }
+
+  function previewSigilPoints(save) { return sigilPointsForCores(save.stats && save.stats.totalCoresEarned); }
 
   function enact(save) {
     if (!eligible(save)) return { ok: false, reason: '尚未達成深淵協約門檻' };
@@ -69,5 +72,5 @@
     return { ok: true };
   }
 
-  window.App.Systems.Covenant = { eligible, previewSigilPoints, enact, buySigil };
+  window.App.Systems.Covenant = { eligible, previewSigilPoints, sigilPointsForCores, enact, buySigil };
 })();

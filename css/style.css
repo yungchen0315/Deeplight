@@ -427,3 +427,11 @@ body.highContrast .smallBtn, body.highContrast .modalBtn, body.highContrast .qty
 .eventLogRow { padding: 6px 0; border-bottom: 1px solid #1B2836; text-align: left; }
 .eventLogTime { font-size: 10px; color: #7E92A8; }
 .eventLogMessage { font-size: 12px; color: #D6E5F3; margin-top: 2px; }
+
+/* ---------------------------------------------------------------------- */
+/* 轉生試算彈窗                                                              */
+/* ---------------------------------------------------------------------- */
+.calcSectionTitle { margin-top: 10px; }
+.calcRow { display: flex; justify-content: space-between; padding: 3px 0; font-size: 12px; }
+.calcRowLabel { color: #B8C6D6; }
+.calcRowValue { color: #45E8BC; font-weight: bold; white-space: nowrap; margin-left: 10px; }

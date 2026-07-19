@@ -1,5 +1,5 @@
 /* ============================================================================
- * achievementDefs.js — 29 個成就（企劃書第 7 節 + v1.1/Phase2 擴充），部分掉深海
+ * achievementDefs.js — 30 個成就（企劃書第 7 節 + v1.1/Phase2 擴充），部分掉深海
  * 珍珠。condition(state) 由 achievementSystem 呼叫；state 是完整 SaveGame，只在
  * 該成就尚未解鎖時才會被呼叫（見 achievementSystem.js），所以就算條件內部呼叫
  * Economy.computeEffects 之類稍重的函式也不會變成長期的每 tick 負擔。
@@ -63,7 +63,9 @@
     { id: 'upgrades_10', name: '精益求精', desc: '累計購買 10 次模組升級', pearl: 1,
       condition: (s) => (s.stats.totalModuleUpgrades || 0) >= 10 },
     { id: 'boosts_5', name: '珍珠商人', desc: '累計使用 5 次珍珠加護', pearl: 0,
-      condition: (s) => (s.stats.totalPearlBoostsUsed || 0) >= 5 }
+      condition: (s) => (s.stats.totalPearlBoostsUsed || 0) >= 5 },
+    { id: 'depth_35000', name: '深海盡頭', desc: '下潛至 35000 公尺（目前版本最深處）', pearl: 4,
+      condition: (s) => s.maxDepthEver >= 35000 }
   ];
 
   window.App.Data.ACHIEVEMENT_DEFS = ACHIEVEMENT_DEFS;

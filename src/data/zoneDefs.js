@@ -11,7 +11,8 @@
     { id: 2, name: '午夜帶', minDepth: 1000, anchorDepth: 4000, mult: 10, bg: 'W3', filterHue: 0, gateCost: 200000000 },
     { id: 3, name: '深淵帶', minDepth: 4000, anchorDepth: 11000, mult: 40, bg: 'INK', filterHue: 0, gateCost: 1000000000000 },
     { id: 4, name: '海溝幽域', minDepth: 11000, anchorDepth: 20000, mult: 150, bg: 'INK', filterHue: 250, gateCost: 500000000000000 },
-    { id: 5, name: '無光帶．即將開放', minDepth: 20000, anchorDepth: 20000, mult: 150, bg: 'INK', filterHue: 250, gateCost: null, comingSoon: true }
+    { id: 5, name: '無光帶', minDepth: 20000, anchorDepth: 35000, mult: 600, bg: 'INK', filterHue: 120, gateCost: 300000000000000000 },
+    { id: 6, name: '深海平原．即將開放', minDepth: 35000, anchorDepth: 35000, mult: 600, bg: 'INK', filterHue: 120, gateCost: null, comingSoon: true }
   ];
 
   function zoneById(id) { return ZONE_DEFS.find((z) => z.id === id); }

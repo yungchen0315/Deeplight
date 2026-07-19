@@ -1,5 +1,5 @@
 /* ============================================================================
- * milestoneDefs.js — 29 個深度里程碑，構成一條跨越全部海域的「潛航紀錄」，跟
+ * milestoneDefs.js — 34 個深度里程碑，構成一條跨越全部海域的「潛航紀錄」，跟
  * 成就（給珍珠、偏向里程碑式榮譽）與每日任務（給樣本、每天重置）刻意做出區隔：
  * 里程碑只給「立即螢光」，獎勵＝領取當下每秒產量 × rewardSeconds，且必須手動
  * 領取——愈晚領（產量愈高時）愈划算，鼓勵玩家點開這個畫面看看還有什麼沒領。
@@ -35,7 +35,12 @@
     { id: 'm15000', depth: 15000, name: '無光中層', rewardSeconds: 2100 },
     { id: 'm17000', depth: 17000, name: '無光深處', rewardSeconds: 2400 },
     { id: 'm18500', depth: 18500, name: '無光邊界', rewardSeconds: 2700 },
-    { id: 'm20000', depth: 20000, name: '無光帶盡頭．目前版本最深處', rewardSeconds: 3600 }
+    { id: 'm20000', depth: 20000, name: '無光帶入口', rewardSeconds: 3600 },
+    { id: 'm23000', depth: 23000, name: '虛無深處', rewardSeconds: 4200 },
+    { id: 'm26000', depth: 26000, name: '星塵回聲', rewardSeconds: 4800 },
+    { id: 'm29000', depth: 29000, name: '無光中心', rewardSeconds: 5400 },
+    { id: 'm32000', depth: 32000, name: '深海邊界', rewardSeconds: 6000 },
+    { id: 'm35000', depth: 35000, name: '無光帶盡頭．目前版本最深處', rewardSeconds: 7200 }
   ];
 
   function milestoneById(id) { return MILESTONE_DEFS.find((m) => m.id === id); }

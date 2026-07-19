@@ -132,6 +132,17 @@
     for (let x = 2; x <= 14; x += 3) vline(g, x, 6, 5, 'BORDER');
     dots(g, [[4, 8], [8, 7], [12, 8]], 'VIOLET');
   });
+  SPRITES.mod_voidbeacon = modSprite((g) => {
+    circle(g, 8, 5, 4, 'PEARL');
+    circle(g, 8, 5, 2, 'INK');
+    vline(g, 8, 9, 6, 'BORDER');
+    dots(g, [[5, 14], [8, 15], [11, 14]], 'BORDER');
+  });
+  SPRITES.mod_starcore = modSprite((g) => {
+    circle(g, 8, 8, 5, 'INK');
+    circle(g, 8, 8, 2, 'GLOW2');
+    dots(g, [[8, 1], [1, 8], [15, 8], [8, 15], [3, 3], [13, 3], [3, 13], [13, 13]], 'PEARL');
+  });
 
   /* -------------------------------------------------------------- 生物 */
 
@@ -243,6 +254,23 @@
     ellipse(g, 8, 5, 6, 4, 'PEARL');
     for (let t = 0; t < 5; t++) vline(g, 4 + t * 2, 8, 6, 'PEARL');
     dots(g, [[8, 4], [6, 5], [10, 5]], 'VIOLET');
+  });
+  SPRITES.c_voidray = creatureSprite(24, 16, (g) => {
+    ellipse(g, 12, 8, 11, 4, 'INK');
+    for (let x = 10; x <= 20; x++) setPx(g, x, 8 + Math.round(Math.sin((x - 10) / 3) * 3), 'INK');
+    dots(g, [[6, 7], [18, 7]], 'GLOW');
+  });
+  SPRITES.c_echoworm = creatureSprite(16, 16, (g) => {
+    for (let i = 0; i < 12; i++) { const y = 4 + Math.round(Math.sin(i / 2) * 4); setPx(g, 2 + i, y, 'FOAM'); }
+    dots(g, [[2, 4]], 'RED');
+  });
+  SPRITES.c_starfish_abyssal = creatureSprite(16, 16, (g) => {
+    dots(g, [[8, 1], [8, 2], [8, 3], [3, 8], [4, 8], [5, 8], [13, 8], [12, 8], [11, 8], [8, 13], [8, 12], [8, 11], [8, 8]], 'VIOLET');
+  });
+  SPRITES.c_leviathan = creatureSprite(24, 16, (g) => {
+    ellipse(g, 12, 8, 11, 6, 'INK');
+    dots(g, [[4, 6], [20, 6]], 'RED');
+    for (let x = 3; x <= 21; x += 3) dots(g, [[x, 12]], 'GLOW2');
   });
 
   /* -------------------------------------------------------------- 介面圖示 */

@@ -1,11 +1,12 @@
 /* ============================================================================
- * researchScreen.js — 「研究」分頁：8 節研究列表（線性解鎖）+ 深淵圖鑑 4×3 網格。
+ * researchScreen.js — 「研究」分頁：研究列表（線性解鎖）+ 深淵圖鑑 4 欄網格（含星級）。
  * ==========================================================================*/
 (function () {
   const U = window.App.Utils;
   const D = window.App.Data;
   const PR = window.App.UI.PixelRenderer;
   const Research = window.App.Systems.Research;
+  const Econ = window.App.Systems.Economy;
   const Toast = window.App.UI.Toast;
   const Audio = window.App.Systems.Audio;
   const FX = window.App.UI.FX;
@@ -35,8 +36,10 @@
 
     const bestiaryPanel = U.el('div', 'panel');
     const bestiaryCount = Object.keys(save.bestiary).length;
+    let starTotal = 0;
+    Object.keys(save.bestiary).forEach((id) => { starTotal += Econ.bestiaryStarLevel(save.bestiary[id].seen || 0); });
     bestiaryPanel.appendChild(U.el('div', 'panelTitle',
-      '深淵圖鑑（' + bestiaryCount + ' / ' + D.CREATURE_DEFS.length + '）　圖鑑加成：+' + (bestiaryCount * D.BALANCE.BESTIARY_PROD_BONUS_PCT) + '%'));
+      '深淵圖鑑（' + bestiaryCount + ' / ' + D.CREATURE_DEFS.length + '）　圖鑑加成：+' + (starTotal * D.BALANCE.BESTIARY_STAR_PROD_PCT).toFixed(1) + '%'));
     const grid = U.el('div', 'bestiaryGrid');
     D.CREATURE_DEFS.forEach((def) => {
       const seen = save.bestiary[def.id];
@@ -44,7 +47,10 @@
       if (seen) {
         cell.appendChild(PR.spriteCanvasEl(def.icon, 2));
         cell.appendChild(U.el('div', 'bestiaryName', def.name + (def.rare ? ' ★' : '')));
+        const starLvl = Econ.bestiaryStarLevel(seen.seen || 0);
+        const maxStar = D.BALANCE.BESTIARY_STAR_THRESHOLDS.length;
         cell.appendChild(U.el('div', 'bestiarySeen', '目擊 ' + seen.seen + ' 次'));
+        cell.appendChild(U.el('div', 'bestiaryStars', '★'.repeat(starLvl) + '☆'.repeat(maxStar - starLvl)));
       } else {
         cell.appendChild(U.el('div', 'bestiaryUnknownMark', '?'));
       }

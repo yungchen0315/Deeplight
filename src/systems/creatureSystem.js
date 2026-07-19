@@ -11,7 +11,9 @@
   function nextSpawnDelayMs(save) {
     const eff = Econ.computeEffects(save);
     const [min, max] = B.CREATURE_SPAWN_INTERVAL_MS;
-    return U.randomInt(min, max) * eff.spawnIntervalMult;
+    const Event = window.App.Systems.Event;
+    const weekendMult = (Event && Event.isWeekend()) ? B.WEEKEND_SPAWN_INTERVAL_MULT : 1;
+    return U.randomInt(min, max) * eff.spawnIntervalMult * weekendMult;
   }
 
   /** 依目前海域與稀有機率抽一種會路過的生物。 */
@@ -27,16 +29,22 @@
   }
 
   function recordSighting(save, creatureId) {
+    const eff = Econ.computeEffects(save);
     const isFirst = !save.bestiary[creatureId];
+    let gotPearl = false;
+    if (eff.creaturePearlChance > 0 && Math.random() < eff.creaturePearlChance) {
+      save.pearls = (save.pearls || 0) + 1;
+      gotPearl = true;
+    }
     if (isFirst) {
       save.bestiary[creatureId] = { seen: 1, firstAt: Date.now() };
       save.samples = (save.samples || 0) + 1;
-      return { isFirst: true, gotSample: true };
+      return { isFirst: true, gotSample: true, gotPearl };
     }
     save.bestiary[creatureId].seen += 1;
     const gotSample = Math.random() < B.CREATURE_SAMPLE_DROP_CHANCE;
     if (gotSample) save.samples = (save.samples || 0) + 1;
-    return { isFirst: false, gotSample };
+    return { isFirst: false, gotSample, gotPearl };
   }
 
   function burstReward(save) {
@@ -51,6 +59,7 @@
     const burst = burstReward(save);
     save.glow += burst;
     save.stats.totalGlowEarned += burst;
+    save.stats.totalCreaturesCollected = (save.stats.totalCreaturesCollected || 0) + 1;
     const rec = recordSighting(save, creatureId);
     return Object.assign({ ok: true, burst, def }, rec);
   }
@@ -64,6 +73,8 @@
     const burst = burstReward(save);
     save.glow += burst;
     save.stats.totalGlowEarned += burst;
+    save.stats.totalCreaturesCollected = (save.stats.totalCreaturesCollected || 0) + 1;
+    save.stats.totalMissedClaimed = (save.stats.totalMissedClaimed || 0) + 1;
     const rec = recordSighting(save, def.id);
     return Object.assign({ ok: true, burst, def }, rec);
   }

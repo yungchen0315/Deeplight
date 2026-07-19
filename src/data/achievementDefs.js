@@ -27,7 +27,19 @@
     { id: 'modules_100', name: '百燈齊明', desc: '任一模組持有數達 100', pearl: 1,
       condition: (s) => Object.keys(s.modules).some((k) => (s.modules[k].count || 0) >= 100) },
     { id: 'taps_1000', name: '不倦之手', desc: '累計點擊水域 1000 次', pearl: 1,
-      condition: (s) => (s.stats.totalTaps || 0) >= 1000 }
+      condition: (s) => (s.stats.totalTaps || 0) >= 1000 },
+    { id: 'depth_20000', name: '無光邊界', desc: '下潛至 20000 公尺', pearl: 3,
+      condition: (s) => s.maxDepthEver >= 20000 },
+    { id: 'first_covenant', name: '深淵協約', desc: '完成第一次深淵協約', pearl: 2,
+      condition: (s) => s.covenantCount >= 1 },
+    { id: 'sigils_5', name: '印記收集者', desc: '購買 5 個深淵印記', pearl: 2,
+      condition: (s) => (s.sigils || []).length >= 5 },
+    { id: 'sigils_all', name: '協約大師', desc: '點滿深淵印記樹', pearl: 3,
+      condition: (s) => (s.sigils || []).length >= window.App.Data.SIGIL_DEFS.length },
+    { id: 'golden_10', name: '幸運之網', desc: '捕捉 10 隻金燈魚', pearl: 2,
+      condition: (s) => (s.stats.totalGoldenCaught || 0) >= 10 },
+    { id: 'bestiary_full', name: '深海全書', desc: '深淵圖鑑集滿所有生物', pearl: 3,
+      condition: (s) => Object.keys(s.bestiary).length >= window.App.Data.CREATURE_DEFS.length }
   ];
 
   window.App.Data.ACHIEVEMENT_DEFS = ACHIEVEMENT_DEFS;

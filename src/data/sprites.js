@@ -122,6 +122,16 @@
     dots(g, [[8, 9], [7, 8]], 'PEARL');
     dots(g, [[3, 13], [5, 14], [11, 14], [13, 13]], 'RED');
   });
+  SPRITES.mod_pillar = modSprite((g) => {
+    vline(g, 8, 1, 14, 'VIOLET');
+    for (let y = 1; y < 15; y += 3) dots(g, [[6, y], [10, y]], 'PEARL');
+    circle(g, 8, 1, 2, 'GLOW2');
+  });
+  SPRITES.mod_whaletemple = modSprite((g) => {
+    ellipse(g, 8, 10, 7, 4, 'HULL2');
+    for (let x = 2; x <= 14; x += 3) vline(g, x, 6, 5, 'BORDER');
+    dots(g, [[4, 8], [8, 7], [12, 8]], 'VIOLET');
+  });
 
   /* -------------------------------------------------------------- 生物 */
 
@@ -215,6 +225,25 @@
     dots(g, [[6, 5]], 'PEARL');
     for (let t = 0; t < 8; t++) vline(g, 2 + t * 1.7 | 0, 11, 12 - (t % 3), 'HULL2');
   });
+  SPRITES.c_lanternoctopus = creatureSprite(16, 16, (g) => {
+    ellipse(g, 8, 6, 5, 4, 'VIOLET');
+    for (let t = 0; t < 6; t++) vline(g, 3 + t * 2, 9, 5 + (t % 2), 'VIOLET');
+    dots(g, [[8, 3], [8, 4]], 'GLOW2');
+  });
+  SPRITES.c_glasssquid = creatureSprite(16, 16, (g) => {
+    ellipse(g, 8, 7, 4, 6, 'FOAM');
+    for (let x = 5; x <= 11; x++) for (let y = 2; y <= 12; y++) if ((x + y) % 3 === 0) setPx(g, x, y, null);
+    dots(g, [[8, 5]], 'INK');
+  });
+  SPRITES.c_styxeel = creatureSprite(24, 8, (g) => {
+    for (let i = 0; i < 22; i++) { const y = 4 + Math.round(Math.sin(i / 3.2) * 2.4); setPx(g, 1 + i, y, 'DIM'); }
+    dots(g, [[2, 2]], 'RED');
+  });
+  SPRITES.c_ancientjelly = creatureSprite(16, 16, (g) => {
+    ellipse(g, 8, 5, 6, 4, 'PEARL');
+    for (let t = 0; t < 5; t++) vline(g, 4 + t * 2, 8, 6, 'PEARL');
+    dots(g, [[8, 4], [6, 5], [10, 5]], 'VIOLET');
+  });
 
   /* -------------------------------------------------------------- 介面圖示 */
 
@@ -225,6 +254,27 @@
   });
   SPRITES.icon_boost = iconSprite((g) => {
     dots(g, [[4, 0], [3, 1], [4, 1], [2, 2], [3, 2], [4, 3], [3, 4], [2, 5], [3, 5], [4, 5], [3, 6], [2, 7]], 'AMBER');
+  });
+  SPRITES.icon_sigil_light = iconSprite((g) => {
+    circle(g, 4, 4, 3, 'AMBER');
+    dots(g, [[4, 1], [4, 7], [1, 4], [7, 4]], 'GLOW2');
+  });
+  SPRITES.icon_sigil_anchor = iconSprite((g) => {
+    hline(g, 2, 1, 4, 'BORDER'); vline(g, 4, 1, 5, 'BORDER');
+    dots(g, [[2, 5], [6, 5], [2, 6], [6, 6], [3, 6], [5, 6]], 'BLUE');
+  });
+  SPRITES.icon_sigil_tide = iconSprite((g) => {
+    for (let x = 0; x < 8; x++) { const y = 4 + Math.round(Math.sin(x / 1.3) * 2); setPx(g, x, y, 'FOAM'); }
+  });
+
+  /* -------------------------------------------------------------- 金燈魚 */
+
+  SPRITES.c_golden = creatureSprite(16, 16, (g) => {
+    ellipse(g, 8, 9, 6, 5, 'HULL');
+    dots(g, [[4, 12], [6, 13], [10, 13]], 'AMBER');
+    vline(g, 11, 4, 5, 'HULL');
+    dots(g, [[12, 3]], 'GLOW2');
+    dots(g, [[6, 8], [10, 8]], 'INK');
   });
 
   window.App.Data.SPRITES = SPRITES;

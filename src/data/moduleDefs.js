@@ -11,7 +11,9 @@
     { id: 'vent', name: '熱泉導管', icon: 'mod_vent', baseCost: 130000, baseProd: 260, unlockDepth: 700 },
     { id: 'whalefall', name: '鯨落生態圈', icon: 'mod_whalefall', baseCost: 1400000, baseProd: 1400, unlockDepth: 1200 },
     { id: 'lure', name: '深淵燈籠陣', icon: 'mod_lure', baseCost: 16000000, baseProd: 8000, unlockDepth: 3000 },
-    { id: 'reactor', name: '熱液反應爐', icon: 'mod_reactor', baseCost: 180000000, baseProd: 45000, unlockDepth: 5000 }
+    { id: 'reactor', name: '熱液反應爐', icon: 'mod_reactor', baseCost: 180000000, baseProd: 45000, unlockDepth: 5000 },
+    { id: 'pillar', name: '虛淵光柱', icon: 'mod_pillar', baseCost: 2000000000, baseProd: 500000, unlockDepth: 9000 },
+    { id: 'whaletemple', name: '古鯨聖殿', icon: 'mod_whaletemple', baseCost: 24000000000, baseProd: 2800000, unlockDepth: 14000 }
   ];
 
   function moduleById(id) { return MODULE_DEFS.find((m) => m.id === id); }

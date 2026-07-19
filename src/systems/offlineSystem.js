@@ -19,7 +19,7 @@
     if (elapsedSec < B.OFFLINE_MIN_SECONDS) { save.lastActiveAt = now; return null; }
 
     const eff = Econ.computeEffects(save);
-    const absCapSec = B.OFFLINE_ABSOLUTE_CAP_HOURS * 3600;
+    const absCapSec = eff.offlineCapHours * 3600;
     const cappedSec = Math.min(elapsedSec, absCapSec);
     const fullSec = eff.offlineFullHours * 3600;
     const halfSec = eff.offlineHalfHours * 3600;
@@ -38,7 +38,8 @@
     Descent.advance(save, Math.max(0, elapsedSec));
     const depthGained = save.depth - depthBefore;
 
-    const room = B.CREATURE_MISSED_QUEUE_CAP - save.pendingCreatures;
+    const cap = B.CREATURE_MISSED_QUEUE_CAP + eff.pendingCapAdd;
+    const room = cap - save.pendingCreatures;
     const missedCount = Math.max(0, Math.min(room, Math.floor((cappedSec * 1000) / B.CREATURE_MISSED_INTERVAL_MS)));
     save.pendingCreatures += missedCount;
 

@@ -19,9 +19,11 @@
     const ballastPanel = U.el('div', 'panel');
     ballastPanel.appendChild(U.el('div', 'panelTitle', '壓載系統'));
     const rate = Econ.descentRate(save);
+    const effForBallast = Econ.computeEffects(save);
+    const ballastMax = Econ.effectiveBallastMax(save, effForBallast);
     const row = U.el('div', 'ballastRow');
-    row.appendChild(U.el('span', '', '下潛速度：' + rate.toFixed(1) + ' m/min（Lv.' + save.ballastLevel + '/' + D.BALANCE.BALLAST_MAX_LEVEL + '）'));
-    const ballastCost = Econ.ballastCost(save);
+    row.appendChild(U.el('span', '', '下潛速度：' + rate.toFixed(1) + ' m/min（Lv.' + save.ballastLevel + '/' + ballastMax + '）'));
+    const ballastCost = Econ.ballastCost(save, effForBallast);
     if (ballastCost !== null) {
       const btn = U.el('button', 'smallBtn' + (save.glow < ballastCost ? ' disabled' : ''), '升級 · ' + U.formatNum(ballastCost));
       U.onTap(btn, () => {
@@ -76,7 +78,7 @@
       row.appendChild(buyBtn);
       listPanel.appendChild(row);
 
-      const upgradeInfo = Econ.moduleUpgradeInfo(save, def.id);
+      const upgradeInfo = Econ.moduleUpgradeInfo(save, def.id, eff);
       if (upgradeInfo && upgradeInfo.unlocked) {
         const upRow = U.el('div', 'moduleUpgradeRow');
         upRow.appendChild(U.el('span', '', '升級 ×2 產量（' + (upgradeInfo.tier + 1) + '/' + D.BALANCE.MODULE_UPGRADE_THRESHOLDS.length + '）'));

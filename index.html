@@ -27,6 +27,7 @@
   <section id="screenModules" class="screen"></section>
   <section id="screenResearch" class="screen"></section>
   <section id="screenSurface" class="screen"></section>
+  <section id="screenCovenant" class="screen"></section>
 </div>
 
 <nav id="bottomNav">
@@ -34,6 +35,7 @@
   <button class="navBtn" data-screen="modules">模組</button>
   <button class="navBtn" data-screen="research">研究</button>
   <button class="navBtn" data-screen="surface">海面</button>
+  <button class="navBtn" data-screen="covenant">協約</button>
 </nav>
 
 <div id="toastBox"></div>
@@ -51,8 +53,11 @@
 <script src="src/data/moduleDefs.js"></script>
 <script src="src/data/researchDefs.js"></script>
 <script src="src/data/refitDefs.js"></script>
+<script src="src/data/sigilDefs.js"></script>
 <script src="src/data/creatureDefs.js"></script>
 <script src="src/data/achievementDefs.js"></script>
+<script src="src/data/questDefs.js"></script>
+<script src="src/data/goldenBuffDefs.js"></script>
 
 <script src="src/models/SaveGame.js"></script>
 
@@ -62,10 +67,15 @@
 <script src="src/systems/creatureSystem.js"></script>
 <script src="src/systems/researchSystem.js"></script>
 <script src="src/systems/prestigeSystem.js"></script>
+<script src="src/systems/covenantSystem.js"></script>
+<script src="src/systems/hintSystem.js"></script>
 <script src="src/systems/offlineSystem.js"></script>
 <script src="src/systems/achievementSystem.js"></script>
 <script src="src/systems/audioSystem.js"></script>
 <script src="src/systems/dailySystem.js"></script>
+<script src="src/systems/questSystem.js"></script>
+<script src="src/systems/eventSystem.js"></script>
+<script src="src/systems/goldenCreatureSystem.js"></script>
 <script src="src/systems/gameLoopSystem.js"></script>
 
 <script src="src/ui/pixelRenderer.js"></script>
@@ -79,6 +89,7 @@
 <script src="src/ui/modulesScreen.js"></script>
 <script src="src/ui/researchScreen.js"></script>
 <script src="src/ui/surfaceScreen.js"></script>
+<script src="src/ui/covenantScreen.js"></script>
 <script src="src/ui/bootstrap.js"></script>
 
 </body>

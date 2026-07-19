@@ -23,7 +23,12 @@
     { id: 'dragonfish', name: '黑龍魚', icon: 'c_dragonfish', zone: 3, rare: false },
     { id: 'seapig', name: '海豬', icon: 'c_seapig', zone: 3, rare: false },
     { id: 'ghostshark', name: '幽靈鯊', icon: 'c_ghostshark', zone: 3, rare: false },
-    { id: 'giantsquid', name: '大王烏賊', icon: 'c_giantsquid', zone: 3, rare: true }
+    { id: 'giantsquid', name: '大王烏賊', icon: 'c_giantsquid', zone: 3, rare: true },
+    // 海溝幽域
+    { id: 'lanternoctopus', name: '燈塔章魚', icon: 'c_lanternoctopus', zone: 4, rare: false },
+    { id: 'glasssquid', name: '玻璃烏賊', icon: 'c_glasssquid', zone: 4, rare: false },
+    { id: 'styxeel', name: '冥河鰻', icon: 'c_styxeel', zone: 4, rare: false },
+    { id: 'ancientjelly', name: '古神水母', icon: 'c_ancientjelly', zone: 4, rare: true }
   ];
 
   function creatureById(id) { return CREATURE_DEFS.find((c) => c.id === id); }

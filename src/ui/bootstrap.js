@@ -7,6 +7,8 @@
   const Models = window.App.Models;
   const GameLoop = window.App.Systems.GameLoop;
   const Offline = window.App.Systems.Offline;
+  const Quest = window.App.Systems.Quest;
+  const Hint = window.App.Systems.Hint;
   const Audio = window.App.Systems.Audio;
   const FX = window.App.UI.FX;
   const U = window.App.Utils;
@@ -18,6 +20,7 @@
   const ModulesScreen = window.App.UI.ModulesScreen;
   const ResearchScreen = window.App.UI.ResearchScreen;
   const SurfaceScreen = window.App.UI.SurfaceScreen;
+  const CovenantScreen = window.App.UI.CovenantScreen;
   const B = window.App.Data.BALANCE;
 
   let save;
@@ -43,6 +46,7 @@
       if (screenId === 'modules') ModulesScreen.render(container, save, onChange);
       else if (screenId === 'research') ResearchScreen.render(container, save, onChange);
       else if (screenId === 'surface') SurfaceScreen.render(container, save, onChange);
+      else if (screenId === 'covenant') CovenantScreen.render(container, save, onChange);
     }
   }
 
@@ -50,6 +54,7 @@
     const now = Date.now();
     const dtMs = now - lastTickAt;
     lastTickAt = now;
+    Quest.ensureToday(save, now);
     const result = GameLoop.tick(save, dtMs);
     TopBar.refresh(save);
     if (currentScreenId === 'dive') DiveScreen.tick(save);
@@ -58,6 +63,12 @@
       window.App.UI.Toast.toast('成就解鎖：' + a.name + (a.pearl ? '　+' + a.pearl + ' 珍珠' : ''));
     });
     if (result.autoTapped && result.lureTriggered && currentScreenId === 'dive') DiveScreen.forceSpawnSoon();
+    if (result.autoGatedZone) {
+      Audio.play('gate');
+      window.App.UI.Toast.toast('自動通過閘門，進入「' + result.autoGatedZone.name + '」');
+    }
+    if ((result.autoBoughtModule || result.autoGatedZone) && currentScreenId !== 'dive') renderScreen(currentScreenId);
+    Hint.checkHints(save).forEach((msg) => window.App.UI.Toast.toast(msg));
     if (now - lastSaveAt >= B.AUTOSAVE_INTERVAL_MS) { Save.save(save); lastSaveAt = now; }
   }
 
@@ -81,6 +92,7 @@
     lastSaveAt = now;
 
     applySettings();
+    Quest.ensureToday(save, now);
 
     renderScreen(currentScreenId);
     TopBar.refresh(save);

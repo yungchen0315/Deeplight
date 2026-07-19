@@ -82,6 +82,12 @@
     // 自動化重構（深淵協約印記樹解鎖）。
     AUTO_COLLECT_DELAY_MS: 3000,
 
+    // 永夜盟約（第三層轉生）：解鎖門檻、夜輝換算公式。
+    PACT_MIN_COVENANT_COUNT: 3,
+    PACT_MIN_DEPTH: 35000,
+    PACT_NIGHTSHARD_DIVISOR: 50,
+    PACT_NIGHTSHARD_EXPONENT: 0.5, // floor(sqrt(累積賺過的深淵印記 / divisor))
+
     AUTOSAVE_INTERVAL_MS: 10000,
     TICK_INTERVAL_MS: 250
   };

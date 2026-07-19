@@ -17,9 +17,12 @@
  * @property {number} ballastLevel 壓載等級，轉生重置。
  * @property {string[]} research 已完成研究 id（RESEARCH_DEFS），轉生重置。
  * @property {string[]} refits 已購重構 id（REFIT_DEFS），深淵協約重置（一般轉生不重置）。
- * @property {string[]} sigils 已購深淵印記 id（SIGIL_DEFS），永久保留、協約不重置。
- * @property {number} sigilPoints 深淵印記（第二層轉生貨幣，用來買 sigils 樹），永久保留。
+ * @property {string[]} sigils 已購深淵印記 id（SIGIL_DEFS），永久保留、協約不重置，盟約重置。
+ * @property {number} sigilPoints 深淵印記（第二層轉生貨幣，用來買 sigils 樹），永久保留、盟約重置。
  * @property {number} covenantCount 已完成深淵協約（第二層轉生）次數，永久保留。
+ * @property {string[]} nightPactNodes 已購永夜盟約印記 id（PACT_DEFS），永久保留、不受任何轉生重置。
+ * @property {number} nightshards 夜輝（第三層轉生貨幣，用來買盟約樹），永久保留。
+ * @property {number} pactCount 已完成永夜盟約（第三層轉生）次數，永久保留。
  * @property {Object<string,{seen:number, firstAt:number}>} bestiary 以 CreatureDef.id 為 key，永久保留。
  * @property {number} pendingCreatures 離線期間累積、尚未點擊領取的「錯過的生物」數量。
  * @property {string[]} achievements 已解鎖成就 id，永久保留。
@@ -57,6 +60,9 @@
       sigils: [],
       sigilPoints: 0,
       covenantCount: 0,
+      nightPactNodes: [],
+      nightshards: 0,
+      pactCount: 0,
       bestiary: {},
       pendingCreatures: 0,
       achievements: [],
@@ -84,7 +90,8 @@
         totalGoldenCaught: 0,
         totalDailyClaims: 0,
         totalQuestsCompleted: 0,
-        totalBallastUpgrades: 0
+        totalBallastUpgrades: 0,
+        totalSigilPointsEarned: 0
       },
       settings: { sound: true, ambient: true, sfxVolume: 70, ambientVolume: 40, reducedMotion: false, highContrast: false, numberFormat: 'zh' }
     };

@@ -23,6 +23,7 @@ const PRECACHE_URLS = [
   'src/data/researchDefs.js',
   'src/data/refitDefs.js',
   'src/data/sigilDefs.js',
+  'src/data/pactDefs.js',
   'src/data/creatureDefs.js',
   'src/data/achievementDefs.js',
   'src/data/milestoneDefs.js',
@@ -37,6 +38,7 @@ const PRECACHE_URLS = [
   'src/systems/researchSystem.js',
   'src/systems/prestigeSystem.js',
   'src/systems/covenantSystem.js',
+  'src/systems/pactSystem.js',
   'src/systems/hintSystem.js',
   'src/systems/offlineSystem.js',
   'src/systems/achievementSystem.js',
@@ -61,6 +63,7 @@ const PRECACHE_URLS = [
   'src/ui/shareCard.js',
   'src/ui/surfaceScreen.js',
   'src/ui/covenantScreen.js',
+  'src/ui/pactScreen.js',
   'src/ui/bootstrap.js'
 ];
 

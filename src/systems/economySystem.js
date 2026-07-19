@@ -41,7 +41,10 @@
       autoResearchIds: [],
       autoBuyCheapest: false,
       autoGate: false,
-      autoCollect: false
+      autoCollect: false,
+      keepTopSigilOnReset: false,
+      autoClaimQuests: false,
+      autoSpeedMult: 1
     };
     function apply(e) {
       if (!e) return;
@@ -71,12 +74,16 @@
         case 'autoBuyCheapest': eff.autoBuyCheapest = true; break;
         case 'autoGate': eff.autoGate = true; break;
         case 'autoCollect': eff.autoCollect = true; break;
+        case 'keepTopSigilOnReset': eff.keepTopSigilOnReset = true; break;
+        case 'autoClaimQuests': eff.autoClaimQuests = true; break;
+        case 'autoSpeedMult': eff.autoSpeedMult *= e.value; break;
         default: break;
       }
     }
     (save.research || []).forEach((id) => { const r = D.researchById(id); if (r) apply(r.effect); });
     (save.refits || []).forEach((id) => { const f = D.refitById(id); if (f) apply(f.effect); });
     (save.sigils || []).forEach((id) => { const s = D.sigilById(id); if (s) apply(s.effect); });
+    (save.nightPactNodes || []).forEach((id) => { const p = D.pactById(id); if (p) apply(p.effect); });
     eff.allProdMult *= 1 + (save.cores || 0) * eff.corePct / 100;
     // 深淵圖鑑星級產量加成：每星 +0.5%，永久保留、跨轉生（含深淵協約）不重置。
     let starTotal = 0;

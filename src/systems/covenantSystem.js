@@ -24,6 +24,7 @@
     const gained = previewSigilPoints(save);
 
     save.sigilPoints = (save.sigilPoints || 0) + gained;
+    save.stats.totalSigilPointsEarned = (save.stats.totalSigilPointsEarned || 0) + gained;
     save.covenantCount += 1;
 
     // 本輪＋轉生層進度全部歸零（同一般轉生），額外再清空核心與重構。

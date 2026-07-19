@@ -9,6 +9,8 @@
 
   function readStat(save, path) {
     if (path === 'depth') return save.depth || 0;
+    if (path === 'milestonesClaimed') return (save.milestonesClaimed || []).length;
+    if (path === 'sigils') return (save.sigils || []).length;
     const key = path.split('.')[1];
     return (save.stats && save.stats[key]) || 0;
   }

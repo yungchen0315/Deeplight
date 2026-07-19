@@ -214,6 +214,7 @@
     if (save.glow < cost) return { ok: false, reason: '螢光不足' };
     save.glow -= cost;
     save.ballastLevel += 1;
+    save.stats.totalBallastUpgrades = (save.stats.totalBallastUpgrades || 0) + 1;
     return { ok: true };
   }
 

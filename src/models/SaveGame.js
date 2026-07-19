@@ -83,7 +83,8 @@
         totalGatesPassed: 0,
         totalGoldenCaught: 0,
         totalDailyClaims: 0,
-        totalQuestsCompleted: 0
+        totalQuestsCompleted: 0,
+        totalBallastUpgrades: 0
       },
       settings: { sound: true, ambient: true, sfxVolume: 70, ambientVolume: 40, reducedMotion: false, highContrast: false, numberFormat: 'zh' }
     };

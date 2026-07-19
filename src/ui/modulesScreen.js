@@ -46,6 +46,16 @@
       U.onTap(b, () => { buyQty = q; render(container, save, onChange); });
       qtyToggle.appendChild(b);
     });
+    const buyAllBtn = U.el('button', 'qtyBtn', '一鍵買滿');
+    U.onTap(buyAllBtn, () => {
+      const r = Econ.buyAllAffordable(save);
+      if (r.ok) {
+        Audio.play('buy'); FX.popButton(buyAllBtn);
+        Toast.toast('買了 ' + r.totalQty + ' 個模組，花費 ' + U.formatNum(r.totalCost) + ' 螢光');
+        onChange();
+      } else { Audio.play('error'); Toast.toast(r.reason); }
+    });
+    qtyToggle.appendChild(buyAllBtn);
     titleRow.appendChild(qtyToggle);
     listPanel.appendChild(titleRow);
 

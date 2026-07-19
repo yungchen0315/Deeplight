@@ -389,3 +389,8 @@ button { font-family: inherit; border: none; cursor: pointer; }
 /* 圖鑑星級                                                                  */
 /* ---------------------------------------------------------------------- */
 .bestiaryStars { font-size: 10px; color: #F2C14E; margin-top: 2px; }
+
+/* ---------------------------------------------------------------------- */
+/* 潛航紀錄（里程碑）                                                        */
+/* ---------------------------------------------------------------------- */
+.milestoneList { max-height: 240px; overflow-y: auto; margin-top: 6px; }

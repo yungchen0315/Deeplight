@@ -23,6 +23,7 @@
  * @property {Object<string,{seen:number, firstAt:number}>} bestiary 以 CreatureDef.id 為 key，永久保留。
  * @property {number} pendingCreatures 離線期間累積、尚未點擊領取的「錯過的生物」數量。
  * @property {string[]} achievements 已解鎖成就 id，永久保留。
+ * @property {string[]} milestonesClaimed 已領取深度里程碑 id（MILESTONE_DEFS），永久保留。
  * @property {number} prestigeCount 已轉生次數，永久保留。
  * @property {number} tapLureProgress 累積點擊次數（誘光進度條），轉生不重置。
  * @property {number} boostUntil 珍珠加護到期時戳（ms），永久保留欄位、隨時間自然過期。
@@ -58,6 +59,7 @@
       bestiary: {},
       pendingCreatures: 0,
       achievements: [],
+      milestonesClaimed: [],
       prestigeCount: 0,
       tapLureProgress: 0,
       boostUntil: 0,

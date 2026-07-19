@@ -169,6 +169,25 @@
     return { ok: true, qty, cost };
   }
 
+  /** 便利功能：依序（照 MODULE_DEFS 順序，天生由便宜到貴）對每個已解鎖模組買 xMax，
+   *  買到沒得買為止。回傳實際花費與購買的模組數，方便 UI 顯示一則總結 toast。 */
+  function buyAllAffordable(save) {
+    let totalQty = 0;
+    let totalCost = 0;
+    let touchedAny = false;
+    D.MODULE_DEFS.forEach((def) => {
+      const state = save.modules[def.id];
+      const locked = save.depth < def.unlockDepth && (!state || state.count === 0);
+      if (locked) return;
+      const qty = maxAffordableQty(save, def.id);
+      if (qty <= 0) return;
+      const r = buyModule(save, def.id, qty);
+      if (r.ok) { totalQty += r.qty; totalCost += r.cost; touchedAny = true; }
+    });
+    if (!touchedAny) return { ok: false, reason: '沒有買得起的模組' };
+    return { ok: true, totalQty, totalCost };
+  }
+
   function buyModuleUpgrade(save, moduleId) {
     const info = moduleUpgradeInfo(save, moduleId);
     if (!info || !info.unlocked) return { ok: false, reason: '尚未解鎖此升級' };
@@ -249,7 +268,7 @@
 
   window.App.Systems.Economy = {
     computeEffects, moduleUnitProd, glowPerSec, moduleCost, moduleCostForQty, maxAffordableQty, moduleUpgradeInfo,
-    buyModule, buyModuleUpgrade, ballastCost, buyBallast, descentRate, effectiveBallastMax, bestiaryStarLevel,
+    buyModule, buyAllAffordable, buyModuleUpgrade, ballastCost, buyBallast, descentRate, effectiveBallastMax, bestiaryStarLevel,
     tapReward, applyTap, buyPearlBoost, buyPearlInstant
   };
 })();

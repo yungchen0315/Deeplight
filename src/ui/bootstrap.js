@@ -1,13 +1,17 @@
 /* ============================================================================
  * bootstrap.js — 進入點：讀檔／建立新存檔、離線結算、掛上畫面與導覽、
- * 啟動主迴圈（實測 dt tick + 定期自動存檔）。必須最後載入。
+ * 啟動主迴圈（實測 dt tick + 定期自動存檔）、註冊 Service Worker。必須最後載入。
  * ==========================================================================*/
 (function () {
   const Save = window.App.Systems.Save;
   const Models = window.App.Models;
   const GameLoop = window.App.Systems.GameLoop;
   const Offline = window.App.Systems.Offline;
+  const Audio = window.App.Systems.Audio;
+  const FX = window.App.UI.FX;
+  const U = window.App.Utils;
   const Modals = window.App.UI.Modals;
+  const SettingsModal = window.App.UI.SettingsModal;
   const TopBar = window.App.UI.TopBar;
   const BottomNav = window.App.UI.BottomNav;
   const DiveScreen = window.App.UI.DiveScreen;
@@ -23,13 +27,19 @@
 
   function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
+  function applySettings() {
+    U.setNumberFormat(save.settings.numberFormat);
+    FX.syncSettings(save);
+    Audio.syncSettings(save);
+  }
+
   function renderScreen(screenId) {
     const container = document.getElementById('screen' + capitalize(screenId));
     if (!container) return;
     if (screenId === 'dive') {
-      DiveScreen.render(container, save, () => TopBar.refresh(save));
+      DiveScreen.render(container, save, () => { TopBar.refresh(save); BottomNav.refreshBadges(save); });
     } else {
-      const onChange = () => { TopBar.refresh(save); renderScreen(screenId); };
+      const onChange = () => { TopBar.refresh(save); BottomNav.refreshBadges(save); renderScreen(screenId); };
       if (screenId === 'modules') ModulesScreen.render(container, save, onChange);
       else if (screenId === 'research') ResearchScreen.render(container, save, onChange);
       else if (screenId === 'surface') SurfaceScreen.render(container, save, onChange);
@@ -43,24 +53,39 @@
     const result = GameLoop.tick(save, dtMs);
     TopBar.refresh(save);
     if (currentScreenId === 'dive') DiveScreen.tick(save);
-    result.newAchievements.forEach((a) => window.App.UI.Toast.toast('成就解鎖：' + a.name + (a.pearl ? '　+' + a.pearl + ' 珍珠' : '')));
+    result.newAchievements.forEach((a) => {
+      Audio.play('achievement');
+      window.App.UI.Toast.toast('成就解鎖：' + a.name + (a.pearl ? '　+' + a.pearl + ' 珍珠' : ''));
+    });
+    if (result.autoTapped && currentScreenId !== 'dive') { /* 自動點擊不重繪非潛航分頁，避免打斷操作 */ }
     if (now - lastSaveAt >= B.AUTOSAVE_INTERVAL_MS) { Save.save(save); lastSaveAt = now; }
+  }
+
+  function registerServiceWorker() {
+    if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
+    navigator.serviceWorker.register('sw.js').catch(() => { /* 離線優先，註冊失敗不影響遊戲本體 */ });
   }
 
   function init() {
     const now = Date.now();
     save = Save.load();
     let offlineReport = null;
+    let isNewSave = false;
     if (!save) {
       save = Models.createDefaultSave(now);
+      isNewSave = true;
     } else {
       offlineReport = Offline.settle(save, now);
     }
     lastTickAt = now;
     lastSaveAt = now;
 
+    applySettings();
+
     renderScreen(currentScreenId);
     TopBar.refresh(save);
+    TopBar.ensureGearButton(() => SettingsModal.open(save, () => { applySettings(); TopBar.refresh(save); renderScreen(currentScreenId); }));
+    BottomNav.refreshBadges(save);
 
     BottomNav.bindNav((screenId) => {
       if (currentScreenId === 'dive' && screenId !== 'dive') DiveScreen.deactivate();
@@ -69,6 +94,7 @@
     });
 
     if (offlineReport) Modals.showOfflineReport(offlineReport);
+    if (isNewSave) Save.save(save);
 
     setInterval(loopTick, B.TICK_INTERVAL_MS);
 
@@ -83,10 +109,13 @@
           Modals.showOfflineReport(report);
           renderScreen(currentScreenId);
         }
+        BottomNav.refreshBadges(save);
       }
     });
 
     window.addEventListener('beforeunload', () => Save.save(save));
+
+    registerServiceWorker();
   }
 
   document.addEventListener('DOMContentLoaded', init);

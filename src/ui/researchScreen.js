@@ -7,6 +7,8 @@
   const PR = window.App.UI.PixelRenderer;
   const Research = window.App.Systems.Research;
   const Toast = window.App.UI.Toast;
+  const Audio = window.App.Systems.Audio;
+  const FX = window.App.UI.FX;
 
   function render(container, save, onChange) {
     U.clearNode(container);
@@ -23,7 +25,7 @@
         const btn = U.el('button', 'smallBtn' + (check.ok ? '' : ' disabled'), def.cost + ' SP');
         U.onTap(btn, () => {
           const r = Research.buy(save, def.id);
-          if (r.ok) onChange(); else Toast.toast(r.reason);
+          if (r.ok) { Audio.play('upgrade'); FX.popButton(btn); onChange(); } else { Audio.play('error'); Toast.toast(r.reason); }
         });
         row.appendChild(btn);
       }

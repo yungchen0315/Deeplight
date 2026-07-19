@@ -1,0 +1,16 @@
+{
+  "name": "潛燈 DEEPLIGHT",
+  "short_name": "潛燈",
+  "lang": "zh-Hant",
+  "description": "深海放置掛機遊戲——你是深海觀測站的站長，唯一的目標是不斷往下潛。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#050810",
+  "theme_color": "#050810",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icons/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

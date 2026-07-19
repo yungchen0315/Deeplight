@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>潛燈 DEEPLIGHT</title>
+  <rect width="512" height="512" fill="#050810"/>
+  <circle cx="256" cy="300" r="200" fill="none" stroke="#45E8BC" stroke-width="6" opacity="0.10"/>
+  <circle cx="256" cy="300" r="152" fill="none" stroke="#45E8BC" stroke-width="6" opacity="0.16"/>
+  <circle cx="256" cy="300" r="104" fill="none" stroke="#45E8BC" stroke-width="7" opacity="0.28"/>
+
+  <!-- 潛燈號船身：像素風膠囊船身，沿用 src/data/sprites.js 的色鍵配色。 -->
+  <g shape-rendering="crispEdges">
+    <rect x="176" y="150" width="10" height="80" fill="#33455C"/>
+    <rect x="106" y="230" width="300" height="128" fill="#F2C14E"/>
+    <rect x="130" y="204" width="252" height="26" fill="#F2C14E"/>
+    <rect x="154" y="180" width="204" height="24" fill="#F2C14E"/>
+    <rect x="106" y="278" width="300" height="64" fill="#8C5E2A"/>
+    <rect x="192" y="252" width="128" height="106" fill="#B8FFE9" opacity="0.9"/>
+    <rect x="212" y="272" width="88" height="66" fill="#45E8BC"/>
+    <rect x="192" y="384" width="128" height="80" fill="#8C5E2A"/>
+    <rect x="212" y="404" width="88" height="42" fill="#45E8BC"/>
+  </g>
+</svg>

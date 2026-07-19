@@ -1,6 +1,6 @@
 /* ============================================================================
- * moduleDefs.js — 6 種發光模組（企劃書第 4b 節）。cost(n) 與升級節點的計算
- * 交給 armySystem 等價的 economySystem，這裡只放靜態資料。
+ * moduleDefs.js — 8 種發光模組（企劃書第 4b 節 + v1.1 深淵帶擴充）。cost(n) 與
+ * 升級節點的計算交給 economySystem，這裡只放靜態資料。
  * ==========================================================================*/
 (function () {
   const MODULE_DEFS = [
@@ -9,7 +9,9 @@
     { id: 'buoy', name: '迴聲浮標', icon: 'mod_buoy', baseCost: 1100, baseProd: 8, unlockDepth: 100 },
     { id: 'coral', name: '螢光珊瑚架', icon: 'mod_coral', baseCost: 12000, baseProd: 47, unlockDepth: 250 },
     { id: 'vent', name: '熱泉導管', icon: 'mod_vent', baseCost: 130000, baseProd: 260, unlockDepth: 700 },
-    { id: 'whalefall', name: '鯨落生態圈', icon: 'mod_whalefall', baseCost: 1400000, baseProd: 1400, unlockDepth: 1200 }
+    { id: 'whalefall', name: '鯨落生態圈', icon: 'mod_whalefall', baseCost: 1400000, baseProd: 1400, unlockDepth: 1200 },
+    { id: 'lure', name: '深淵燈籠陣', icon: 'mod_lure', baseCost: 16000000, baseProd: 8000, unlockDepth: 3000 },
+    { id: 'reactor', name: '熱液反應爐', icon: 'mod_reactor', baseCost: 180000000, baseProd: 45000, unlockDepth: 5000 }
   ];
 
   function moduleById(id) { return MODULE_DEFS.find((m) => m.id === id); }

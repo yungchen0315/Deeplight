@@ -1,6 +1,7 @@
 /* ============================================================================
- * researchDefs.js — 8 節研究（企劃書第 4d 節），花樣本（SP）購買，轉生時重置。
- * effect 是給 researchSystem/economySystem 讀的通用格式，跟 refitDefs.js 共用。
+ * researchDefs.js — 12 節研究（企劃書第 4d 節 + v1.1 深淵帶擴充），花樣本（SP）
+ * 購買，轉生時重置。effect 是給 researchSystem/economySystem 讀的通用格式，跟
+ * refitDefs.js 共用。
  * ==========================================================================*/
 (function () {
   const RESEARCH_DEFS = [
@@ -11,7 +12,11 @@
     { id: 'r5', name: '壓載優化', cost: 14, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 } },
     { id: 'r6', name: '休眠模式', cost: 18, desc: '離線全速時窗 8h → 12h', effect: { type: 'offlineFullHours', value: 12 } },
     { id: 'r7', name: '苔壁增生', cost: 24, desc: '光苔板與珊瑚架產量 x2', effect: { type: 'moduleMultMany', modules: ['moss', 'coral'], value: 2 } },
-    { id: 'r8', name: '深壓透鏡', cost: 30, desc: '全螢光產量 +50%', effect: { type: 'allProdMult', value: 1.5 } }
+    { id: 'r8', name: '深壓透鏡', cost: 30, desc: '全螢光產量 +50%', effect: { type: 'allProdMult', value: 1.5 } },
+    { id: 'r9', name: '深淵適壓', cost: 40, desc: '全螢光產量 +75%', effect: { type: 'allProdMult', value: 1.75 } },
+    { id: 'r10', name: '鈦合金壓載', cost: 50, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 } },
+    { id: 'r11', name: '深淵誘光', cost: 65, desc: '生物爆發獎勵時長 30s → 60s', effect: { type: 'burstSeconds', value: 60 } },
+    { id: 'r12', name: '螢光共振', cost: 80, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 } }
   ];
 
   function researchById(id) { return RESEARCH_DEFS.find((r) => r.id === id); }

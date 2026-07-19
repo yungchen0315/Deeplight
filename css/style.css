@@ -225,3 +225,125 @@ button { font-family: inherit; border: none; cursor: pointer; }
   margin-top: 14px; width: 100%; padding: 10px;
   background: #1B2836; color: #45E8BC; border: 1px solid #33455C !important; font-size: 14px;
 }
+
+/* ---------------------------------------------------------------------- */
+/* 頂欄：齒輪按鈕、加護倒數                                                  */
+/* ---------------------------------------------------------------------- */
+.gearBtn {
+  background: none; border: none !important; padding: 2px 4px; margin-left: auto;
+  display: flex; align-items: center;
+}
+.topBoostChip {
+  color: #F2C14E; font-size: 11px; background: rgba(242,193,78,0.12);
+  padding: 2px 6px; border-radius: 2px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 數字彈出 / 像素粒子 / 畫面震動（fx.js）                                    */
+/* ---------------------------------------------------------------------- */
+.popNum {
+  position: absolute;
+  color: #B8FFE9;
+  font-size: 13px;
+  font-weight: bold;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: popNumFloat 0.75s ease-out forwards;
+  z-index: 7;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+.popNum.popBig { font-size: 16px; color: #FFB454; }
+.popNum.popRare { font-size: 16px; color: #B784FF; }
+@keyframes popNumFloat {
+  0% { transform: translate(-50%, -50%) scale(1.25); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translateY(-36px) scale(1); opacity: 0; }
+}
+
+.fxParticle {
+  position: absolute;
+  width: 3px; height: 3px;
+  pointer-events: none;
+  z-index: 6;
+  transform: translate(-50%, -50%);
+  animation: fxParticleFly 0.6s ease-out forwards;
+}
+@keyframes fxParticleFly {
+  0% { transform: translate(-50%, -50%) translate(0, 0); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translate(var(--dx), var(--dy)); opacity: 0; }
+}
+
+@keyframes fxShakeKeyframes {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(calc(var(--shakeAmt) * -1), calc(var(--shakeAmt) * 0.6)); }
+  50% { transform: translate(var(--shakeAmt), calc(var(--shakeAmt) * -0.6)); }
+  75% { transform: translate(calc(var(--shakeAmt) * -0.6), var(--shakeAmt)); }
+}
+.fxShake { animation: fxShakeKeyframes 0.25s linear; }
+
+.btnPop { animation: btnPopKeyframes 0.14s ease-out; }
+@keyframes btnPopKeyframes {
+  0% { transform: scale(0.94); }
+  100% { transform: scale(1); }
+}
+
+/* ---------------------------------------------------------------------- */
+/* 誘光進度條 / 珍珠加護按鈕                                                 */
+/* ---------------------------------------------------------------------- */
+.lureWrap {
+  position: absolute; left: 12px; top: 12px; width: 90px; height: 8px;
+  background: rgba(16,24,35,0.6); border: 1px solid #33455C;
+  z-index: 6; overflow: visible;
+}
+.lureFill { height: 100%; background: #45E8BC; width: 0%; transition: width 0.2s linear; }
+.lureIcon { position: absolute; right: -14px; top: -6px; font-size: 12px; }
+
+.pearlBoostBtn {
+  position: absolute; right: 12px; top: 46px;
+  background: #1B2836; color: #B784FF; border: 1px solid #33455C !important;
+  padding: 6px 10px; font-size: 12px; z-index: 6;
+}
+.pearlBoostBtn.boostActive { color: #F2C14E; border-color: #F2C14E !important; }
+.pearlBoostBtn.disabled { color: #7E92A8; }
+
+/* ---------------------------------------------------------------------- */
+/* 模組頁：批量購買切換                                                      */
+/* ---------------------------------------------------------------------- */
+.panelTitleRow { display: flex; align-items: center; justify-content: space-between; }
+.qtyToggle { display: flex; gap: 4px; }
+.qtyBtn { background: #1B2836; color: #7E92A8; border: 1px solid #33455C !important; padding: 4px 8px; font-size: 11px; }
+.qtyBtn.qtyActive { color: #45E8BC; border-color: #45E8BC !important; }
+
+/* ---------------------------------------------------------------------- */
+/* 每日簽到                                                                  */
+/* ---------------------------------------------------------------------- */
+.dailyGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 8px 0; }
+.dailyCell { background: #1B2836; border: 1px solid #33455C; padding: 6px 4px; text-align: center; }
+.dailyCell.dailyToday { border-color: #F2C14E; }
+.dailyCell.dailyPast { opacity: 0.5; }
+.dailyDay { font-size: 10px; color: #7E92A8; }
+.dailyLabel { font-size: 10px; margin-top: 2px; }
+
+/* ---------------------------------------------------------------------- */
+/* 底部導覽：紅點提示                                                        */
+/* ---------------------------------------------------------------------- */
+.navBtn { position: relative; }
+.navBtn.navHasBadge::after {
+  content: ''; position: absolute; top: 6px; right: calc(50% - 18px);
+  width: 6px; height: 6px; border-radius: 50%; background: #FF5C69;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 設定彈窗                                                                  */
+/* ---------------------------------------------------------------------- */
+.settingsBox { max-height: 82vh; overflow-y: auto; }
+.settingsRow { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #1B2836; }
+.settingsLabel { font-size: 13px; }
+.toggleBtn { background: #1B2836; color: #7E92A8; border: 1px solid #33455C !important; padding: 4px 14px; font-size: 12px; }
+.toggleBtn.toggleOn { color: #45E8BC; border-color: #45E8BC !important; }
+.settingsSep { height: 1px; background: #1B2836; margin: 10px 0; }
+.settingsFullBtn { width: 100%; padding: 9px; margin-top: 8px; }
+.settingsTextarea {
+  width: 100%; min-height: 70px; margin-top: 8px; padding: 6px;
+  background: #0A1220; color: #D6E5F3; border: 1px solid #33455C; font-size: 11px;
+  font-family: monospace; resize: vertical;
+}

@@ -41,7 +41,7 @@
 
   function burstReward(save) {
     const eff = Econ.computeEffects(save);
-    return Econ.glowPerSec(save) * B.CREATURE_BURST_SECONDS * eff.clickRewardMult;
+    return Econ.glowPerSec(save) * eff.burstSeconds * eff.clickRewardMult;
   }
 
   /** 玩家點擊畫面上正在游過的生物。 */

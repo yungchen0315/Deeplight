@@ -12,6 +12,7 @@
       if (a.condition(save)) {
         save.achievements.push(a.id);
         if (a.pearl) save.pearls = (save.pearls || 0) + a.pearl;
+        window.App.Systems.EventLog.log(save, '成就解鎖：' + a.name);
         newly.push(a);
       }
     });

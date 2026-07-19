@@ -61,6 +61,7 @@
     save.stats.totalGlowEarned += burst;
     save.stats.totalCreaturesCollected = (save.stats.totalCreaturesCollected || 0) + 1;
     const rec = recordSighting(save, creatureId);
+    if (rec.isFirst && def.rare) window.App.Systems.EventLog.log(save, '首次記錄稀有生物「' + def.name + '」');
     return Object.assign({ ok: true, burst, def }, rec);
   }
 
@@ -76,6 +77,7 @@
     save.stats.totalCreaturesCollected = (save.stats.totalCreaturesCollected || 0) + 1;
     save.stats.totalMissedClaimed = (save.stats.totalMissedClaimed || 0) + 1;
     const rec = recordSighting(save, def.id);
+    if (rec.isFirst && def.rare) window.App.Systems.EventLog.log(save, '首次記錄稀有生物「' + def.name + '」');
     return Object.assign({ ok: true, burst, def }, rec);
   }
 

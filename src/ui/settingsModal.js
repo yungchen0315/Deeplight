@@ -83,6 +83,25 @@
       save.settings.numberFormat = v ? 'sci' : 'zh'; U.setNumberFormat(save.settings.numberFormat); onChange();
     }));
 
+    // 自動化開關：買了自動化節點（f9 重構／深淵協約或永夜盟約樹）不代表玩家隨時都
+    // 想要它生效，這裡讓玩家可以暫停——只在「至少解鎖過一種自動化」時才顯示，
+    // 避免對從未解鎖任何自動化的玩家顯示一堆用不到的開關。
+    const hasAutoTap = save.refits.includes('f9');
+    const hasAutoBuy = save.sigils.includes('auto_buy');
+    const hasAutoGate = save.sigils.includes('auto_gate');
+    const hasAutoCollect = save.sigils.includes('auto_collect');
+    const hasAutoClaim = save.nightPactNodes.includes('sc2');
+    if (hasAutoTap || hasAutoBuy || hasAutoGate || hasAutoCollect || hasAutoClaim) {
+      const sep0 = U.el('div', 'settingsSep');
+      box.appendChild(sep0);
+      box.appendChild(U.el('div', 'settingsSectionLabel', '自動化開關（已解鎖才會出現）'));
+      if (hasAutoTap) box.appendChild(toggleRow('自動採光', save.settings.autoTapEnabled, (v) => { save.settings.autoTapEnabled = v; }));
+      if (hasAutoBuy) box.appendChild(toggleRow('自動採買最便宜模組', save.settings.autoBuyEnabled, (v) => { save.settings.autoBuyEnabled = v; }));
+      if (hasAutoGate) box.appendChild(toggleRow('自動通過閘門', save.settings.autoGateEnabled, (v) => { save.settings.autoGateEnabled = v; }));
+      if (hasAutoCollect) box.appendChild(toggleRow('自動收集路過生物', save.settings.autoCollectEnabled, (v) => { save.settings.autoCollectEnabled = v; }));
+      if (hasAutoClaim) box.appendChild(toggleRow('自動領取已完成的每日任務', save.settings.autoClaimQuestsEnabled, (v) => { save.settings.autoClaimQuestsEnabled = v; }));
+    }
+
     const sep1 = U.el('div', 'settingsSep');
     box.appendChild(sep1);
 
@@ -98,6 +117,10 @@
     const compendiumBtn = U.el('button', 'smallBtn settingsFullBtn', '遊戲說明');
     U.onTap(compendiumBtn, () => window.App.UI.CompendiumModal.open());
     box.appendChild(compendiumBtn);
+
+    const eventLogBtn = U.el('button', 'smallBtn settingsFullBtn', '事件紀錄');
+    U.onTap(eventLogBtn, () => window.App.UI.EventLogModal.open(save));
+    box.appendChild(eventLogBtn);
 
     const exportBtn = U.el('button', 'smallBtn settingsFullBtn', '匯出存檔');
     U.onTap(exportBtn, () => {

@@ -32,6 +32,7 @@
     const def = D.goldenBuffById(buffId);
     if (!def) return { ok: false, reason: '找不到此增益' };
     const now = Date.now();
+    window.App.Systems.EventLog.log(save, '捕獲金燈魚，選擇「' + def.label + '」');
     if (def.kind === 'instant') {
       const gained = Econ.glowPerSec(save) * def.minutes * 60;
       save.glow += gained;

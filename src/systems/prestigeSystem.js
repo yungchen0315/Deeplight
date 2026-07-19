@@ -47,6 +47,7 @@
       save.currentZone = zone ? zone.id : 0;
     }
 
+    window.App.Systems.EventLog.log(save, '重返海面，獲得 ' + gained + ' 顆壓力核心（第 ' + save.prestigeCount + ' 次轉生）');
     return { ok: true, gained };
   }
 

@@ -45,6 +45,7 @@
     save.currentZone += 1;
     save.samples = (save.samples || 0) + 3 + 3 * zone.id;
     save.stats.totalGatesPassed = (save.stats.totalGatesPassed || 0) + 1;
+    window.App.Systems.EventLog.log(save, '通過錨點閘門，進入「' + next.name + '」');
     return { ok: true, zone: next };
   }
 

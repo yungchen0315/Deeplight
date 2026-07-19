@@ -37,7 +37,13 @@
  * @property {{done:boolean, seenHints:string[]}} tutorial 新手引導完成狀態與已顯示過的提示 id。
  * @property {Object} stats 永久保留的統計數字（見下方預設值列出的完整欄位）。
  * @property {{sound:boolean, ambient:boolean, sfxVolume:number, ambientVolume:number,
- *   reducedMotion:boolean, highContrast:boolean, numberFormat:string}} settings
+ *   reducedMotion:boolean, highContrast:boolean, numberFormat:string,
+ *   autoBuyEnabled:boolean, autoGateEnabled:boolean, autoCollectEnabled:boolean,
+ *   autoTapEnabled:boolean, autoClaimQuestsEnabled:boolean}} settings 自動化開關只影響
+ *   「已解鎖」的自動化效果是否生效，不影響是否擁有——買了自動化節點後，玩家仍可
+ *   隨時在設定裡暫停，例如想手動控制花費節奏時。
+ * @property {Array<{ts:number, message:string}>} eventLog 重大事件時間軸（轉生/協約/
+ *   盟約/里程碑等），最多保留最近 50 筆，純記錄用途不影響數值。
  * ==========================================================================*/
 (function () {
   function createDefaultSave(now) {
@@ -93,7 +99,13 @@
         totalBallastUpgrades: 0,
         totalSigilPointsEarned: 0
       },
-      settings: { sound: true, ambient: true, sfxVolume: 70, ambientVolume: 40, reducedMotion: false, highContrast: false, numberFormat: 'zh' }
+      settings: {
+        sound: true, ambient: true, sfxVolume: 70, ambientVolume: 40,
+        reducedMotion: false, highContrast: false, numberFormat: 'zh',
+        autoBuyEnabled: true, autoGateEnabled: true, autoCollectEnabled: true,
+        autoTapEnabled: true, autoClaimQuestsEnabled: true
+      },
+      eventLog: []
     };
   }
 

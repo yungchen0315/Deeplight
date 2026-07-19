@@ -96,6 +96,14 @@
       if (save.tempBuff.kind === 'prod') eff.allProdMult *= save.tempBuff.mult;
       else if (save.tempBuff.kind === 'descent') eff.descentMult *= save.tempBuff.mult;
     }
+    // 自動化開關：已解鎖的自動化效果仍可在設定裡暫停，兩者是「有沒有」跟「要不要」
+    // 的不同問題——買了自動化節點不代表玩家永遠想要它每秒都在花螢光。
+    const st = save.settings || {};
+    if (st.autoBuyEnabled === false) eff.autoBuyCheapest = false;
+    if (st.autoGateEnabled === false) eff.autoGate = false;
+    if (st.autoCollectEnabled === false) eff.autoCollect = false;
+    if (st.autoTapEnabled === false) eff.autoTapPerSec = 0;
+    if (st.autoClaimQuestsEnabled === false) eff.autoClaimQuests = false;
     return eff;
   }
 

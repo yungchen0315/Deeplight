@@ -17,6 +17,7 @@
     if (!Array.isArray(saveGame.refits)) saveGame.refits = [];
     if (!Array.isArray(saveGame.sigils)) saveGame.sigils = [];
     if (!Array.isArray(saveGame.nightPactNodes)) saveGame.nightPactNodes = [];
+    if (!Array.isArray(saveGame.eventLog)) saveGame.eventLog = [];
     if (!Array.isArray(saveGame.achievements)) saveGame.achievements = [];
     if (!Array.isArray(saveGame.milestonesClaimed)) saveGame.milestonesClaimed = [];
 

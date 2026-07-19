@@ -348,9 +348,11 @@
 
     if (Descent.atGate(save)) {
       const cost = Descent.gateCost(save);
-      hudRefs.gateBtn.textContent = '加固艙體 · ' + U.formatNum(cost) + ' 螢光';
+      const ready = save.glow >= cost;
+      // 「可負擔」不只靠顏色區分（色盲不友善），加固艙體按鈕文字前面也會多一個 ✓。
+      hudRefs.gateBtn.textContent = (ready ? '✓ ' : '') + '加固艙體 · ' + U.formatNum(cost) + ' 螢光';
       hudRefs.gateBtn.style.display = 'block';
-      hudRefs.gateBtn.classList.toggle('gateBtnReady', save.glow >= cost);
+      hudRefs.gateBtn.classList.toggle('gateBtnReady', ready);
     } else {
       hudRefs.gateBtn.style.display = 'none';
     }

@@ -312,7 +312,7 @@ button { font-family: inherit; border: none; cursor: pointer; }
 .panelTitleRow { display: flex; align-items: center; justify-content: space-between; }
 .qtyToggle { display: flex; gap: 4px; }
 .qtyBtn { background: #1B2836; color: #7E92A8; border: 1px solid #33455C !important; padding: 4px 8px; font-size: 11px; }
-.qtyBtn.qtyActive { color: #45E8BC; border-color: #45E8BC !important; }
+.qtyBtn.qtyActive { color: #45E8BC; border-color: #45E8BC !important; border-bottom-width: 3px !important; font-weight: bold; }
 
 /* ---------------------------------------------------------------------- */
 /* 每日簽到                                                                  */

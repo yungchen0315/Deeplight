@@ -9,11 +9,14 @@
 
   function eligible(save) { return save.maxDepthThisRun >= B.PRESTIGE_MIN_DEPTH; }
 
-  /** floor((本輪最大深度 / 400)^1.15)：企劃書第 6 節公式。 */
-  function previewCores(save) {
-    if (save.maxDepthThisRun <= 0) return 0;
-    return Math.floor(Math.pow(save.maxDepthThisRun / B.PRESTIGE_DEPTH_DIVISOR, B.PRESTIGE_EXPONENT));
+  /** floor((深度 / 400)^1.15)：企劃書第 6 節公式，抽成純函式供試算面板對任意
+   *  假設深度算「如果潛到這裡才轉生會拿到多少」，不只是目前實際深度。 */
+  function coresForDepth(depth) {
+    if (depth <= 0) return 0;
+    return Math.floor(Math.pow(depth / B.PRESTIGE_DEPTH_DIVISOR, B.PRESTIGE_EXPONENT));
   }
+
+  function previewCores(save) { return coresForDepth(save.maxDepthThisRun); }
 
   function resurface(save) {
     if (!eligible(save)) return { ok: false, reason: '尚未下潛至 ' + B.PRESTIGE_MIN_DEPTH + ' 公尺，無法重返海面' };
@@ -47,8 +50,9 @@
       save.currentZone = zone ? zone.id : 0;
     }
 
+    window.App.Systems.EventLog.log(save, '重返海面，獲得 ' + gained + ' 顆壓力核心（第 ' + save.prestigeCount + ' 次轉生）');
     return { ok: true, gained };
   }
 
-  window.App.Systems.Prestige = { eligible, previewCores, resurface };
+  window.App.Systems.Prestige = { eligible, previewCores, coresForDepth, resurface };
 })();

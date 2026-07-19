@@ -17,9 +17,12 @@
  * @property {number} ballastLevel 壓載等級，轉生重置。
  * @property {string[]} research 已完成研究 id（RESEARCH_DEFS），轉生重置。
  * @property {string[]} refits 已購重構 id（REFIT_DEFS），深淵協約重置（一般轉生不重置）。
- * @property {string[]} sigils 已購深淵印記 id（SIGIL_DEFS），永久保留、協約不重置。
- * @property {number} sigilPoints 深淵印記（第二層轉生貨幣，用來買 sigils 樹），永久保留。
+ * @property {string[]} sigils 已購深淵印記 id（SIGIL_DEFS），永久保留、協約不重置，盟約重置。
+ * @property {number} sigilPoints 深淵印記（第二層轉生貨幣，用來買 sigils 樹），永久保留、盟約重置。
  * @property {number} covenantCount 已完成深淵協約（第二層轉生）次數，永久保留。
+ * @property {string[]} nightPactNodes 已購永夜盟約印記 id（PACT_DEFS），永久保留、不受任何轉生重置。
+ * @property {number} nightshards 夜輝（第三層轉生貨幣，用來買盟約樹），永久保留。
+ * @property {number} pactCount 已完成永夜盟約（第三層轉生）次數，永久保留。
  * @property {Object<string,{seen:number, firstAt:number}>} bestiary 以 CreatureDef.id 為 key，永久保留。
  * @property {number} pendingCreatures 離線期間累積、尚未點擊領取的「錯過的生物」數量。
  * @property {string[]} achievements 已解鎖成就 id，永久保留。
@@ -34,7 +37,14 @@
  * @property {{done:boolean, seenHints:string[]}} tutorial 新手引導完成狀態與已顯示過的提示 id。
  * @property {Object} stats 永久保留的統計數字（見下方預設值列出的完整欄位）。
  * @property {{sound:boolean, ambient:boolean, sfxVolume:number, ambientVolume:number,
- *   reducedMotion:boolean, highContrast:boolean, numberFormat:string}} settings
+ *   reducedMotion:boolean, highContrast:boolean, numberFormat:string,
+ *   autoBuyEnabled:boolean, autoGateEnabled:boolean, autoCollectEnabled:boolean,
+ *   autoTapEnabled:boolean, autoClaimQuestsEnabled:boolean}} settings 自動化開關只影響
+ *   「已解鎖」的自動化效果是否生效，不影響是否擁有——買了自動化節點後，玩家仍可
+ *   隨時在設定裡暫停，例如想手動控制花費節奏時。
+ * @property {Array<{ts:number, message:string}>} eventLog 重大事件時間軸（轉生/協約/
+ *   盟約/里程碑等），最多保留最近 50 筆，純記錄用途不影響數值。
+ * @property {number} nextBackupReminderAt 下次提示玩家匯出存檔備份的時戳（ms）。
  * ==========================================================================*/
 (function () {
   function createDefaultSave(now) {
@@ -57,6 +67,9 @@
       sigils: [],
       sigilPoints: 0,
       covenantCount: 0,
+      nightPactNodes: [],
+      nightshards: 0,
+      pactCount: 0,
       bestiary: {},
       pendingCreatures: 0,
       achievements: [],
@@ -84,9 +97,17 @@
         totalGoldenCaught: 0,
         totalDailyClaims: 0,
         totalQuestsCompleted: 0,
-        totalBallastUpgrades: 0
+        totalBallastUpgrades: 0,
+        totalSigilPointsEarned: 0
       },
-      settings: { sound: true, ambient: true, sfxVolume: 70, ambientVolume: 40, reducedMotion: false, highContrast: false, numberFormat: 'zh' }
+      settings: {
+        sound: true, ambient: true, sfxVolume: 70, ambientVolume: 40,
+        reducedMotion: false, highContrast: false, numberFormat: 'zh',
+        autoBuyEnabled: true, autoGateEnabled: true, autoCollectEnabled: true,
+        autoTapEnabled: true, autoClaimQuestsEnabled: true
+      },
+      eventLog: [],
+      nextBackupReminderAt: now + window.App.Data.BALANCE.BACKUP_REMINDER_INTERVAL_MS
     };
   }
 

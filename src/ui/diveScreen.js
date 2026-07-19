@@ -182,7 +182,7 @@
 
     const eff = Econ.computeEffects(saveRef);
     if (eff.autoCollect) {
-      setTimeout(() => collectOnScreenCreature(def, wrap, collectedRef), D.BALANCE.AUTO_COLLECT_DELAY_MS);
+      setTimeout(() => collectOnScreenCreature(def, wrap, collectedRef), D.BALANCE.AUTO_COLLECT_DELAY_MS / eff.autoSpeedMult);
     }
 
     const timeoutId = setTimeout(() => { if (!collectedRef.done) wrap.remove(); }, lifespanMs + 200);

@@ -21,6 +21,7 @@
   const ResearchScreen = window.App.UI.ResearchScreen;
   const SurfaceScreen = window.App.UI.SurfaceScreen;
   const CovenantScreen = window.App.UI.CovenantScreen;
+  const PactScreen = window.App.UI.PactScreen;
   const B = window.App.Data.BALANCE;
 
   let save;
@@ -63,6 +64,7 @@
       else if (screenId === 'research') ResearchScreen.render(container, save, onChange);
       else if (screenId === 'surface') SurfaceScreen.render(container, save, onChange);
       else if (screenId === 'covenant') CovenantScreen.render(container, save, onChange);
+      else if (screenId === 'pact') PactScreen.render(container, save, onChange);
     }
   }
 
@@ -83,8 +85,18 @@
       Audio.play('gate');
       window.App.UI.Toast.toast('自動通過閘門，進入「' + result.autoGatedZone.name + '」');
     }
-    if ((result.autoBoughtModule || result.autoGatedZone) && currentScreenId !== 'dive') renderScreen(currentScreenId);
+    if (result.autoClaimedQuestCount > 0) {
+      Audio.play('daily');
+      window.App.UI.Toast.toast('自動領取了 ' + result.autoClaimedQuestCount + ' 個每日任務');
+    }
+    if ((result.autoBoughtModule || result.autoGatedZone || result.autoClaimedQuestCount > 0) && currentScreenId !== 'dive') renderScreen(currentScreenId);
     Hint.checkHints(save).forEach((msg) => window.App.UI.Toast.toast(msg));
+
+    // 存檔備份提醒：只有真的玩出一點進度才提醒，避免對剛開始的新玩家碎碎念。
+    if (save.maxDepthEver >= B.BACKUP_REMINDER_MIN_DEPTH && now >= (save.nextBackupReminderAt || 0)) {
+      save.nextBackupReminderAt = now + B.BACKUP_REMINDER_INTERVAL_MS;
+      window.App.UI.Toast.toast('💾 存檔只存在這台裝置，建議到設定頁匯出備份一下');
+    }
     if (now - lastSaveAt >= B.AUTOSAVE_INTERVAL_MS) { trySave(); lastSaveAt = now; }
   }
 

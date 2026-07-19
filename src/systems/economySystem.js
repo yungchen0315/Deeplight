@@ -41,7 +41,10 @@
       autoResearchIds: [],
       autoBuyCheapest: false,
       autoGate: false,
-      autoCollect: false
+      autoCollect: false,
+      keepTopSigilOnReset: false,
+      autoClaimQuests: false,
+      autoSpeedMult: 1
     };
     function apply(e) {
       if (!e) return;
@@ -71,12 +74,16 @@
         case 'autoBuyCheapest': eff.autoBuyCheapest = true; break;
         case 'autoGate': eff.autoGate = true; break;
         case 'autoCollect': eff.autoCollect = true; break;
+        case 'keepTopSigilOnReset': eff.keepTopSigilOnReset = true; break;
+        case 'autoClaimQuests': eff.autoClaimQuests = true; break;
+        case 'autoSpeedMult': eff.autoSpeedMult *= e.value; break;
         default: break;
       }
     }
     (save.research || []).forEach((id) => { const r = D.researchById(id); if (r) apply(r.effect); });
     (save.refits || []).forEach((id) => { const f = D.refitById(id); if (f) apply(f.effect); });
     (save.sigils || []).forEach((id) => { const s = D.sigilById(id); if (s) apply(s.effect); });
+    (save.nightPactNodes || []).forEach((id) => { const p = D.pactById(id); if (p) apply(p.effect); });
     eff.allProdMult *= 1 + (save.cores || 0) * eff.corePct / 100;
     // 深淵圖鑑星級產量加成：每星 +0.5%，永久保留、跨轉生（含深淵協約）不重置。
     let starTotal = 0;
@@ -89,6 +96,14 @@
       if (save.tempBuff.kind === 'prod') eff.allProdMult *= save.tempBuff.mult;
       else if (save.tempBuff.kind === 'descent') eff.descentMult *= save.tempBuff.mult;
     }
+    // 自動化開關：已解鎖的自動化效果仍可在設定裡暫停，兩者是「有沒有」跟「要不要」
+    // 的不同問題——買了自動化節點不代表玩家永遠想要它每秒都在花螢光。
+    const st = save.settings || {};
+    if (st.autoBuyEnabled === false) eff.autoBuyCheapest = false;
+    if (st.autoGateEnabled === false) eff.autoGate = false;
+    if (st.autoCollectEnabled === false) eff.autoCollect = false;
+    if (st.autoTapEnabled === false) eff.autoTapPerSec = 0;
+    if (st.autoClaimQuestsEnabled === false) eff.autoClaimQuests = false;
     return eff;
   }
 

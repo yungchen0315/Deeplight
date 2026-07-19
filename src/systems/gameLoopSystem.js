@@ -51,10 +51,11 @@
 
     const eff = Econ.computeEffects(save);
 
-    // 自動採光（f9 重構）：每秒發生機率 = autoTapPerSec × dt，避免另存一份小數累加器。
+    // 自動採光（f9 重構）：每秒發生機率 = autoTapPerSec × autoSpeedMult × dt，
+    // 避免另存一份小數累加器。autoSpeedMult 來自永夜盟約的星海羅盤・極速節點。
     let autoTapped = false;
     let lureTriggered = false;
-    if (eff.autoTapPerSec > 0 && Math.random() < eff.autoTapPerSec * dtSec) {
+    if (eff.autoTapPerSec > 0 && Math.random() < eff.autoTapPerSec * eff.autoSpeedMult * dtSec) {
       const result = Econ.applyTap(save);
       autoTapped = true;
       lureTriggered = result.lureTriggered;
@@ -63,8 +64,19 @@
     const autoBoughtModule = eff.autoBuyCheapest ? tryAutoBuy(save) : null;
     const autoGatedZone = eff.autoGate ? tryAutoGate(save, eff) : null;
 
+    let autoClaimedQuestCount = 0;
+    if (eff.autoClaimQuests) {
+      const Quest = window.App.Systems.Quest;
+      save.quests.items.forEach((item) => {
+        if (!item.claimed && Quest.isDone(save, item)) {
+          const r = Quest.claim(save, item.tplId);
+          if (r.ok) autoClaimedQuestCount += 1;
+        }
+      });
+    }
+
     const newAchievements = Achievement.checkAchievements(save);
-    return { newAchievements, autoTapped, lureTriggered, autoBoughtModule, autoGatedZone };
+    return { newAchievements, autoTapped, lureTriggered, autoBoughtModule, autoGatedZone, autoClaimedQuestCount };
   }
 
   window.App.Systems.GameLoop = { tick };

@@ -1,5 +1,5 @@
 /* ============================================================================
- * researchDefs.js — 12 節研究（企劃書第 4d 節 + v1.1 深淵帶擴充），花樣本（SP）
+ * researchDefs.js — 28 節研究（企劃書第 4d 節 + v1.1/Phase2/Phase3 擴充），花樣本（SP）
  * 購買，轉生時重置。effect 是給 researchSystem/economySystem 讀的通用格式，跟
  * refitDefs.js 共用。
  * ==========================================================================*/
@@ -24,7 +24,15 @@
     { id: 'r17', name: '虛無感應', cost: 250, desc: '全螢光產量 +100%', effect: { type: 'allProdMult', value: 2 } },
     { id: 'r18', name: '星塵壓載', cost: 300, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 } },
     { id: 'r19', name: '虛無燈塔陣列', cost: 380, desc: '虛無燈塔與星塵核心產量 x2', effect: { type: 'moduleMultMany', modules: ['voidbeacon', 'starcore'], value: 2 } },
-    { id: 'r20', name: '深海盡頭之光', cost: 500, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 } }
+    { id: 'r20', name: '深海盡頭之光', cost: 500, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 } },
+    { id: 'r21', name: '平原共鳴', cost: 650, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 } },
+    { id: 'r22', name: '震波導航', cost: 800, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 } },
+    { id: 'r23', name: '平原光帶陣列', cost: 950, desc: '平原光帶與震波核心產量 x2', effect: { type: 'moduleMultMany', modules: ['plainlight', 'seismocore'], value: 2 } },
+    { id: 'r24', name: '深海平原之心', cost: 1200, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 } },
+    { id: 'r25', name: '熱泉適應', cost: 1500, desc: '全螢光產量 +100%', effect: { type: 'allProdMult', value: 2 } },
+    { id: 'r26', name: '岩漿導航', cost: 1800, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 } },
+    { id: 'r27', name: '熱泉鍛爐強化', cost: 2200, desc: '熱泉鍛爐與岩漿之心產量 x2', effect: { type: 'moduleMultMany', modules: ['ventforge', 'magmaheart'], value: 2 } },
+    { id: 'r28', name: '熱泉之心', cost: 2800, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 } }
   ];
 
   function researchById(id) { return RESEARCH_DEFS.find((r) => r.id === id); }

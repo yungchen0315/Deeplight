@@ -16,6 +16,8 @@
     if (!Array.isArray(saveGame.research)) saveGame.research = [];
     if (!Array.isArray(saveGame.refits)) saveGame.refits = [];
     if (!Array.isArray(saveGame.sigils)) saveGame.sigils = [];
+    if (!Array.isArray(saveGame.nightPactNodes)) saveGame.nightPactNodes = [];
+    if (!Array.isArray(saveGame.eventLog)) saveGame.eventLog = [];
     if (!Array.isArray(saveGame.achievements)) saveGame.achievements = [];
     if (!Array.isArray(saveGame.milestonesClaimed)) saveGame.milestonesClaimed = [];
 
@@ -33,6 +35,11 @@
     if (typeof saveGame.nextGoldenAt !== 'number') saveGame.nextGoldenAt = Date.now() + 600000;
     if (typeof saveGame.covenantCount !== 'number') saveGame.covenantCount = 0;
     if (typeof saveGame.sigilPoints !== 'number') saveGame.sigilPoints = 0;
+    if (typeof saveGame.nightshards !== 'number') saveGame.nightshards = 0;
+    if (typeof saveGame.pactCount !== 'number') saveGame.pactCount = 0;
+    if (typeof saveGame.nextBackupReminderAt !== 'number') {
+      saveGame.nextBackupReminderAt = Date.now() + window.App.Data.BALANCE.BACKUP_REMINDER_INTERVAL_MS;
+    }
 
     // 舊存檔（v1，無 tutorial 欄位、但已有進度）視為已看過教學，避免老玩家被重新導覽。
     if (priorVersion < 2 && saveGame.maxDepthEver > 0) saveGame.tutorial.done = true;

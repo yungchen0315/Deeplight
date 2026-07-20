@@ -161,6 +161,16 @@
     circle(g, 8, 8, 3, 'RED');
     dots(g, [[8, 8], [7, 7]], 'AMBER');
   });
+  SPRITES.mod_riftcrystal = modSprite((g) => {
+    for (let t = 0; t < 4; t++) vline(g, 4 + t * 3, 3 + (t % 2) * 2, 11 - (t % 2) * 2, 'VIOLET');
+    dots(g, [[4, 4], [7, 6], [10, 5], [13, 7]], 'PEARL');
+  });
+  SPRITES.mod_voidforge = modSprite((g) => {
+    rect(g, 3, 5, 10, 8, 'INK');
+    hline(g, 4, 6, 8, 'BORDER');
+    circle(g, 8, 10, 3, 'VIOLET');
+    dots(g, [[8, 10], [7, 9]], 'GLOW2');
+  });
 
   /* -------------------------------------------------------------- 生物 */
 
@@ -326,6 +336,27 @@
     ellipse(g, 10, 8, 7, 4, 'AMBER');
     for (let t = 0; t < 6; t++) vline(g, 15 + t, 6 + (t % 3), 3, 'RED');
     dots(g, [[7, 7]], 'GLOW2');
+  });
+
+  SPRITES.c_riftworm = creatureSprite(20, 12, (g) => {
+    for (let t = 0; t < 14; t++) setPx(g, 2 + t, 6 + Math.round(Math.sin(t / 2) * 2), 'DIM');
+    dots(g, [[16, 6], [17, 5]], 'GLOW');
+  });
+  SPRITES.c_chasmray = creatureSprite(24, 16, (g) => {
+    ellipse(g, 12, 8, 10, 5, 'BORDER');
+    ellipse(g, 12, 8, 6, 3, 'PANEL2');
+    dots(g, [[6, 6], [18, 6]], 'GLOW2');
+  });
+  SPRITES.c_faultjelly = creatureSprite(16, 16, (g) => {
+    ellipse(g, 8, 5, 6, 4, 'VIOLET');
+    for (let t = 0; t < 3; t++) vline(g, 5 + t * 3, 7, 5, 'VIOLET');
+    dots(g, [[8, 4]], 'PEARL');
+  });
+  SPRITES.c_abyssking = creatureSprite(28, 20, (g) => {
+    ellipse(g, 14, 10, 12, 7, 'INK');
+    ellipse(g, 14, 10, 8, 4, 'PANEL2');
+    dots(g, [[9, 8], [19, 8]], 'RED');
+    for (let t = 0; t < 5; t++) vline(g, 5 + t * 4, 15, 3, 'DIM');
   });
 
   /* -------------------------------------------------------------- 介面圖示 */

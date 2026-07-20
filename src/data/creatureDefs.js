@@ -1,5 +1,5 @@
 /* ============================================================================
- * creatureDefs.js — 32 種深淵圖鑑生物（企劃書第 8 節 + v1.1/Phase2/Phase3 擴充）。
+ * creatureDefs.js — 36 種深淵圖鑑生物（企劃書第 8 節 + v1.1/Phase2/Phase3 擴充）。
  * 每海域 4 種，各含 1 稀有種。首次遇見必掉樣本，之後依 balance 機率掉落。lore
  * 是圖鑑詳細彈窗（bestiaryDetailModal.js）顯示的一小段風味文字，純敘事用途，
  * 不影響任何遊戲數值。
@@ -77,7 +77,16 @@
     { id: 'magmaeel', name: '熔岩鰻', icon: 'c_magmaeel', zone: 7, rare: false,
       lore: '皮膚演化出驚人的耐熱能力，能貼著熱泉噴口的邊緣游動而不受傷，橘紅色的體色是牠獨有的保護色。' },
     { id: 'abyssalphoenix', name: '深淵火鳥', icon: 'c_abyssalphoenix', zone: 7, rare: true,
-      lore: '在熱泉的高溫水流中若隱若現，鰭緣的螢光隨水流搖曳如燃燒的羽翼，是這片灼熱深淵裡最不真實的一幕。' }
+      lore: '在熱泉的高溫水流中若隱若現，鰭緣的螢光隨水流搖曳如燃燒的羽翼，是這片灼熱深淵裡最不真實的一幕。' },
+    // 裂谷深淵
+    { id: 'riftworm', name: '裂谷蟲', icon: 'c_riftworm', zone: 8, rare: false,
+      lore: '成串鑽進裂谷岩壁縫隙裡的細長生物，只露出頭部一圈發光觸鬍，感應著岩壁滲出的礦物質濃度。' },
+    { id: 'chasmray', name: '深谷魟', icon: 'c_chasmray', zone: 8, rare: false,
+      lore: '貼著裂谷邊緣滑翔的巨大魟魚，翼展幾乎橫跨整條裂縫，是這片海域少數敢直視潛燈號燈暈的生物。' },
+    { id: 'faultjelly', name: '斷層水母', icon: 'c_faultjelly', zone: 8, rare: false,
+      lore: '傘體隨著裂谷深處傳來的地質震動規律收縮，彷彿把整條裂谷的心跳都聽進了身體裡。' },
+    { id: 'abyssking', name: '深淵之王', icon: 'c_abyssking', zone: 8, rare: true,
+      lore: '傳說裂谷最深處住著一頭沒有生物學家能歸類的巨大掠食者，只有寥寥幾次目擊紀錄，每一次都只拍到一小段輪廓。' }
   ];
 
   function creatureById(id) { return CREATURE_DEFS.find((c) => c.id === id); }

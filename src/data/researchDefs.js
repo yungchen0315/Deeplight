@@ -1,5 +1,5 @@
 /* ============================================================================
- * researchDefs.js — 28 節研究（企劃書第 4d 節 + v1.1/Phase2/Phase3 擴充），花樣本（SP）
+ * researchDefs.js — 32 節研究（企劃書第 4d 節 + v1.1/Phase2/Phase3 擴充），花樣本（SP）
  * 購買，轉生時重置。effect 是給 researchSystem/economySystem 讀的通用格式，跟
  * refitDefs.js 共用。
  * ==========================================================================*/
@@ -32,7 +32,11 @@
     { id: 'r25', name: '熱泉適應', cost: 1500, desc: '全螢光產量 +100%', effect: { type: 'allProdMult', value: 2 } },
     { id: 'r26', name: '岩漿導航', cost: 1800, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 } },
     { id: 'r27', name: '熱泉鍛爐強化', cost: 2200, desc: '熱泉鍛爐與岩漿之心產量 x2', effect: { type: 'moduleMultMany', modules: ['ventforge', 'magmaheart'], value: 2 } },
-    { id: 'r28', name: '熱泉之心', cost: 2800, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 } }
+    { id: 'r28', name: '熱泉之心', cost: 2800, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 } },
+    { id: 'r29', name: '裂谷共振', cost: 3500, desc: '全螢光產量 +100%', effect: { type: 'allProdMult', value: 2 } },
+    { id: 'r30', name: '裂谷壓載', cost: 4200, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 } },
+    { id: 'r31', name: '裂谷晶簇陣列', cost: 5000, desc: '裂谷晶簇與虛空熔爐產量 x2', effect: { type: 'moduleMultMany', modules: ['riftcrystal', 'voidforge'], value: 2 } },
+    { id: 'r32', name: '裂谷之心', cost: 6500, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 } }
   ];
 
   function researchById(id) { return RESEARCH_DEFS.find((r) => r.id === id); }

@@ -1,5 +1,5 @@
 /* ============================================================================
- * moduleDefs.js — 16 種發光模組（企劃書第 4b 節 + v1.1/Phase2/Phase3 擴充）。cost(n) 與
+ * moduleDefs.js — 18 種發光模組（企劃書第 4b 節 + v1.1/Phase2/Phase3 擴充）。cost(n) 與
  * 升級節點的計算交給 economySystem，這裡只放靜態資料。lore 是模組詳細彈窗
  * （moduleDetailModal.js）顯示的風味文字，純敘事用途，不影響任何數值。
  * ==========================================================================*/
@@ -36,7 +36,11 @@
     { id: 'ventforge', name: '熱泉鍛爐', icon: 'mod_ventforge', baseCost: 1.2e16, baseProd: 2.4e11, unlockDepth: 60000,
       lore: '架設在熱泉噴口正上方的巨型鍛爐狀結構，滾燙的礦物流直接沖刷過發光核心，效率高得驚人也危險得驚人。' },
     { id: 'magmaheart', name: '岩漿之心', icon: 'mod_magmaheart', baseCost: 1.5e17, baseProd: 1.6e12, unlockDepth: 70000,
-      lore: '潛燈號目前技術能承受的最極限能量來源，直接連接地殼裂縫下方的岩漿庫。艙壁溫度計在這裡幾乎要爆表。' }
+      lore: '潛燈號目前技術能承受的最極限能量來源，直接連接地殼裂縫下方的岩漿庫。艙壁溫度計在這裡幾乎要爆表。' },
+    { id: 'riftcrystal', name: '裂谷晶簇', icon: 'mod_riftcrystal', baseCost: 2e18, baseProd: 8e12, unlockDepth: 85000,
+      lore: '沿著海底裂谷邊緣生長的巨大結晶簇，斷面能看到一圈圈螢光年輪，像是隨著裂谷擴張一年年累積下來的。' },
+    { id: 'voidforge', name: '虛空熔爐', icon: 'mod_voidforge', baseCost: 3e19, baseProd: 6e13, unlockDepth: 105000,
+      lore: '架在裂谷最深處的巨型熔爐狀構造，爐口對著地殼最薄弱的裂縫，把地心深處滲出的能量硬生生鍛造成螢光。' }
   ];
 
   function moduleById(id) { return MODULE_DEFS.find((m) => m.id === id); }

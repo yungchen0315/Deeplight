@@ -103,7 +103,15 @@
     achievement: () => { tone(1318.5, 'sine', 0.5, 0.2, 0); tone(2637, 'sine', 0.5, 0.09, 0); },
     error: () => tone(110, 'sine', 0.08, 0.2, 0),
     nav: () => tone(660, 'sine', 0.03, 0.14, 0),
-    daily: () => { tone(1046, 'triangle', 0.06, 0.22, 0); tone(1318, 'triangle', 0.06, 0.22, 0.06); tone(1568, 'triangle', 0.06, 0.22, 0.12); }
+    daily: () => { tone(1046, 'triangle', 0.06, 0.22, 0); tone(1318, 'triangle', 0.06, 0.22, 0.06); tone(1568, 'triangle', 0.06, 0.22, 0.12); },
+    // 深淵訊號殘片：故意用不和諧的小二度音程＋雜訊，聽起來像干擾中的通訊，跟其他
+    // 音效的悅耳三和弦/五聲音階刻意做出區隔。
+    signal: () => {
+      tone(440, 'sawtooth', 0.5, 0.1, 0);
+      tone(466.16, 'sawtooth', 0.5, 0.08, 0.15);
+      noiseBurst(0.3, 0.06, 0.3);
+      tone(220, 'sine', 0.6, 0.14, 0.35);
+    }
   };
 
   function play(name) {

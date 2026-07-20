@@ -150,6 +150,11 @@
     U.onTap(captainLogBtn, () => window.App.UI.CaptainLogModal.open(save));
     box.appendChild(captainLogBtn);
 
+    const signalCount = (save.signalFragments || []).length;
+    const signalBtn = U.el('button', 'smallBtn settingsFullBtn', '訊號解碼（' + signalCount + ' / ' + window.App.Data.SIGNAL_FRAGMENT_DEFS.length + '）');
+    U.onTap(signalBtn, () => window.App.UI.SignalDecodeModal.open(save));
+    box.appendChild(signalBtn);
+
     const exportBtn = U.el('button', 'smallBtn settingsFullBtn', '匯出存檔');
     U.onTap(exportBtn, () => {
       const text = Save.exportString(save);
@@ -200,7 +205,7 @@
       }, { title: '重置存檔', danger: true, confirmLabel: '重置', onCancel: () => open(save, onChange) });
     });
     box.appendChild(resetBtn);
-    box.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.4'));
+    box.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.5'));
 
     const closeBtn = U.el('button', 'modalBtn', '關閉');
     U.onTap(closeBtn, close);

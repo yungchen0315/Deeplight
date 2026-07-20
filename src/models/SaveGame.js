@@ -48,6 +48,9 @@
  * @property {number} nextBackupReminderAt 下次提示玩家匯出存檔備份的時戳（ms）。
  * @property {{unlockedIds:string[]}} captainLog 已解鎖的潛航日誌條目 id（LOG_DEFS），
  *   永久保留、不受任何轉生重置，純敘事用途不影響數值。
+ * @property {string[]} signalFragments 已收集的深淵訊號殘片 id（SIGNAL_FRAGMENT_DEFS），
+ *   永久保留、不受任何轉生重置。集滿後 nextSignalAt 不再有意義（不會再出現）。
+ * @property {number} nextSignalAt 下一次允許出現深淵訊號的時戳（ms），永久保留、隨時間推進。
  * ==========================================================================*/
 (function () {
   function createDefaultSave(now) {
@@ -111,7 +114,9 @@
       },
       eventLog: [],
       nextBackupReminderAt: now + window.App.Data.BALANCE.BACKUP_REMINDER_INTERVAL_MS,
-      captainLog: { unlockedIds: [] }
+      captainLog: { unlockedIds: [] },
+      signalFragments: [],
+      nextSignalAt: now + 900000
     };
   }
 

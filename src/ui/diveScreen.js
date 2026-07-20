@@ -13,6 +13,7 @@
   const Creature = window.App.Systems.Creature;
   const Quest = window.App.Systems.Quest;
   const Golden = window.App.Systems.Golden;
+  const Signal = window.App.Systems.Signal;
   const Event = window.App.Systems.Event;
   const Modals = window.App.UI.Modals;
   const Toast = window.App.UI.Toast;
@@ -28,6 +29,7 @@
   let active = false;
   let lastZoneId = null;
   let goldenActive = false;
+  let signalActive = false;
   let weekendShown = false;
 
   function render(container, save, onChange) {
@@ -36,6 +38,7 @@
     active = true;
     lastZoneId = null;
     goldenActive = false;
+    signalActive = false;
     weekendShown = false;
     U.clearNode(container);
 
@@ -276,6 +279,63 @@
     });
   }
 
+  /** 深淵訊號殘片：全遊戲最稀有的隨機事件，動作跟金燈魚幾乎一樣（漂過畫面、點擊
+   *  收集），但視覺/音效刻意做得「不自然」，且收集後開的是解碼卡片而不是選擇彈窗。 */
+  function spawnSignal() {
+    if (!active || !sceneEl || signalActive) return;
+    signalActive = true;
+    const wrap = U.el('div', 'creatureSprite creatureSignal');
+    wrap.appendChild(PR.spriteCanvasEl('c_signal', 3));
+    const topPct = 20 + Math.random() * 45;
+    wrap.style.top = topPct + '%';
+    const goingRight = Math.random() < 0.5;
+    wrap.style.left = goingRight ? '-15%' : '110%';
+    sceneEl.appendChild(wrap);
+
+    const lifespanMs = D.BALANCE.SIGNAL_LIFESPAN_MS;
+    requestAnimationFrame(() => {
+      wrap.style.transition = 'left ' + (lifespanMs / 1000) + 's linear';
+      wrap.style.left = goingRight ? '110%' : '-15%';
+    });
+
+    let caught = false;
+    function missSignal() {
+      if (caught) return;
+      signalActive = false;
+      Signal.scheduleNext(saveRef);
+      wrap.remove();
+    }
+    U.onTap(wrap, () => {
+      if (caught) return;
+      caught = true;
+      wrap.remove();
+      const r = Signal.collect(saveRef);
+      signalActive = false;
+      Signal.scheduleNext(saveRef);
+      if (!r.ok) return;
+      Audio.play('signal');
+      checkAchievements();
+      openSignalModal(r.def, r.justCompleted);
+      if (onChangeRef) onChangeRef();
+    });
+    const timeoutId = setTimeout(missSignal, lifespanMs + 200);
+    wrap.addEventListener('transitionend', () => { clearTimeout(timeoutId); missSignal(); });
+  }
+
+  function openSignalModal(def, justCompleted) {
+    Modals.showModal((box, close) => {
+      box.appendChild(U.el('div', 'modalTitle', '深淵訊號殘片'));
+      box.appendChild(U.el('div', 'modalLine signalFragmentText', def.text));
+      box.appendChild(U.el('div', 'subHint', '（' + saveRef.signalFragments.length + ' / ' + D.SIGNAL_FRAGMENT_DEFS.length + '，+' + D.BALANCE.SIGNAL_PEARL_REWARD + ' 珍珠）'));
+      if (justCompleted) {
+        box.appendChild(U.el('div', 'compendiumLine bestiaryLore', '——所有殘片都收集齊了。潛航日誌裡多了一篇新的條目，去看看吧。'));
+      }
+      const btn = U.el('button', 'modalBtn', '關閉');
+      U.onTap(btn, close);
+      box.appendChild(btn);
+    });
+  }
+
   function openQuestModal() {
     Quest.ensureToday(saveRef);
     Modals.showModal((box, close) => {
@@ -412,6 +472,7 @@
     }
 
     if (!goldenActive && Golden.dueToSpawn(save)) spawnGolden();
+    if (!signalActive && Signal.dueToSpawn(save)) spawnSignal();
   }
 
   function deactivate() {

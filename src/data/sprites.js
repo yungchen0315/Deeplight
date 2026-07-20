@@ -430,5 +430,14 @@
     dots(g, [[6, 8], [10, 8]], 'INK');
   });
 
+  /* 深淵訊號殘片：刻意畫成尖銳的幾何線條而非生物輪廓，讓它一眼看上去就「不屬於
+   * 這裡」——不是有機生物，是某種規律的、人工的東西。 */
+  SPRITES.c_signal = creatureSprite(16, 16, (g) => {
+    hline(g, 2, 8, 12, 'VIOLET');
+    vline(g, 8, 2, 12, 'VIOLET');
+    for (let i = 0; i < 4; i++) { setPx(g, 4 + i * 3, 4 + i * 2, 'PEARL'); setPx(g, 4 + i * 3, 12 - i * 2, 'PEARL'); }
+    circle(g, 8, 8, 2, 'GLOW2');
+  });
+
   window.App.Data.SPRITES = SPRITES;
 })();

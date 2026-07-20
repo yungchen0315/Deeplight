@@ -1,5 +1,5 @@
 /* ============================================================================
- * achievementDefs.js — 34 個成就（企劃書第 7 節 + v1.1/Phase2/Phase4 擴充），部分掉深海
+ * achievementDefs.js — 36 個成就（企劃書第 7 節 + v1.1/Phase2/Phase4 擴充），部分掉深海
  * 珍珠。condition(state) 由 achievementSystem 呼叫；state 是完整 SaveGame，只在
  * 該成就尚未解鎖時才會被呼叫（見 achievementSystem.js），所以就算條件內部呼叫
  * Economy.computeEffects 之類稍重的函式也不會變成長期的每 tick 負擔。
@@ -73,7 +73,11 @@
     { id: 'depth_80000', name: '灼熱盡頭', desc: '下潛至 80000 公尺', pearl: 5,
       condition: (s) => s.maxDepthEver >= 80000 },
     { id: 'depth_130000', name: '裂谷盡頭', desc: '下潛至 130000 公尺（目前版本最深處）', pearl: 6,
-      condition: (s) => s.maxDepthEver >= 130000 }
+      condition: (s) => s.maxDepthEver >= 130000 },
+    { id: 'first_signal', name: '不明訊號', desc: '收到第一段深淵訊號殘片', pearl: 2,
+      condition: (s) => (s.signalFragments || []).length >= 1 },
+    { id: 'signal_all', name: '訊號全解', desc: '收集齊全部深淵訊號殘片', pearl: 5,
+      condition: (s) => (s.signalFragments || []).length >= window.App.Data.SIGNAL_FRAGMENT_DEFS.length }
   ];
 
   window.App.Data.ACHIEVEMENT_DEFS = ACHIEVEMENT_DEFS;

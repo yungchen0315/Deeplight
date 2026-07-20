@@ -76,6 +76,13 @@
     GOLDEN_GATE_MULT: 0.5,
     GOLDEN_GATE_SECONDS: 90,
 
+    // 深淵訊號殘片：全遊戲最稀有的隨機事件，比金燈魚更少見。只在 zone 3（深淵帶）
+    // 以後才可能出現，且全部收集齊後就不再出現（見 signalSystem.js dueToSpawn）。
+    SIGNAL_MIN_ZONE: 3,
+    SIGNAL_SPAWN_INTERVAL_MS: [1200000, 2400000], // 20~40 分鐘
+    SIGNAL_LIFESPAN_MS: 7000,
+    SIGNAL_PEARL_REWARD: 1,
+
     // 每日任務：3 題／天，從範本池決定性抽取（依日期字串 seed，不需要伺服器）。
     QUEST_COUNT_PER_DAY: 3,
     QUEST_ALL_DONE_PEARL: 1,

@@ -82,6 +82,10 @@
       Audio.play('achievement');
       window.App.UI.Toast.toast('成就解鎖：' + a.name + (a.pearl ? '　+' + a.pearl + ' 珍珠' : ''));
     });
+    result.newLogEntries.forEach((entry) => {
+      Audio.play('discovery');
+      window.App.UI.Toast.toast('📖 潛航日誌更新：《' + entry.title + '》');
+    });
     if (result.autoTapped && result.lureTriggered && currentScreenId === 'dive') DiveScreen.forceSpawnSoon();
     if (result.autoGatedZone) {
       Audio.play('gate');

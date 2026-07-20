@@ -145,6 +145,11 @@
     U.onTap(eventLogBtn, () => window.App.UI.EventLogModal.open(save));
     box.appendChild(eventLogBtn);
 
+    const logCount = save.captainLog.unlockedIds.length;
+    const captainLogBtn = U.el('button', 'smallBtn settingsFullBtn', '潛航日誌（' + logCount + ' / ' + window.App.Data.LOG_DEFS.length + '）');
+    U.onTap(captainLogBtn, () => window.App.UI.CaptainLogModal.open(save));
+    box.appendChild(captainLogBtn);
+
     const exportBtn = U.el('button', 'smallBtn settingsFullBtn', '匯出存檔');
     U.onTap(exportBtn, () => {
       const text = Save.exportString(save);

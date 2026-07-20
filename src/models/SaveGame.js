@@ -46,6 +46,8 @@
  * @property {Array<{ts:number, message:string}>} eventLog 重大事件時間軸（轉生/協約/
  *   盟約/里程碑等），最多保留最近 50 筆，純記錄用途不影響數值。
  * @property {number} nextBackupReminderAt 下次提示玩家匯出存檔備份的時戳（ms）。
+ * @property {{unlockedIds:string[]}} captainLog 已解鎖的潛航日誌條目 id（LOG_DEFS），
+ *   永久保留、不受任何轉生重置，純敘事用途不影響數值。
  * ==========================================================================*/
 (function () {
   function createDefaultSave(now) {
@@ -108,7 +110,8 @@
         autoTapEnabled: true, autoClaimQuestsEnabled: true
       },
       eventLog: [],
-      nextBackupReminderAt: now + window.App.Data.BALANCE.BACKUP_REMINDER_INTERVAL_MS
+      nextBackupReminderAt: now + window.App.Data.BALANCE.BACKUP_REMINDER_INTERVAL_MS,
+      captainLog: { unlockedIds: [] }
     };
   }
 

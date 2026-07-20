@@ -205,7 +205,7 @@
       }, { title: '重置存檔', danger: true, confirmLabel: '重置', onCancel: () => open(save, onChange) });
     });
     box.appendChild(resetBtn);
-    box.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.5'));
+    box.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.6'));
 
     const closeBtn = U.el('button', 'modalBtn', '關閉');
     U.onTap(closeBtn, close);

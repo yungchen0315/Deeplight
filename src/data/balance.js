@@ -48,6 +48,12 @@
     CREATURE_BURST_SECONDS: 20, // 點擊生物獲得「N 秒產量」的爆發獎勵（研究可延長）
     CREATURE_RARE_CHANCE: 0.15, // 生物生成時抽到稀有種的機率（該海域稀有種存在時才生效）
 
+    // 聲納脈衝：主動技能，玩家自己決定何時觸發（而不是純粹等待路過生物隨機出現），
+    // 立即強制刷新一隻生物，且那一次的稀有機率有加成。從開局就可以用，冷卻時間到了
+    // 就會一直提醒玩家「可以按了」，是核心點擊/等待迴圈之外一個主動、可控的節奏。
+    SONAR_COOLDOWN_MS: 45000,
+    SONAR_RARE_BONUS_MULT: 3,
+
     CREATURE_MISSED_INTERVAL_MS: 2 * 3600 * 1000, // 離線每滿 2 小時記一次「錯過的生物」
     CREATURE_MISSED_QUEUE_CAP: 5,
 

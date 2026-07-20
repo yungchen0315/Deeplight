@@ -19,7 +19,9 @@
   }
 
   /** 依目前海域與稀有機率抽一種會路過的生物。 */
-  function rollSpecies(save) {
+  /** rareBonusMult：目前只有聲納脈衝（diveScreen.js 的主動技能）會傳非 1 的值進來，
+   *  讓玩家主動觸發的那一次生成有更高機率抽到稀有種，跟被動路過的生成做出區隔。 */
+  function rollSpecies(save, rareBonusMult) {
     const eff = Econ.computeEffects(save);
     const list = D.creaturesForZone(save.currentZone);
     if (list.length === 0) return null;
@@ -28,7 +30,7 @@
     const Event = window.App.Systems.Event;
     const seasonal = Event && Event.currentSeasonalEvent();
     const seasonalRareMult = seasonal ? seasonal.rareChanceMult : 1;
-    const rareChance = B.CREATURE_RARE_CHANCE * eff.rareChanceMult * seasonalRareMult;
+    const rareChance = B.CREATURE_RARE_CHANCE * eff.rareChanceMult * seasonalRareMult * (rareBonusMult || 1);
     if (rares.length > 0 && Math.random() < rareChance) return U.choice(rares);
     return U.choice(commons.length ? commons : list);
   }

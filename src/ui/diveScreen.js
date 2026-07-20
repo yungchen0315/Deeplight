@@ -91,6 +91,12 @@
     scene.appendChild(questBtn);
     U.onTap(questBtn, () => openQuestModal());
 
+    // 聲納脈衝：主動技能，冷卻好了就能按，立即強制刷一隻生物且稀有機率加成——
+    // 給玩家一個「自己決定節奏」的主動選擇，不是只能等路過生物隨機出現或狂點水面。
+    const sonarBtn = U.el('button', 'sonarBtn', '📡');
+    scene.appendChild(sonarBtn);
+    U.onTap(sonarBtn, () => triggerSonar());
+
     // 珍珠加護按鈕。
     const boostBtn = U.el('button', 'pearlBoostBtn', '');
     scene.appendChild(boostBtn);
@@ -104,7 +110,7 @@
     const flavorLine = U.el('div', 'diveFlavorLine', '');
     scene.appendChild(flavorLine);
 
-    hudRefs = { haloWrap, pendingBadge, gateBtn, depthLabel, lureFill, boostBtn, questBtn, weekendBanner, flavorLine };
+    hudRefs = { haloWrap, pendingBadge, gateBtn, depthLabel, lureFill, boostBtn, questBtn, weekendBanner, flavorLine, sonarBtn };
 
     // 點擊水域＝手動採光（點在生物/按鈕上時各自的 handler 會 stopPropagation）。
     U.onTap(scene, (e) => {
@@ -197,9 +203,9 @@
     }
   }
 
-  function spawnCreature() {
+  function spawnCreature(rareBonusMult) {
     if (!active || !sceneEl) return;
-    const def = Creature.rollSpecies(saveRef);
+    const def = Creature.rollSpecies(saveRef, rareBonusMult);
     if (!def) { scheduleSpawn(); return; }
     const scale = 3;
     const wrap = U.el('div', 'creatureSprite' + (def.rare ? ' creatureRare' : ''));
@@ -482,6 +488,34 @@
 
     if (!goldenActive && Golden.dueToSpawn(save)) spawnGolden();
     if (!signalActive && Signal.dueToSpawn(save)) spawnSignal();
+
+    const sonarRemainMs = (save.nextSonarAt || 0) - Date.now();
+    if (sonarRemainMs > 0) {
+      hudRefs.sonarBtn.textContent = Math.ceil(sonarRemainMs / 1000) + 's';
+      hudRefs.sonarBtn.classList.add('disabled');
+    } else {
+      hudRefs.sonarBtn.textContent = '📡';
+      hudRefs.sonarBtn.classList.remove('disabled');
+    }
+  }
+
+  /** 聲納脈衝：主動技能，冷卻好了隨時可按，立即強制刷新一隻生物（無視正常的隨機
+   *  間隔）且那一次的稀有機率有加成——給玩家一個自己可以控制節奏的主動選擇，跟
+   *  「誘光進度條」（被動累積點擊次數換來的強制刷新）是兩套獨立的機制。 */
+  function triggerSonar() {
+    const now = Date.now();
+    if ((saveRef.nextSonarAt || 0) > now) return;
+    saveRef.nextSonarAt = now + D.BALANCE.SONAR_COOLDOWN_MS;
+    saveRef.stats.totalSonarUses = (saveRef.stats.totalSonarUses || 0) + 1;
+    Audio.play('gate');
+    FX.popButton(hudRefs.sonarBtn);
+    forceSpawnSonar();
+    if (onChangeRef) onChangeRef();
+  }
+
+  function forceSpawnSonar() {
+    if (spawnTimeoutId) clearTimeout(spawnTimeoutId);
+    spawnTimeoutId = setTimeout(() => spawnCreature(D.BALANCE.SONAR_RARE_BONUS_MULT), 200);
   }
 
   function deactivate() {

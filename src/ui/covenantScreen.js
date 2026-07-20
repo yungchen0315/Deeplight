@@ -31,7 +31,9 @@
       const owned = save.sigils.includes(def.id);
       const lockedByPrereq = def.requires && !save.sigils.includes(def.requires);
       const row = U.el('div', 'refitRow' + (owned ? ' refitOwned' : ''));
-      row.appendChild(U.el('span', 'refitName', (owned ? '✔ ' : '') + def.name));
+      const nameEl = U.el('span', 'refitName tapDetail', (owned ? '✔ ' : '') + def.name);
+      U.onTap(nameEl, () => window.App.UI.NodeDetailModal.open(def, '印記'));
+      row.appendChild(nameEl);
       row.appendChild(U.el('span', 'refitDesc', def.desc));
       if (!owned) {
         if (lockedByPrereq) {

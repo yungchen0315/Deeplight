@@ -22,7 +22,9 @@
       const idx = branchNodes.findIndex((n) => n.id === def.id);
       const lockedByPrereq = idx > 0 && !save.nightPactNodes.includes(branchNodes[idx - 1].id);
       const row = U.el('div', 'refitRow' + (owned ? ' refitOwned' : ''));
-      row.appendChild(U.el('span', 'refitName', (owned ? '✔ ' : '') + def.name));
+      const nameEl = U.el('span', 'refitName tapDetail', (owned ? '✔ ' : '') + def.name);
+      U.onTap(nameEl, () => window.App.UI.NodeDetailModal.open(def, '夜輝'));
+      row.appendChild(nameEl);
       row.appendChild(U.el('span', 'refitDesc', def.desc));
       if (!owned) {
         if (lockedByPrereq) {

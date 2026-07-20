@@ -154,6 +154,7 @@ button { font-family: inherit; border: none; cursor: pointer; }
 .researchRow, .refitRow, .achRow { padding: 6px 0; border-bottom: 1px solid #1B2836; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .researchRow.researchDone, .refitRow.refitOwned, .achRow.achDone { opacity: 0.55; }
 .researchName, .refitName { font-size: 13px; flex: 0 0 auto; margin-right: 6px; }
+.researchName.tapDetail, .refitName.tapDetail { cursor: pointer; }
 .researchDesc, .refitDesc, .achDesc { font-size: 11px; color: #7E92A8; flex: 1 1 auto; }
 
 .bestiaryGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 6px; }

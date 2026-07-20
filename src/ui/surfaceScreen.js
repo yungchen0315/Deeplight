@@ -128,7 +128,9 @@
     D.REFIT_DEFS.forEach((def) => {
       const owned = save.refits.includes(def.id);
       const row = U.el('div', 'refitRow' + (owned ? ' refitOwned' : ''));
-      row.appendChild(U.el('span', 'refitName', (owned ? '✔ ' : '') + def.name));
+      const nameEl = U.el('span', 'refitName tapDetail', (owned ? '✔ ' : '') + def.name);
+      U.onTap(nameEl, () => window.App.UI.NodeDetailModal.open(def, '核心'));
+      row.appendChild(nameEl);
       row.appendChild(U.el('span', 'refitDesc', def.desc));
       if (!owned) {
         const canAfford = save.cores >= def.cost;

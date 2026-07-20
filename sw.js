@@ -60,6 +60,7 @@ const PRECACHE_URLS = [
   'src/ui/eventLogModal.js',
   'src/ui/prestigeCalculatorModal.js',
   'src/ui/moduleDetailModal.js',
+  'src/ui/nodeDetailModal.js',
   'src/ui/topBar.js',
   'src/ui/bottomNav.js',
   'src/ui/diveScreen.js',

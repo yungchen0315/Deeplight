@@ -7,9 +7,9 @@
 (function () {
   const ZONE_DEFS = [
     { id: 0, name: '透光帶', minDepth: 0, anchorDepth: 200, mult: 1, bg: 'W1', filterHue: 0, gateCost: 7500 },
-    { id: 1, name: '暮光帶', minDepth: 200, anchorDepth: 1000, mult: 3, bg: 'W2', filterHue: 0, gateCost: 300000 },
-    { id: 2, name: '午夜帶', minDepth: 1000, anchorDepth: 4000, mult: 10, bg: 'W3', filterHue: 0, gateCost: 200000000 },
-    { id: 3, name: '深淵帶', minDepth: 4000, anchorDepth: 11000, mult: 40, bg: 'INK', filterHue: 0, gateCost: 1000000000000 },
+    { id: 1, name: '暮光帶', minDepth: 200, anchorDepth: 1000, mult: 3, bg: 'W2', filterHue: 0, gateCost: 750000 },
+    { id: 2, name: '午夜帶', minDepth: 1000, anchorDepth: 4000, mult: 10, bg: 'W3', filterHue: 0, gateCost: 700000000 },
+    { id: 3, name: '深淵帶', minDepth: 4000, anchorDepth: 11000, mult: 40, bg: 'INK', filterHue: 0, gateCost: 2000000000000 },
     { id: 4, name: '海溝幽域', minDepth: 11000, anchorDepth: 20000, mult: 150, bg: 'INK', filterHue: 250, gateCost: 500000000000000 },
     { id: 5, name: '無光帶', minDepth: 20000, anchorDepth: 35000, mult: 600, bg: 'INK', filterHue: 120, gateCost: 300000000000000000 },
     { id: 6, name: '深海平原', minDepth: 35000, anchorDepth: 55000, mult: 2200, bg: 'INK', filterHue: 40, gateCost: 2e20 },

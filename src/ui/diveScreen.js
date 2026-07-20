@@ -123,7 +123,16 @@
     }
   }
 
+  let lastTapAt = 0;
+
+  /** 手動點擊水域有最短間隔限制（見 balance.js CLICK_TAP_COOLDOWN_MS）：獎勵是「目前
+   *  每秒產量的一個比例」，沒有冷卻的話單純狂點滑鼠／觸控就能無上限疊加，等同繞過
+   *  整條放置節奏——冷卻時間內的多餘點擊直接忽略（不給獎勵也不給音效/特效回饋），
+   *  逼近冷卻速率點擊時，實際每秒收益趨近一個固定倍率，而不是無限。 */
   function tapWater(e) {
+    const now = Date.now();
+    if (now - lastTapAt < D.BALANCE.CLICK_TAP_COOLDOWN_MS) return;
+    lastTapAt = now;
     const result = Econ.applyTap(saveRef);
     Audio.play('tap');
     let xPct = 45 + Math.random() * 10, yPct = 50 + Math.random() * 10;

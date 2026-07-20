@@ -22,6 +22,7 @@
   let sceneEl = null;
   let hudRefs = null;
   let spawnTimeoutId = null;
+  let flavorTimeoutId = null;
   let saveRef = null;
   let onChangeRef = null;
   let active = false;
@@ -96,7 +97,11 @@
     const weekendBanner = U.el('div', 'weekendBanner', '');
     scene.appendChild(weekendBanner);
 
-    hudRefs = { haloWrap, pendingBadge, gateBtn, depthLabel, lureFill, boostBtn, questBtn, weekendBanner };
+    // 環境觀測記錄：純氣氛的一行字，跟數值無關，見 scheduleFlavor()。
+    const flavorLine = U.el('div', 'diveFlavorLine', '');
+    scene.appendChild(flavorLine);
+
+    hudRefs = { haloWrap, pendingBadge, gateBtn, depthLabel, lureFill, boostBtn, questBtn, weekendBanner, flavorLine };
 
     // 點擊水域＝手動採光（點在生物/按鈕上時各自的 handler 會 stopPropagation）。
     U.onTap(scene, (e) => {
@@ -106,6 +111,7 @@
     });
 
     scheduleSpawn();
+    scheduleFlavor();
     tick(save);
 
     if (!save.tutorial.done) {
@@ -136,6 +142,27 @@
     if (!active) return;
     const delay = Creature.nextSpawnDelayMs(saveRef);
     spawnTimeoutId = setTimeout(spawnCreature, delay);
+  }
+
+  /** 環境觀測記錄：跟路過生物完全獨立的一條計時器，純氣氛、不影響任何數值，
+   *  依目前海域深度決定文字語氣梯度（見 ambientFlavorDefs.js）。 */
+  function scheduleFlavor() {
+    if (!active) return;
+    const B = D.BALANCE;
+    const [min, max] = B.AMBIENT_FLAVOR_INTERVAL_MS;
+    flavorTimeoutId = setTimeout(showFlavor, U.randomInt(min, max));
+  }
+
+  function showFlavor() {
+    if (!active || !hudRefs) { scheduleFlavor(); return; }
+    const tier = D.flavorTierForZone(saveRef.currentZone);
+    const pool = D.AMBIENT_FLAVOR_TIERS[tier];
+    const line = U.choice(pool);
+    const el = hudRefs.flavorLine;
+    el.textContent = line;
+    el.classList.add('diveFlavorShow');
+    setTimeout(() => el.classList.remove('diveFlavorShow'), D.BALANCE.AMBIENT_FLAVOR_SHOW_MS);
+    scheduleFlavor();
   }
 
   function collectOnScreenCreature(def, wrap, collectedRef) {
@@ -340,7 +367,10 @@
     hudRefs.pendingBadge.textContent = save.pendingCreatures > 0 ? ('🔔 ' + save.pendingCreatures) : '';
     hudRefs.pendingBadge.style.display = save.pendingCreatures > 0 ? 'block' : 'none';
 
-    const zone = D.zoneForDepth(save.depth) || D.ZONE_DEFS[0];
+    // 用 currentZone（而非 zoneForDepth(depth)）取得目前海域：depth 到達錨點時會
+    // 精準等於 anchorDepth，zoneForDepth 的 `depth < anchorDepth` 判斷在這個邊界值
+    // 會跨到下一海域，導致還沒付過路費就先顯示下一海域的名稱/背景。
+    const zone = D.zoneById(save.currentZone) || D.ZONE_DEFS[0];
     sceneEl.style.background = D.PALETTE[zone.bg];
     sceneEl.style.filter = zone.filterHue ? ('hue-rotate(' + zone.filterHue + 'deg)') : '';
     hudRefs.depthLabel.textContent = Math.floor(save.depth) + ' m　' + zone.name;
@@ -388,6 +418,8 @@
     active = false;
     if (spawnTimeoutId) clearTimeout(spawnTimeoutId);
     spawnTimeoutId = null;
+    if (flavorTimeoutId) clearTimeout(flavorTimeoutId);
+    flavorTimeoutId = null;
   }
 
   window.App.UI.DiveScreen = { render, tick, deactivate, forceSpawnSoon };

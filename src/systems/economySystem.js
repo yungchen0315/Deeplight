@@ -95,6 +95,7 @@
     if (save.tempBuff && save.tempBuff.until > Date.now()) {
       if (save.tempBuff.kind === 'prod') eff.allProdMult *= save.tempBuff.mult;
       else if (save.tempBuff.kind === 'descent') eff.descentMult *= save.tempBuff.mult;
+      else if (save.tempBuff.kind === 'gate') eff.gateCostMult *= save.tempBuff.mult;
     }
     // 季節活動（見 eventSystem.js）：固定日期的全螢光產量加成。
     const Event = window.App.Systems.Event;

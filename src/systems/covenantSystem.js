@@ -56,6 +56,7 @@
     eff.autoResearchIds.forEach((id) => {
       if (id && !save.research.includes(id)) save.research.push(id);
     });
+    window.App.Systems.Quest.rebaseNonMonotonic(save);
 
     window.App.Systems.EventLog.log(save, '締結深淵協約，獲得 ' + gained + ' 顆深淵印記（第 ' + save.covenantCount + ' 次協約）');
     return { ok: true, gained };

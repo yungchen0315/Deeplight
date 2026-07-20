@@ -49,6 +49,10 @@
       const zone = D.zoneForDepth(eff.startDepth);
       save.currentZone = zone ? zone.id : 0;
     }
+    eff.autoResearchIds.forEach((id) => {
+      if (id && !save.research.includes(id)) save.research.push(id);
+    });
+    window.App.Systems.Quest.rebaseNonMonotonic(save);
 
     window.App.Systems.EventLog.log(save, '重返海面，獲得 ' + gained + ' 顆壓力核心（第 ' + save.prestigeCount + ' 次轉生）');
     return { ok: true, gained };

@@ -1,6 +1,7 @@
 /* ============================================================================
- * goldenCreatureSystem.js — 金燈魚：主動遊玩期間限定的稀有快速生物。點擊後從三
- * 選二的強力短效增益中挑一個套用。時機（nextGoldenAt）存進存檔，離線期間不倒數。
+ * goldenCreatureSystem.js — 金燈魚：主動遊玩期間限定的稀有快速生物。點擊後從
+ * GOLDEN_BUFF_DEFS 池子隨機抽兩種，挑一個套用。時機（nextGoldenAt）存進存檔，
+ * 離線期間不倒數。
  * ==========================================================================*/
 (function () {
   const D = window.App.Data;
@@ -20,7 +21,7 @@
     save.nextGoldenAt = now + U.randomInt(min, max);
   }
 
-  /** 從三種增益中隨機抽兩種，做成二選一卡片。 */
+  /** 從增益池中隨機抽兩種不重複的，做成二選一卡片。 */
   function rollChoices() {
     const pool = D.GOLDEN_BUFF_DEFS.slice();
     const first = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
@@ -38,6 +39,10 @@
       save.glow += gained;
       save.stats.totalGlowEarned += gained;
       return { ok: true, def, gained };
+    }
+    if (def.kind === 'pearl') {
+      save.pearls = (save.pearls || 0) + def.amount;
+      return { ok: true, def };
     }
     save.tempBuff = { kind: def.kind, mult: def.mult, until: now + def.seconds * 1000 };
     return { ok: true, def };

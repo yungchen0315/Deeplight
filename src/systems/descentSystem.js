@@ -40,7 +40,7 @@
     if (cost === null) return { ok: false, reason: '此海域尚未開放' };
     if (save.glow < cost) return { ok: false, reason: '螢光不足' };
     const next = nextZone(save);
-    if (!next) return { ok: false, reason: '已達目前版本最深處' };
+    if (!next || next.comingSoon) return { ok: false, reason: '已達目前版本最深處' };
     save.glow -= cost;
     save.currentZone += 1;
     save.samples = (save.samples || 0) + 3 + 3 * zone.id;

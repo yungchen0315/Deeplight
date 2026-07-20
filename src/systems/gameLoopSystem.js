@@ -10,6 +10,7 @@
   const Econ = window.App.Systems.Economy;
   const Descent = window.App.Systems.Descent;
   const Achievement = window.App.Systems.Achievement;
+  const Log = window.App.Systems.Log;
 
   /** 自動採買：找出目前已解鎖（或已持有）模組中最便宜且買得起的一個，買 1 個。 */
   function tryAutoBuy(save) {
@@ -37,8 +38,8 @@
   /**
    * @param {SaveGame} save
    * @param {number} dtMs 距離上次 tick 的實際毫秒數。
-   * @returns {{newAchievements: AchievementDef[], autoTapped: boolean, lureTriggered: boolean,
-   *   autoBoughtModule: ?ModuleDef, autoGatedZone: ?ZoneDef}}
+   * @returns {{newAchievements: AchievementDef[], newLogEntries: LogDef[], autoTapped: boolean,
+   *   lureTriggered: boolean, autoBoughtModule: ?ModuleDef, autoGatedZone: ?ZoneDef}}
    */
   function tick(save, dtMs) {
     const dtSec = Math.max(0, dtMs / 1000);
@@ -76,7 +77,8 @@
     }
 
     const newAchievements = Achievement.checkAchievements(save);
-    return { newAchievements, autoTapped, lureTriggered, autoBoughtModule, autoGatedZone, autoClaimedQuestCount };
+    const newLogEntries = Log.checkEntries(save);
+    return { newAchievements, newLogEntries, autoTapped, lureTriggered, autoBoughtModule, autoGatedZone, autoClaimedQuestCount };
   }
 
   window.App.Systems.GameLoop = { tick };

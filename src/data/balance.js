@@ -30,7 +30,6 @@
     PRESTIGE_DEPTH_DIVISOR: 400,
     PRESTIGE_EXPONENT: 1.15,
     CORE_PRODUCTION_BONUS_PCT: 10, // 每顆壓力核心 +10% 全螢光產量（乘法疊加，重構可覆寫更高值）
-    BESTIARY_PROD_BONUS_PCT: 2, // 深淵圖鑑每記錄一種生物 +2% 全螢光產量，永久保留
 
     // 點擊：手動點擊水域＝目前每秒產量的一個固定比例（有下限），讓點擊在任何階段都有意義。
     CLICK_TAP_GPS_FRACTION: 0.25,
@@ -38,6 +37,8 @@
     TAPS_PER_LURE: 60, // 累積 N 次點擊，強制立即刷一隻路過生物（誘光進度條）
 
     CREATURE_SPAWN_INTERVAL_MS: [18000, 40000], // 路過生物出現間隔隨機範圍
+    AMBIENT_FLAVOR_INTERVAL_MS: [50000, 100000], // 潛航畫面環境觀測記錄出現間隔隨機範圍
+    AMBIENT_FLAVOR_SHOW_MS: 6000, // 環境觀測記錄單則顯示時長
     CREATURE_SAMPLE_DROP_CHANCE: 0.25, // 非首次遇見時，額外掉落樣本的機率
     CREATURE_BURST_SECONDS: 30, // 點擊生物獲得「N 秒產量」的爆發獎勵（研究可延長）
     CREATURE_RARE_CHANCE: 0.15, // 生物生成時抽到稀有種的機率（該海域稀有種存在時才生效）
@@ -71,6 +72,9 @@
     GOLDEN_INSTANT_MINUTES: 15,
     GOLDEN_DESCENT_MULT: 5,
     GOLDEN_DESCENT_SECONDS: 120,
+    GOLDEN_PEARL_AMOUNT: 1,
+    GOLDEN_GATE_MULT: 0.5,
+    GOLDEN_GATE_SECONDS: 90,
 
     // 每日任務：3 題／天，從範本池決定性抽取（依日期字串 seed，不需要伺服器）。
     QUEST_COUNT_PER_DAY: 3,

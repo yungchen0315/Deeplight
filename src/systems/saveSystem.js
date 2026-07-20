@@ -28,6 +28,8 @@
     if (!Array.isArray(saveGame.quests.items)) saveGame.quests.items = [];
     saveGame.tutorial = Object.assign({}, def.tutorial, saveGame.tutorial);
     if (!Array.isArray(saveGame.tutorial.seenHints)) saveGame.tutorial.seenHints = [];
+    saveGame.captainLog = Object.assign({}, def.captainLog, saveGame.captainLog);
+    if (!Array.isArray(saveGame.captainLog.unlockedIds)) saveGame.captainLog.unlockedIds = [];
 
     if (typeof saveGame.tapLureProgress !== 'number') saveGame.tapLureProgress = 0;
     if (typeof saveGame.boostUntil !== 'number') saveGame.boostUntil = 0;

@@ -71,6 +71,7 @@
     effAfter.autoResearchIds.forEach((id) => {
       if (id && !save.research.includes(id)) save.research.push(id);
     });
+    window.App.Systems.Quest.rebaseNonMonotonic(save);
 
     window.App.Systems.EventLog.log(save, '締結永夜盟約，獲得 ' + gained + ' 顆夜輝（第 ' + save.pactCount + ' 次盟約）');
     return { ok: true, gained };

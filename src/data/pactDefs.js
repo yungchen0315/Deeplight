@@ -33,7 +33,7 @@
       lore: '虛空潮汐分支的終點，讓深海珍珠的回響不再稀少，幾乎成了每一次生物目擊都值得期待的驚喜。' },
 
     // 星海羅盤：自動化與便利性，盟約樹獨有、不與其他樹重疊的效果類型。
-    { id: 'sc1', branch: 'compass', tier: 1, cost: 2, name: '星海羅盤・傳承', desc: '締結協約或盟約時，各分支保留最高階已購印記', effect: { type: 'keepTopSigilOnReset' },
+    { id: 'sc1', branch: 'compass', tier: 1, cost: 2, name: '星海羅盤・傳承', desc: '締結永夜盟約時，各分支保留最高階已購印記（不影響深淵協約——協約本來就不會動印記樹）', effect: { type: 'keepTopSigilOnReset' },
       lore: '星海羅盤分支的起點，讓潛燈號記住「傳承」的意義——每次締結新的層級，過去點滿的心血都不必從零開始。' },
     { id: 'sc2', branch: 'compass', tier: 2, cost: 4, name: '星海羅盤・自律', desc: '每日任務完成時自動領取', effect: { type: 'autoClaimQuests' },
       lore: '潛燈號學會了自律——每日任務一旦達標，不需要玩家再回來手動點擊領取。' },

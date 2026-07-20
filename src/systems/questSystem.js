@@ -54,6 +54,24 @@
 
   function isDone(save, item) { return progressFor(save, item) >= item.target; }
 
+  /** 'depth'／'sigils' 這兩個 statPath 不是終身遞增的：重返海面／深淵協約／永夜盟約都
+   *  會讓 save.depth 歸零，永夜盟約還可能清空 save.sigils。若不處理，尚未領取的當日
+   *  任務會卡在一個「舊 baseline 比重置後的當前值還高」的狀態，progressFor 永遠算出 0，
+   *  且往後得先重新累積回舊 baseline 才看得到進度——形同當天卡死。三個轉生層的
+   *  resurface/enact 都應在重置完成後呼叫這個函式，把受影響任務的 baseline 貼齊
+   *  重置後的當前值，讓任務從新的一輪繼續公平地算進度。 */
+  function rebaseNonMonotonic(save) {
+    if (!save.quests || !Array.isArray(save.quests.items)) return;
+    save.quests.items.forEach((item) => {
+      if (item.claimed) return;
+      const tpl = D.questTemplateById(item.tplId);
+      if (!tpl) return;
+      if (tpl.statPath === 'depth' || tpl.statPath === 'sigils') {
+        item.baseline = readStat(save, tpl.statPath);
+      }
+    });
+  }
+
   function allClaimed(save) { return save.quests.items.length > 0 && save.quests.items.every((it) => it.claimed); }
 
   function claim(save, tplId) {
@@ -74,5 +92,5 @@
     return { ok: true, reward: tpl.reward, bonus };
   }
 
-  window.App.Systems.Quest = { ensureToday, progressFor, isDone, allClaimed, claim, readStat };
+  window.App.Systems.Quest = { ensureToday, progressFor, isDone, allClaimed, claim, readStat, rebaseNonMonotonic };
 })();

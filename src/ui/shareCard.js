@@ -54,7 +54,9 @@
   }
 
   function drawStats(ctx, save) {
-    const zone = D.zoneForDepth(save.depth) || D.ZONE_DEFS[0];
+    // 用 currentZone 而非 zoneForDepth(depth)：depth 停在錨點時精準等於
+    // anchorDepth，會被 zoneForDepth 判給下一海域（見 diveScreen.js 同樣的修正）。
+    const zone = D.zoneById(save.currentZone) || D.ZONE_DEFS[0];
     const gps = Econ.glowPerSec(save);
     const starTotal = Object.keys(save.bestiary).reduce((sum, id) => sum + Econ.bestiaryStarLevel(save.bestiary[id].seen || 0), 0);
     const rows = [

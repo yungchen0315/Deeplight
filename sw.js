@@ -31,6 +31,7 @@ const PRECACHE_URLS = [
   'src/data/goldenBuffDefs.js',
   'src/data/compendiumDefs.js',
   'src/data/logDefs.js',
+  'src/data/ambientFlavorDefs.js',
   'src/models/SaveGame.js',
   'src/systems/saveSystem.js',
   'src/systems/eventLogSystem.js',

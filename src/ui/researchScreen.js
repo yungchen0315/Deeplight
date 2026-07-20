@@ -19,7 +19,9 @@
     D.RESEARCH_DEFS.forEach((def) => {
       const done = save.research.includes(def.id);
       const row = U.el('div', 'researchRow' + (done ? ' researchDone' : ''));
-      row.appendChild(U.el('span', 'researchName', (done ? '✔ ' : '') + def.name));
+      const nameEl = U.el('span', 'researchName tapDetail', (done ? '✔ ' : '') + def.name);
+      U.onTap(nameEl, () => window.App.UI.NodeDetailModal.open(def, 'SP'));
+      row.appendChild(nameEl);
       row.appendChild(U.el('span', 'researchDesc', def.desc));
       if (!done) {
         const check = Research.canBuy(save, def.id);

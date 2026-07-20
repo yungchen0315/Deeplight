@@ -49,6 +49,28 @@
     document.body.classList.toggle('highContrast', !!save.settings.highContrast);
   }
 
+  function applyTextScale(save) {
+    document.body.classList.toggle('textScaleLarge', save.settings.textScale === 'large');
+    document.body.classList.toggle('textScaleXLarge', save.settings.textScale === 'xlarge');
+  }
+
+  function textScaleRow(save, onChange) {
+    const row = U.el('div', 'settingsRow');
+    row.appendChild(U.el('span', 'settingsLabel', '文字大小'));
+    const wrap = U.el('div', 'qtyToggle');
+    [['normal', '一般'], ['large', '大'], ['xlarge', '特大']].forEach(([value, label]) => {
+      const b = U.el('button', 'qtyBtn' + (save.settings.textScale === value ? ' qtyActive' : ''), label);
+      U.onTap(b, () => {
+        save.settings.textScale = value;
+        applyTextScale(save);
+        onChange();
+      });
+      wrap.appendChild(b);
+    });
+    row.appendChild(wrap);
+    return row;
+  }
+
   function open(save, onChange) {
     const overlay = document.getElementById('modalOverlay');
     U.clearNode(overlay);
@@ -82,6 +104,7 @@
     box.appendChild(toggleRow('數字格式：科學記號', save.settings.numberFormat === 'sci', (v) => {
       save.settings.numberFormat = v ? 'sci' : 'zh'; U.setNumberFormat(save.settings.numberFormat); onChange();
     }));
+    box.appendChild(textScaleRow(save, onChange));
 
     // 自動化開關：買了自動化節點（f9 重構／深淵協約或永夜盟約樹）不代表玩家隨時都
     // 想要它生效，這裡讓玩家可以暫停——只在「至少解鎖過一種自動化」時才顯示，
@@ -172,7 +195,7 @@
       }, { title: '重置存檔', danger: true, confirmLabel: '重置', onCancel: () => open(save, onChange) });
     });
     box.appendChild(resetBtn);
-    box.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.3'));
+    box.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.4'));
 
     const closeBtn = U.el('button', 'modalBtn', '關閉');
     U.onTap(closeBtn, close);

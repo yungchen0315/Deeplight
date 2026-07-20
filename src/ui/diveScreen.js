@@ -92,8 +92,8 @@
     scene.appendChild(boostBtn);
     U.onTap(boostBtn, () => usePearlBoost());
 
-    // 週末活動橫幅。
-    const weekendBanner = U.el('div', 'weekendBanner', '🎉 週末大遷徙：生物出現速度 x2');
+    // 活動橫幅（週末大遷徙／季節活動），實際文字由 tick() 依當下狀態決定。
+    const weekendBanner = U.el('div', 'weekendBanner', '');
     scene.appendChild(weekendBanner);
 
     hudRefs = { haloWrap, pendingBadge, gateBtn, depthLabel, lureFill, boostBtn, questBtn, weekendBanner };
@@ -164,7 +164,7 @@
     if (!def) { scheduleSpawn(); return; }
     const scale = 3;
     const wrap = U.el('div', 'creatureSprite' + (def.rare ? ' creatureRare' : ''));
-    wrap.appendChild(PR.spriteCanvasEl(def.icon, scale));
+    wrap.appendChild(FX.isReduced() ? PR.spriteCanvasEl(def.icon, scale) : PR.animatedSpriteCanvasEl(def.icon, scale));
     const topPct = 20 + Math.random() * 45;
     wrap.style.top = topPct + '%';
     const goingRight = Math.random() < 0.5;
@@ -348,9 +348,11 @@
 
     if (Descent.atGate(save)) {
       const cost = Descent.gateCost(save);
-      hudRefs.gateBtn.textContent = '加固艙體 · ' + U.formatNum(cost) + ' 螢光';
+      const ready = save.glow >= cost;
+      // 「可負擔」不只靠顏色區分（色盲不友善），加固艙體按鈕文字前面也會多一個 ✓。
+      hudRefs.gateBtn.textContent = (ready ? '✓ ' : '') + '加固艙體 · ' + U.formatNum(cost) + ' 螢光';
       hudRefs.gateBtn.style.display = 'block';
-      hudRefs.gateBtn.classList.toggle('gateBtnReady', save.glow >= cost);
+      hudRefs.gateBtn.classList.toggle('gateBtnReady', ready);
     } else {
       hudRefs.gateBtn.style.display = 'none';
     }
@@ -368,8 +370,16 @@
     }
     hudRefs.boostBtn.classList.toggle('disabled', save.pearls < 1 && remainMs <= 0);
 
-    if (!weekendShown && Event.isWeekend()) { weekendShown = true; hudRefs.weekendBanner.classList.add('weekendBannerShow'); }
-    else if (weekendShown && !Event.isWeekend()) { weekendShown = false; hudRefs.weekendBanner.classList.remove('weekendBannerShow'); }
+    // 活動橫幅：季節活動優先於週末大遷徙（比較稀有、值得優先讓玩家看到）。
+    const seasonal = Event.currentSeasonalEvent();
+    const bannerText = seasonal ? seasonal.banner : (Event.isWeekend() ? '🎉 週末大遷徙：生物出現速度 x2' : null);
+    if (bannerText) {
+      hudRefs.weekendBanner.textContent = bannerText;
+      if (!weekendShown) { weekendShown = true; hudRefs.weekendBanner.classList.add('weekendBannerShow'); }
+    } else if (weekendShown) {
+      weekendShown = false;
+      hudRefs.weekendBanner.classList.remove('weekendBannerShow');
+    }
 
     if (!goldenActive && Golden.dueToSpawn(save)) spawnGolden();
   }

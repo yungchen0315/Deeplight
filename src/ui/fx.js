@@ -69,5 +69,7 @@
     el.classList.add('btnPop');
   }
 
-  window.App.UI.FX = { syncSettings, popNumber, burst, shake, popButton };
+  function isReduced() { return reduced; }
+
+  window.App.UI.FX = { syncSettings, popNumber, burst, shake, popButton, isReduced };
 })();

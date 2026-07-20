@@ -1,5 +1,5 @@
 /* ============================================================================
- * achievementDefs.js — 33 個成就（企劃書第 7 節 + v1.1/Phase2 擴充），部分掉深海
+ * achievementDefs.js — 34 個成就（企劃書第 7 節 + v1.1/Phase2/Phase4 擴充），部分掉深海
  * 珍珠。condition(state) 由 achievementSystem 呼叫；state 是完整 SaveGame，只在
  * 該成就尚未解鎖時才會被呼叫（見 achievementSystem.js），所以就算條件內部呼叫
  * Economy.computeEffects 之類稍重的函式也不會變成長期的每 tick 負擔。
@@ -64,14 +64,16 @@
       condition: (s) => (s.stats.totalModuleUpgrades || 0) >= 10 },
     { id: 'boosts_5', name: '珍珠商人', desc: '累計使用 5 次珍珠加護', pearl: 0,
       condition: (s) => (s.stats.totalPearlBoostsUsed || 0) >= 5 },
-    { id: 'depth_35000', name: '深海盡頭', desc: '下潛至 35000 公尺（目前版本最深處）', pearl: 4,
+    { id: 'depth_35000', name: '深海盡頭', desc: '下潛至 35000 公尺', pearl: 4,
       condition: (s) => s.maxDepthEver >= 35000 },
     { id: 'first_pact', name: '永夜盟約', desc: '完成第一次永夜盟約', pearl: 3,
       condition: (s) => s.pactCount >= 1 },
     { id: 'pact_all', name: '盟約大師', desc: '點滿永夜盟約樹', pearl: 4,
       condition: (s) => (s.nightPactNodes || []).length >= window.App.Data.PACT_DEFS.length },
-    { id: 'depth_80000', name: '灼熱盡頭', desc: '下潛至 80000 公尺（目前版本最深處）', pearl: 5,
-      condition: (s) => s.maxDepthEver >= 80000 }
+    { id: 'depth_80000', name: '灼熱盡頭', desc: '下潛至 80000 公尺', pearl: 5,
+      condition: (s) => s.maxDepthEver >= 80000 },
+    { id: 'depth_130000', name: '裂谷盡頭', desc: '下潛至 130000 公尺（目前版本最深處）', pearl: 6,
+      condition: (s) => s.maxDepthEver >= 130000 }
   ];
 
   window.App.Data.ACHIEVEMENT_DEFS = ACHIEVEMENT_DEFS;

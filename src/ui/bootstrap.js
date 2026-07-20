@@ -51,6 +51,8 @@
     FX.syncSettings(save);
     Audio.syncSettings(save);
     document.body.classList.toggle('highContrast', !!save.settings.highContrast);
+    document.body.classList.toggle('textScaleLarge', save.settings.textScale === 'large');
+    document.body.classList.toggle('textScaleXLarge', save.settings.textScale === 'xlarge');
   }
 
   function renderScreen(screenId) {

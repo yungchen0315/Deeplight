@@ -161,6 +161,16 @@
     circle(g, 8, 8, 3, 'RED');
     dots(g, [[8, 8], [7, 7]], 'AMBER');
   });
+  SPRITES.mod_riftcrystal = modSprite((g) => {
+    for (let t = 0; t < 4; t++) vline(g, 4 + t * 3, 3 + (t % 2) * 2, 11 - (t % 2) * 2, 'VIOLET');
+    dots(g, [[4, 4], [7, 6], [10, 5], [13, 7]], 'PEARL');
+  });
+  SPRITES.mod_voidforge = modSprite((g) => {
+    rect(g, 3, 5, 10, 8, 'INK');
+    hline(g, 4, 6, 8, 'BORDER');
+    circle(g, 8, 10, 3, 'VIOLET');
+    dots(g, [[8, 10], [7, 9]], 'GLOW2');
+  });
 
   /* -------------------------------------------------------------- 生物 */
 
@@ -170,14 +180,32 @@
     return { w, h, grid: g };
   }
 
+  /** 第二幀（游動時的擺尾/擺鰭變化）。只有少數幾種路過生物有，diveScreen 靠
+   *  sprite.frame1 是否存在決定要不要用兩幀交替動畫呈現。 */
+  function frame1(w, h, build) {
+    const g = makeGrid(w, h);
+    build(g);
+    return g;
+  }
+
   SPRITES.c_moonjelly = creatureSprite(16, 16, (g) => {
     ellipse(g, 8, 5, 6, 4, 'FOAM');
     for (let x = 3; x <= 13; x += 2) for (let y = 2; y <= 8; y += 2) if (Math.random() < 0.4) setPx(g, x, y, null);
     for (let t = 0; t < 4; t++) vline(g, 4 + t * 3, 9, 5, 'FOAM');
     dots(g, [[8, 4]], 'GLOW2');
   });
+  SPRITES.c_moonjelly.frame1 = frame1(16, 16, (g) => {
+    ellipse(g, 8, 5, 6, 4, 'FOAM');
+    for (let x = 3; x <= 13; x += 2) for (let y = 2; y <= 8; y += 2) if (Math.random() < 0.4) setPx(g, x, y, null);
+    for (let t = 0; t < 4; t++) vline(g, 5 + t * 3, 9, 4, 'FOAM');
+    dots(g, [[8, 4]], 'GLOW2');
+  });
   SPRITES.c_sardine = creatureSprite(24, 16, (g) => {
     const rows = [3, 5, 8, 10, 6, 12, 4];
+    rows.forEach((y, i) => { const x = 2 + i * 3; rect(g, x, y, 3, 1, 'BLUE'); setPx(g, x - 1, y, 'DIM'); });
+  });
+  SPRITES.c_sardine.frame1 = frame1(24, 16, (g) => {
+    const rows = [4, 6, 7, 9, 7, 11, 5];
     rows.forEach((y, i) => { const x = 2 + i * 3; rect(g, x, y, 3, 1, 'BLUE'); setPx(g, x - 1, y, 'DIM'); });
   });
   SPRITES.c_turtle = creatureSprite(16, 16, (g) => {
@@ -198,6 +226,11 @@
     dots(g, [[5, 9], [7, 10], [9, 10], [11, 9]], 'GLOW');
     dots(g, [[9, 5]], 'PEARL');
   });
+  SPRITES.c_hatchet.frame1 = frame1(16, 16, (g) => {
+    for (let row = 0; row < 10; row++) { const width = 12 - Math.abs(row - 4); rect(g, 8 - Math.floor(width / 2), 3 + row, width, 1, 'INK'); }
+    dots(g, [[6, 10], [8, 9], [10, 9], [12, 10]], 'GLOW');
+    dots(g, [[9, 5]], 'PEARL');
+  });
   SPRITES.c_krill = creatureSprite(16, 16, (g) => {
     const pts = [[4, 4], [7, 3], [9, 5], [6, 6], [8, 7], [10, 8], [5, 9], [7, 10], [9, 11], [6, 12], [8, 5], [11, 6]];
     dots(g, pts, 'PINK');
@@ -215,6 +248,12 @@
     dots(g, [[5, 12], [7, 13], [9, 12]], 'PEARL');
     vline(g, 12, 4, 5, 'INK');
     dots(g, [[13, 3]], 'GLOW2');
+  });
+  SPRITES.c_angler.frame1 = frame1(16, 16, (g) => {
+    ellipse(g, 9, 9, 6, 5, 'INK');
+    dots(g, [[5, 12], [7, 13], [9, 12]], 'PEARL');
+    vline(g, 12, 5, 5, 'INK');
+    dots(g, [[12, 4]], 'GLOW2');
   });
   SPRITES.c_gulper = creatureSprite(24, 8, (g) => {
     for (let i = 0; i < 18; i++) { const y = 4 + Math.round(Math.sin(i / 3) * 1.5); setPx(g, i, y, 'INK'); }
@@ -236,6 +275,11 @@
   SPRITES.c_dragonfish = creatureSprite(24, 8, (g) => {
     for (let i = 0; i < 20; i++) { const y = 4 + Math.round(Math.sin(i / 4) * 2); setPx(g, 1 + i, y, 'INK'); }
     dots(g, [[3, 6], [8, 5], [13, 6], [18, 5]], 'GLOW');
+    dots(g, [[21, 4]], 'RED');
+  });
+  SPRITES.c_dragonfish.frame1 = frame1(24, 8, (g) => {
+    for (let i = 0; i < 20; i++) { const y = 4 + Math.round(Math.sin(i / 4 + 1) * 2); setPx(g, 1 + i, y, 'INK'); }
+    dots(g, [[3, 5], [8, 6], [13, 5], [18, 6]], 'GLOW');
     dots(g, [[21, 4]], 'RED');
   });
   SPRITES.c_seapig = creatureSprite(16, 16, (g) => {
@@ -295,6 +339,11 @@
     vline(g, 12, 13, 3, 'DIM');
     dots(g, [[8, 7], [16, 7]], 'INK');
   });
+  SPRITES.c_plainskate.frame1 = frame1(24, 16, (g) => {
+    ellipse(g, 12, 7, 10, 4, 'DIM');
+    vline(g, 12, 12, 3, 'DIM');
+    dots(g, [[8, 6], [16, 6]], 'INK');
+  });
   SPRITES.c_nodulecrab = creatureSprite(16, 16, (g) => {
     ellipse(g, 8, 9, 6, 4, 'HULL2');
     dots(g, [[3, 7], [13, 7], [2, 9], [14, 9]], 'BORDER');
@@ -326,6 +375,27 @@
     ellipse(g, 10, 8, 7, 4, 'AMBER');
     for (let t = 0; t < 6; t++) vline(g, 15 + t, 6 + (t % 3), 3, 'RED');
     dots(g, [[7, 7]], 'GLOW2');
+  });
+
+  SPRITES.c_riftworm = creatureSprite(20, 12, (g) => {
+    for (let t = 0; t < 14; t++) setPx(g, 2 + t, 6 + Math.round(Math.sin(t / 2) * 2), 'DIM');
+    dots(g, [[16, 6], [17, 5]], 'GLOW');
+  });
+  SPRITES.c_chasmray = creatureSprite(24, 16, (g) => {
+    ellipse(g, 12, 8, 10, 5, 'BORDER');
+    ellipse(g, 12, 8, 6, 3, 'PANEL2');
+    dots(g, [[6, 6], [18, 6]], 'GLOW2');
+  });
+  SPRITES.c_faultjelly = creatureSprite(16, 16, (g) => {
+    ellipse(g, 8, 5, 6, 4, 'VIOLET');
+    for (let t = 0; t < 3; t++) vline(g, 5 + t * 3, 7, 5, 'VIOLET');
+    dots(g, [[8, 4]], 'PEARL');
+  });
+  SPRITES.c_abyssking = creatureSprite(28, 20, (g) => {
+    ellipse(g, 14, 10, 12, 7, 'INK');
+    ellipse(g, 14, 10, 8, 4, 'PANEL2');
+    dots(g, [[9, 8], [19, 8]], 'RED');
+    for (let t = 0; t < 5; t++) vline(g, 5 + t * 4, 15, 3, 'DIM');
   });
 
   /* -------------------------------------------------------------- 介面圖示 */

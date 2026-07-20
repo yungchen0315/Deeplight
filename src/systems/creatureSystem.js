@@ -13,7 +13,9 @@
     const [min, max] = B.CREATURE_SPAWN_INTERVAL_MS;
     const Event = window.App.Systems.Event;
     const weekendMult = (Event && Event.isWeekend()) ? B.WEEKEND_SPAWN_INTERVAL_MULT : 1;
-    return U.randomInt(min, max) * eff.spawnIntervalMult * weekendMult;
+    const seasonal = Event && Event.currentSeasonalEvent();
+    const seasonalMult = seasonal ? seasonal.spawnIntervalMult : 1;
+    return U.randomInt(min, max) * eff.spawnIntervalMult * weekendMult * seasonalMult;
   }
 
   /** 依目前海域與稀有機率抽一種會路過的生物。 */
@@ -23,7 +25,10 @@
     if (list.length === 0) return null;
     const rares = list.filter((c) => c.rare);
     const commons = list.filter((c) => !c.rare);
-    const rareChance = B.CREATURE_RARE_CHANCE * eff.rareChanceMult;
+    const Event = window.App.Systems.Event;
+    const seasonal = Event && Event.currentSeasonalEvent();
+    const seasonalRareMult = seasonal ? seasonal.rareChanceMult : 1;
+    const rareChance = B.CREATURE_RARE_CHANCE * eff.rareChanceMult * seasonalRareMult;
     if (rares.length > 0 && Math.random() < rareChance) return U.choice(rares);
     return U.choice(commons.length ? commons : list);
   }

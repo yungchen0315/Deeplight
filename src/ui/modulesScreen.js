@@ -84,7 +84,7 @@
       const info = U.el('div', 'moduleInfo');
       info.appendChild(U.el('div', 'moduleName', def.name + '（持有 ' + state.count + '）'));
       const unitProd = Econ.effectiveModuleUnitProd(save, eff, def.id);
-      info.appendChild(U.el('div', 'moduleSub', '單體 ' + U.formatRate(unitProd) + '/s（已含海域/全域加成）'));
+      info.appendChild(U.el('div', 'moduleSub', '單體 ' + U.formatRate(unitProd) + '/s'));
       infoWrap.appendChild(info);
       U.onTap(infoWrap, () => window.App.UI.ModuleDetailModal.open(def));
       row.appendChild(infoWrap);

@@ -71,6 +71,9 @@
     GOLDEN_INSTANT_MINUTES: 15,
     GOLDEN_DESCENT_MULT: 5,
     GOLDEN_DESCENT_SECONDS: 120,
+    GOLDEN_PEARL_AMOUNT: 1,
+    GOLDEN_GATE_MULT: 0.5,
+    GOLDEN_GATE_SECONDS: 90,
 
     // 每日任務：3 題／天，從範本池決定性抽取（依日期字串 seed，不需要伺服器）。
     QUEST_COUNT_PER_DAY: 3,

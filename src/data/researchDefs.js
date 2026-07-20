@@ -26,7 +26,7 @@
       lore: '艙體結構針對深淵帶的壓力重新校正，減少了能量在抗壓外殼上的無謂損耗。' },
     { id: 'r10', name: '鈦合金壓載', cost: 50, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 },
       lore: '換裝一批鈦合金壓載塊，重量更輕、強度卻更高，下潛速度因此再進一步提升。' },
-    { id: 'r11', name: '深淵誘光', cost: 65, desc: '生物爆發獎勵時長 30s → 60s', effect: { type: 'burstSeconds', value: 60 },
+    { id: 'r11', name: '深淵誘光', cost: 65, desc: '生物爆發獎勵時長 20s → 40s', effect: { type: 'burstSeconds', value: 40 },
       lore: '延長誘光陣列的殘光效果，點擊生物換來的爆發獎勵能持續更久才衰退。' },
     { id: 'r12', name: '螢光共振', cost: 80, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
       lore: '讓艙內各個發光模組的頻率彼此同步共振，整體輸出效率因此翻倍，是研究樹上第一個真正的「質變」節點。' },

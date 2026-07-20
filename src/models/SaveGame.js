@@ -51,6 +51,7 @@
  * @property {string[]} signalFragments 已收集的深淵訊號殘片 id（SIGNAL_FRAGMENT_DEFS），
  *   永久保留、不受任何轉生重置。集滿後 nextSignalAt 不再有意義（不會再出現）。
  * @property {number} nextSignalAt 下一次允許出現深淵訊號的時戳（ms），永久保留、隨時間推進。
+ * @property {number} nextSonarAt 聲納脈衝主動技能下一次可用的時戳（ms），開局即可用（預設 0）。
  * ==========================================================================*/
 (function () {
   function createDefaultSave(now) {
@@ -104,7 +105,8 @@
         totalDailyClaims: 0,
         totalQuestsCompleted: 0,
         totalBallastUpgrades: 0,
-        totalSigilPointsEarned: 0
+        totalSigilPointsEarned: 0,
+        totalSonarUses: 0
       },
       settings: {
         sound: true, ambient: true, sfxVolume: 70, ambientVolume: 40,
@@ -116,7 +118,8 @@
       nextBackupReminderAt: now + window.App.Data.BALANCE.BACKUP_REMINDER_INTERVAL_MS,
       captainLog: { unlockedIds: [] },
       signalFragments: [],
-      nextSignalAt: now + 900000
+      nextSignalAt: now + 900000,
+      nextSonarAt: 0
     };
   }
 

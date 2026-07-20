@@ -123,6 +123,17 @@
     return def.baseProd * tierMult * researchMult;
   }
 
+  /** 模組列表 UI 顯示用：單一模組「現在實際」每單位每秒產量，含海域倍率與全域加成——
+   *  跟 moduleUnitProd（只含升級/研究倍率，glowPerSec 內部彙總用的建構區塊）不同，這個
+   *  才是玩家在模組頁看到的「單體 X/s」乘上持有數後，應該直接加總得出頂欄總產量的數字。
+   *  過去 UI 直接顯示 moduleUnitProd，卻沒有套用海域倍率／全域加成，導致玩家自己心算
+   *  「單體 × 持有數」永遠對不上頂欄顯示的總產量——這是玩家回報「自動生產邏輯很怪」
+   *  的根本原因，不是產量計算本身算錯，而是顯示的數字跟實際用來計算總量的數字不一致。 */
+  function effectiveModuleUnitProd(save, eff, moduleId) {
+    const zone = D.zoneById(save.currentZone) || D.ZONE_DEFS[0];
+    return moduleUnitProd(save, eff, moduleId) * zone.mult * eff.allProdMult;
+  }
+
   /** 全勢力（其實只有玩家一份）每秒螢光產出：Σ(模組單位產量×持有數) × 海域倍率 × 全域倍率。 */
   function glowPerSec(save) {
     const eff = computeEffects(save);
@@ -288,7 +299,7 @@
   }
 
   window.App.Systems.Economy = {
-    computeEffects, moduleUnitProd, glowPerSec, moduleCost, moduleCostForQty, maxAffordableQty, moduleUpgradeInfo,
+    computeEffects, moduleUnitProd, effectiveModuleUnitProd, glowPerSec, moduleCost, moduleCostForQty, maxAffordableQty, moduleUpgradeInfo,
     buyModule, buyAllAffordable, buyModuleUpgrade, ballastCost, buyBallast, descentRate, effectiveBallastMax, bestiaryStarLevel,
     tapReward, applyTap, buyPearlBoost, buyPearlInstant
   };

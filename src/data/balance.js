@@ -5,7 +5,7 @@
 (function () {
   const BALANCE = {
     // 模組成本成長率：cost(n) = baseCost * MODULE_COST_GROWTH^n（n = 目前持有數）。
-    MODULE_COST_GROWTH: 1.15,
+    MODULE_COST_GROWTH: 1.16,
     // 模組升級：持有數達到門檻時解鎖一次 x2 產量升級，費用 = baseCost * 對應倍率。
     MODULE_UPGRADE_THRESHOLDS: [10, 25, 50, 100, 200],
     MODULE_UPGRADE_COST_MULTIPLIERS: [50, 500, 5000, 50000, 600000],
@@ -31,17 +31,28 @@
     PRESTIGE_EXPONENT: 1.15,
     CORE_PRODUCTION_BONUS_PCT: 10, // 每顆壓力核心 +10% 全螢光產量（乘法疊加，重構可覆寫更高值）
 
-    // 點擊：手動點擊水域＝目前每秒產量的一個固定比例（有下限），讓點擊在任何階段都有意義。
+    // 點擊：手動點擊水域＝目前每秒產量的一個固定比例（有下限），讓點擊在任何階段都有意義；
+    // CLICK_TAP_COOLDOWN_MS 限制最短點擊間隔，避免狂點滑鼠/觸控無上限疊加獎勵
+    // （在冷卻速率下狂點，等於額外拿到「目前產量 × CLICK_TAP_GPS_FRACTION ÷
+    // (CLICK_TAP_COOLDOWN_MS/1000)」這麼多秒的產量，是一個有上限、可預期的主動遊玩獎勵，
+    // 而不是無限增長）。
     CLICK_TAP_GPS_FRACTION: 0.25,
     CLICK_TAP_MIN: 1,
+    CLICK_TAP_COOLDOWN_MS: 300,
     TAPS_PER_LURE: 60, // 累積 N 次點擊，強制立即刷一隻路過生物（誘光進度條）
 
     CREATURE_SPAWN_INTERVAL_MS: [18000, 40000], // 路過生物出現間隔隨機範圍
     AMBIENT_FLAVOR_INTERVAL_MS: [50000, 100000], // 潛航畫面環境觀測記錄出現間隔隨機範圍
     AMBIENT_FLAVOR_SHOW_MS: 6000, // 環境觀測記錄單則顯示時長
     CREATURE_SAMPLE_DROP_CHANCE: 0.25, // 非首次遇見時，額外掉落樣本的機率
-    CREATURE_BURST_SECONDS: 30, // 點擊生物獲得「N 秒產量」的爆發獎勵（研究可延長）
+    CREATURE_BURST_SECONDS: 20, // 點擊生物獲得「N 秒產量」的爆發獎勵（研究可延長）
     CREATURE_RARE_CHANCE: 0.15, // 生物生成時抽到稀有種的機率（該海域稀有種存在時才生效）
+
+    // 聲納脈衝：主動技能，玩家自己決定何時觸發（而不是純粹等待路過生物隨機出現），
+    // 立即強制刷新一隻生物，且那一次的稀有機率有加成。從開局就可以用，冷卻時間到了
+    // 就會一直提醒玩家「可以按了」，是核心點擊/等待迴圈之外一個主動、可控的節奏。
+    SONAR_COOLDOWN_MS: 45000,
+    SONAR_RARE_BONUS_MULT: 3,
 
     CREATURE_MISSED_INTERVAL_MS: 2 * 3600 * 1000, // 離線每滿 2 小時記一次「錯過的生物」
     CREATURE_MISSED_QUEUE_CAP: 5,

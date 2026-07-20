@@ -16,14 +16,15 @@
   function render(container, save, onChange) {
     U.clearNode(container);
 
+    const eff = Econ.computeEffects(save);
+
     const ballastPanel = U.el('div', 'panel');
     ballastPanel.appendChild(U.el('div', 'panelTitle', '壓載系統'));
     const rate = Econ.descentRate(save);
-    const effForBallast = Econ.computeEffects(save);
-    const ballastMax = Econ.effectiveBallastMax(save, effForBallast);
+    const ballastMax = Econ.effectiveBallastMax(save, eff);
     const row = U.el('div', 'ballastRow');
     row.appendChild(U.el('span', '', '下潛速度：' + rate.toFixed(1) + ' m/min（Lv.' + save.ballastLevel + '/' + ballastMax + '）'));
-    const ballastCost = Econ.ballastCost(save, effForBallast);
+    const ballastCost = Econ.ballastCost(save, eff);
     if (ballastCost !== null) {
       const btn = U.el('button', 'smallBtn' + (save.glow < ballastCost ? ' disabled' : ''), '升級 · ' + U.formatNum(ballastCost));
       U.onTap(btn, () => {
@@ -36,6 +37,16 @@
     }
     ballastPanel.appendChild(row);
     container.appendChild(ballastPanel);
+
+    // 產量加成總覽：模組列表的「單體 X/s」已經套用這兩個倍率，這裡明確標出來，
+    // 避免玩家自己心算「單體 × 持有數」卻對不上頂欄總產量。
+    const zoneForMult = D.zoneById(save.currentZone) || D.ZONE_DEFS[0];
+    const prodPanel = U.el('div', 'panel');
+    prodPanel.appendChild(U.el('div', 'panelTitle', '目前產量加成'));
+    prodPanel.appendChild(U.el('div', 'subHint',
+      '海域倍率 ×' + U.formatNum(zoneForMult.mult) + '　全域加成 ×' + eff.allProdMult.toFixed(2) +
+      '（下方「單體」數字已經套用這兩項，直接乘上持有數即為該模組目前對頂欄總產量的貢獻）'));
+    container.appendChild(prodPanel);
 
     const listPanel = U.el('div', 'panel');
     const titleRow = U.el('div', 'panelTitleRow');
@@ -59,7 +70,6 @@
     titleRow.appendChild(qtyToggle);
     listPanel.appendChild(titleRow);
 
-    const eff = Econ.computeEffects(save);
     D.MODULE_DEFS.forEach((def) => {
       const state = save.modules[def.id] || { count: 0, upgradeTier: 0 };
       const locked = save.depth < def.unlockDepth && state.count === 0;
@@ -73,8 +83,8 @@
       infoWrap.appendChild(PR.spriteCanvasEl(def.icon, 2));
       const info = U.el('div', 'moduleInfo');
       info.appendChild(U.el('div', 'moduleName', def.name + '（持有 ' + state.count + '）'));
-      const unitProd = Econ.moduleUnitProd(save, eff, def.id);
-      info.appendChild(U.el('div', 'moduleSub', '單體 ' + U.formatRate(unitProd) + '/s'));
+      const unitProd = Econ.effectiveModuleUnitProd(save, eff, def.id);
+      info.appendChild(U.el('div', 'moduleSub', '單體 ' + U.formatRate(unitProd) + '/s（已含海域/全域加成）'));
       infoWrap.appendChild(info);
       U.onTap(infoWrap, () => window.App.UI.ModuleDetailModal.open(def));
       row.appendChild(infoWrap);

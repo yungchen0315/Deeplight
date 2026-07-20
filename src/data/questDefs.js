@@ -1,5 +1,5 @@
 /* ============================================================================
- * questDefs.js — 每日任務範本池（20 種），每天從中抽 3 個不重複的種類。進度一律
+ * questDefs.js — 每日任務範本池（21 種），每天從中抽 3 個不重複的種類。進度一律
  * 用「終身統計數字 - 領取當天抽到時的基準值」算出，不需要另外維護一份每日計數器。
  * statPath 為 'stats.xxx' 時讀 save.stats[xxx]；'depth' 讀本輪深度；
  * 'milestonesClaimed'／'sigils' 讀對應陣列的長度（見 questSystem.js 的 readStat）。
@@ -25,7 +25,8 @@
     { id: 'sigil', label: '點亮印記樹節點', unit: '個', statPath: 'sigils', target: 1, reward: 5 },
     { id: 'dailyClaim', label: '完成每日簽到', unit: '次', statPath: 'stats.totalDailyClaims', target: 1, reward: 3 },
     { id: 'playtime', label: '持續潛航', unit: '秒', statPath: 'stats.playSeconds', target: 600, reward: 4 },
-    { id: 'prestige', label: '累積壓力核心', unit: '顆', statPath: 'stats.totalCoresEarned', target: 5, reward: 6 }
+    { id: 'prestige', label: '累積壓力核心', unit: '顆', statPath: 'stats.totalCoresEarned', target: 5, reward: 6 },
+    { id: 'sonar', label: '使用聲納脈衝', unit: '次', statPath: 'stats.totalSonarUses', target: 3, reward: 4 }
   ];
 
   function questTemplateById(id) { return QUEST_TEMPLATES.find((q) => q.id === id); }

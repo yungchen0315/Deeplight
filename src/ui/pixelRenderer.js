@@ -39,5 +39,32 @@
     return canvas;
   }
 
-  window.App.UI.PixelRenderer = { setupPixelCanvas, drawSprite, spriteSize, spriteCanvasEl };
+  /** 跟 spriteCanvasEl 一樣，但如果該 sprite 有 frame1（第二幀），疊兩張 canvas
+   *  用純 CSS steps() 動畫交替顯示，做出簡單的游動擺尾效果——不需要 JS 計時器，
+   *  節點被移除時動畫自然跟著消失，沒有額外的清理負擔。沒有 frame1 的 sprite
+   *  就直接退化成靜態的 spriteCanvasEl。 */
+  function animatedSpriteCanvasEl(spriteId, scale) {
+    const sprite = window.App.Data.SPRITES[spriteId];
+    if (!sprite.frame1) return spriteCanvasEl(spriteId, scale);
+
+    const wrap = document.createElement('div');
+    wrap.className = 'spriteAnimWrap';
+    wrap.style.width = (sprite.w * scale) + 'px';
+    wrap.style.height = (sprite.h * scale) + 'px';
+
+    const base = spriteCanvasEl(spriteId, scale);
+    wrap.appendChild(base);
+
+    const overlay = document.createElement('canvas');
+    overlay.className = 'pixelIcon spriteFrame1';
+    overlay.width = sprite.w * scale;
+    overlay.height = sprite.h * scale;
+    const ctx = setupPixelCanvas(overlay);
+    drawSprite(ctx, { w: sprite.w, h: sprite.h, grid: sprite.frame1 }, 0, 0, scale);
+    wrap.appendChild(overlay);
+
+    return wrap;
+  }
+
+  window.App.UI.PixelRenderer = { setupPixelCanvas, drawSprite, spriteSize, spriteCanvasEl, animatedSpriteCanvasEl };
 })();

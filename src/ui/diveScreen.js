@@ -164,7 +164,7 @@
     if (!def) { scheduleSpawn(); return; }
     const scale = 3;
     const wrap = U.el('div', 'creatureSprite' + (def.rare ? ' creatureRare' : ''));
-    wrap.appendChild(PR.spriteCanvasEl(def.icon, scale));
+    wrap.appendChild(FX.isReduced() ? PR.spriteCanvasEl(def.icon, scale) : PR.animatedSpriteCanvasEl(def.icon, scale));
     const topPct = 20 + Math.random() * 45;
     wrap.style.top = topPct + '%';
     const goingRight = Math.random() < 0.5;

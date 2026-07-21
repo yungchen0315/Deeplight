@@ -3,6 +3,12 @@
  * [minDepth, anchorDepth] 之間，直到玩家花 gateCost 通過錨點才能進入下一海域。
  * filterHue 是 CSS hue-rotate 濾鏡角度，讓深層海域有獨立色調又不必新增色盤顏色
  * （企劃書要求全遊戲硬上限 20 色，見 palette.js）。
+ * gateCost 曲線：0~3 段是上一輪依實測回饋調整過的（見當時的模擬結果），4~7 段
+ * 這次用同一套模擬工具（含研究樹/模組升級/壓載）重新校正，把「時間到下一海域」
+ * 的成長率抹平成穩定的 1.3~2.5 倍區間，取代原本忽快忽慢（甚至中段幾乎打平、最後
+ * 兩段又暴衝好幾倍）的曲線。id 8 的 gateCost 目前無法被觸發（下一個海域是
+ * comingSoon 的預告牌，descentSystem.passGate 會擋下），先保留原數值，等真的開放
+ * 第 10 海域時再一併重新校正。
  * ==========================================================================*/
 (function () {
   const ZONE_DEFS = [
@@ -10,10 +16,10 @@
     { id: 1, name: '暮光帶', minDepth: 200, anchorDepth: 1000, mult: 3, bg: 'W2', filterHue: 0, gateCost: 750000 },
     { id: 2, name: '午夜帶', minDepth: 1000, anchorDepth: 4000, mult: 10, bg: 'W3', filterHue: 0, gateCost: 700000000 },
     { id: 3, name: '深淵帶', minDepth: 4000, anchorDepth: 11000, mult: 40, bg: 'INK', filterHue: 0, gateCost: 2000000000000 },
-    { id: 4, name: '海溝幽域', minDepth: 11000, anchorDepth: 20000, mult: 150, bg: 'INK', filterHue: 250, gateCost: 500000000000000 },
-    { id: 5, name: '無光帶', minDepth: 20000, anchorDepth: 35000, mult: 600, bg: 'INK', filterHue: 120, gateCost: 300000000000000000 },
-    { id: 6, name: '深海平原', minDepth: 35000, anchorDepth: 55000, mult: 2200, bg: 'INK', filterHue: 40, gateCost: 2e20 },
-    { id: 7, name: '熱泉海淵', minDepth: 55000, anchorDepth: 80000, mult: 9000, bg: 'INK', filterHue: 300, gateCost: 6e23 },
+    { id: 4, name: '海溝幽域', minDepth: 11000, anchorDepth: 20000, mult: 150, bg: 'INK', filterHue: 250, gateCost: 3.8e14 },
+    { id: 5, name: '無光帶', minDepth: 20000, anchorDepth: 35000, mult: 600, bg: 'INK', filterHue: 120, gateCost: 5.3e17 },
+    { id: 6, name: '深海平原', minDepth: 35000, anchorDepth: 55000, mult: 2200, bg: 'INK', filterHue: 40, gateCost: 6.5e20 },
+    { id: 7, name: '熱泉海淵', minDepth: 55000, anchorDepth: 80000, mult: 9000, bg: 'INK', filterHue: 300, gateCost: 8.2e23 },
     { id: 8, name: '裂谷深淵', minDepth: 80000, anchorDepth: 130000, mult: 35000, bg: 'INK', filterHue: 160, gateCost: 4e27 },
     { id: 9, name: '深海溝底．即將開放', minDepth: 130000, anchorDepth: 130000, mult: 35000, bg: 'INK', filterHue: 160, gateCost: null, comingSoon: true }
   ];

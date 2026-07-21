@@ -94,7 +94,8 @@
     SIGNAL_LIFESPAN_MS: 7000,
     SIGNAL_PEARL_REWARD: 1,
 
-    // 每日任務：3 題／天，從範本池決定性抽取（依日期字串 seed，不需要伺服器）。
+    // 每日任務：3 題／天，從範本池隨機抽取後存進當天的存檔，抽到那一刻就固定下來
+    // （不需要伺服器，也不需要真的做成 seed 決定性抽取——反正結果會被存住不重抽）。
     QUEST_COUNT_PER_DAY: 3,
     QUEST_ALL_DONE_PEARL: 1,
 

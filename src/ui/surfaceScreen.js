@@ -105,7 +105,7 @@
     renderMilestones(container, save, onChange);
 
     const boostPanel = U.el('div', 'panel');
-    boostPanel.appendChild(U.el('div', 'panelTitle', '深海珍珠（' + save.pearls + '）'));
+    boostPanel.appendChild(U.el('div', 'panelTitle', '深海珍珠（' + U.formatNum(save.pearls) + '）'));
     boostPanel.appendChild(U.el('div', 'subHint', '珍珠由成就掉落，可兌換限時加護'));
     const boostRow = U.el('div', 'ballastRow');
     const boostBtn = U.el('button', 'smallBtn' + (save.pearls < 1 ? ' disabled' : ''), '1 珍珠 → 全產量 x' + D.BALANCE.PEARL_BOOST_MULT + ' / ' + D.BALANCE.PEARL_BOOST_HOURS + 'h');
@@ -124,7 +124,7 @@
     container.appendChild(boostPanel);
 
     const refitPanel = U.el('div', 'panel');
-    refitPanel.appendChild(U.el('div', 'panelTitle', '重構升級（壓力核心 ' + save.cores + '）'));
+    refitPanel.appendChild(U.el('div', 'panelTitle', '重構升級（壓力核心 ' + U.formatNum(save.cores) + '）'));
     D.REFIT_DEFS.forEach((def) => {
       const owned = save.refits.includes(def.id);
       const row = U.el('div', 'refitRow' + (owned ? ' refitOwned' : ''));

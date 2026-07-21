@@ -49,7 +49,7 @@
 
     const infoPanel = U.el('div', 'panel');
     infoPanel.appendChild(U.el('div', 'panelTitle', '永夜盟約（已完成 ' + save.pactCount + ' 次）'));
-    infoPanel.appendChild(U.el('div', 'subHint', '夜輝：' + save.nightshards));
+    infoPanel.appendChild(U.el('div', 'subHint', '夜輝：' + U.formatNum(save.nightshards)));
     const eligible = Pact.eligible(save);
     if (!eligible) {
       const B = D.BALANCE;

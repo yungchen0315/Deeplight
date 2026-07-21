@@ -493,7 +493,7 @@
       hudRefs.boostBtn.textContent = '⚡ 加護中 ' + Math.ceil(remainMs / 60000) + 'm';
       hudRefs.boostBtn.classList.add('boostActive');
     } else {
-      hudRefs.boostBtn.textContent = '🔮 珍珠加護 (' + save.pearls + ')';
+      hudRefs.boostBtn.textContent = '🔮 珍珠加護 (' + U.formatNum(save.pearls) + ')';
       hudRefs.boostBtn.classList.remove('boostActive');
     }
     hudRefs.boostBtn.classList.toggle('disabled', save.pearls < 1 && remainMs <= 0);

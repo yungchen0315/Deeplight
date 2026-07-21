@@ -111,9 +111,20 @@
     if (now - lastSaveAt >= B.AUTOSAVE_INTERVAL_MS) { trySave(); lastSaveAt = now; }
   }
 
+  /** 只有「這個分頁載入時就已經有舊 SW 在控制」才算數，避免玩家第一次安裝時
+   *  controller 從 null 變成新 worker 也被誤判成一次「版本更新」而跳提示。 */
   function registerServiceWorker() {
     if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
+    const hadController = !!navigator.serviceWorker.controller;
     navigator.serviceWorker.register('sw.js').catch(() => { /* 離線優先，註冊失敗不影響遊戲本體 */ });
+    if (!hadController) return;
+    let shown = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (shown) return;
+      shown = true;
+      Modals.showConfirm('偵測到新版本，重新整理即可套用最新內容（目前進度已自動存檔，不會遺失）。', () => location.reload(),
+        { title: '有新版本可用', confirmLabel: '重新整理', cancelLabel: '稍後再說' });
+    });
   }
 
   function init() {

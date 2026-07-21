@@ -1,5 +1,5 @@
 /* ============================================================================
- * moduleDefs.js — 20 種發光模組（企劃書第 4b 節 + v1.1/Phase2/Phase3/Phase5 擴充）。cost(n)
+ * moduleDefs.js — 22 種發光模組（企劃書第 4b 節 + v1.1~Phase6 擴充）。cost(n)
  * 與升級節點的計算交給 economySystem，這裡只放靜態資料。lore 是模組詳細彈窗
  * （moduleDetailModal.js）顯示的風味文字，純敘事用途，不影響任何數值。
  * ==========================================================================*/
@@ -44,7 +44,11 @@
     { id: 'abyssnode', name: '遺跡節點', icon: 'mod_abyssnode', baseCost: 4.5e20, baseProd: 4e14, unlockDepth: 135000,
       lore: '先驅遺跡外圍散落的規則幾何構造之一，接上線路後開始穩定輸出——不知道原本的用途是什麼，但它顯然還在正常運作。' },
     { id: 'voidheart', name: '虛空之心', icon: 'mod_voidheart', baseCost: 7e21, baseProd: 3e15, unlockDepth: 165000,
-      lore: '遺跡最深處的核心構造，比任何其他節點都更龐大也更古老。接上纜線的瞬間，整艘潛燈號的燈光同步閃爍了一下——彷彿它「認出」了什麼。' }
+      lore: '遺跡最深處的核心構造，比任何其他節點都更龐大也更古老。接上纜線的瞬間，整艘潛燈號的燈光同步閃爍了一下——彷彿它「認出」了什麼。' },
+    { id: 'echospire', name: '回音尖塔', icon: 'mod_echospire', baseCost: 1e23, baseProd: 2e16, unlockDepth: 215000,
+      lore: '矗立在迴廊入口的尖塔狀構造，表面刻痕會把聲納回波放大再送回去——難怪先前的聲納訊號穿過通道後，久久沒有回音，原來只是被這裡「延遲」了。' },
+    { id: 'originlens', name: '起源透鏡', icon: 'mod_originlens', baseCost: 1.5e24, baseProd: 1.4e17, unlockDepth: 270000,
+      lore: '迴廊深處一面巨大的透鏡狀結構，看過去的畫面總是慢半拍、又帶著奇異的重影。工程日誌懷疑，它折射的可能不只是光。' }
   ];
 
   function moduleById(id) { return MODULE_DEFS.find((m) => m.id === id); }

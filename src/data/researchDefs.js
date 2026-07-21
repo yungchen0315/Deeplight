@@ -1,5 +1,5 @@
 /* ============================================================================
- * researchDefs.js — 36 節研究（企劃書第 4d 節 + v1.1/Phase2/Phase3/Phase5 擴充），花樣本
+ * researchDefs.js — 40 節研究（企劃書第 4d 節 + v1.1~Phase6 擴充），花樣本
  * （SP）購買，轉生時重置。effect 是給 researchSystem/economySystem 讀的通用格式，跟
  * refitDefs.js 共用。lore 是研究詳細彈窗（nodeDetailModal.js）顯示的風味文字，
  * 純敘事用途，不影響任何數值。
@@ -77,7 +77,15 @@
     { id: 'r35', name: '節點共鳴陣列', cost: 13500, desc: '遺跡節點與虛空之心產量 x2', effect: { type: 'moduleMultMany', modules: ['abyssnode', 'voidheart'], value: 2 },
       lore: '把外圍節點與核心之間原本就存在、卻被我們忽略的共鳴頻率重新接上，兩者的輸出效率一起被推上新的高度。' },
     { id: 'r36', name: '先驅回聲', cost: 17500, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
-      lore: '目前研究樹的終點。把先驅遺跡願意「借」給我們的一切能量全部整合進核心演算法——至於它為什麼願意借，暫時還沒有答案。' }
+      lore: '目前研究樹的終點。把先驅遺跡願意「借」給我們的一切能量全部整合進核心演算法——至於它為什麼願意借，暫時還沒有答案。' },
+    { id: 'r37', name: '回音校準', cost: 22000, desc: '全螢光產量 +100%', effect: { type: 'allProdMult', value: 2 },
+      lore: '迴廊裡的回音會被放大又延遲送回，一開始只當作干擾濾掉——後來才發現，濾掉的那部分訊號本身就帶著可用的能量。' },
+    { id: 'r38', name: '迴廊壓載', cost: 27000, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 },
+      lore: '迴廊的水流帶著規律到不自然的節奏，摸清楚這個節奏之後，順著推進反而比逆流下潛更省力。' },
+    { id: 'r39', name: '尖塔透鏡共鳴', cost: 34000, desc: '回音尖塔與起源透鏡產量 x2', effect: { type: 'moduleMultMany', modules: ['echospire', 'originlens'], value: 2 },
+      lore: '回音尖塔負責「聽」，起源透鏡負責「看」，把兩者的資料流接在一起之後，輸出效率遠超過個別運作時的總和。' },
+    { id: 'r40', name: '起源回響', cost: 43000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '目前研究樹的終點。把迴廊深處願意透露的一切都整合進核心演算法——透鏡另一端到底看到了什麼，暫時還沒有答案。' }
   ];
 
   function researchById(id) { return RESEARCH_DEFS.find((r) => r.id === id); }

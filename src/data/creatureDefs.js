@@ -1,5 +1,5 @@
 /* ============================================================================
- * creatureDefs.js — 40 種深淵圖鑑生物（企劃書第 8 節 + v1.1/Phase2/Phase3/Phase5 擴充）。
+ * creatureDefs.js — 44 種深淵圖鑑生物（企劃書第 8 節 + v1.1~Phase6 擴充）。
  * 每海域 4 種，各含 1 稀有種。首次遇見必掉樣本，之後依 balance 機率掉落。lore
  * 是圖鑑詳細彈窗（bestiaryDetailModal.js）顯示的一小段風味文字，純敘事用途，
  * 不影響任何遊戲數值。
@@ -95,7 +95,16 @@
     { id: 'echosentinel', name: '回聲哨兵', icon: 'c_echosentinel', zone: 9, rare: false,
       lore: '靜止懸浮在遺跡通道入口，只有聲納掃過時才會有反應——一圈微弱的回波，像是某種確認訊號的儀式，確認完畢後又恢復靜止。' },
     { id: 'precursorshade', name: '先驅之影', icon: 'c_precursorshade', zone: 9, rare: true,
-      lore: '只在遺跡核心深處出現過幾次的巨大輪廓，探照燈掃過的瞬間就已經融入結構的陰影裡。留下的唯一線索，是牆面上一圈跟牠身形吻合的、明顯是「刻意留下」的凹痕。' }
+      lore: '只在遺跡核心深處出現過幾次的巨大輪廓，探照燈掃過的瞬間就已經融入結構的陰影裡。留下的唯一線索，是牆面上一圈跟牠身形吻合的、明顯是「刻意留下」的凹痕。' },
+    // 回音迴廊
+    { id: 'echowalker', name: '回聲行者', icon: 'c_echowalker', zone: 10, rare: false,
+      lore: '沿著迴廊牆面緩慢移動的細長生物，每走一步都會發出一聲跟自己動作完全同步的回音——分不清是牠在製造回音，還是回音在推著牠走。' },
+    { id: 'corridorwatcher', name: '迴廊守望者', icon: 'c_corridorwatcher', zone: 10, rare: false,
+      lore: '固定懸浮在通道某個定點的環狀生物，探照燈照過去牠也不會移動半分，只有中央那圈螢光會隨聲納脈衝同步明滅，像是在核對通行的是誰。' },
+    { id: 'silentstalker', name: '靜默潛行者', icon: 'c_silentstalker', zone: 10, rare: false,
+      lore: '全身沒有一絲多餘的擾動，游過迴廊時連儀表板最靈敏的水流感測器都量不到牠的存在，只有目視才能勉強捕捉到一道極淡的殘影。' },
+    { id: 'origineye', name: '起源之眼', icon: 'c_origineye', zone: 10, rare: true,
+      lore: '傳說迴廊盡頭有什麼東西一直「醒著」，只用一隻巨大的複眼觀察經過的一切。目擊紀錄裡，那隻眼睛從頭到尾沒有眨過一次，也沒有移開視線。' }
   ];
 
   function creatureById(id) { return CREATURE_DEFS.find((c) => c.id === id); }

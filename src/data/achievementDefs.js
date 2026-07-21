@@ -1,5 +1,5 @@
 /* ============================================================================
- * achievementDefs.js — 39 個成就（企劃書第 7 節 + v1.1/Phase2/Phase4/Phase5 擴充），部分掉深海
+ * achievementDefs.js — 41 個成就（企劃書第 7 節 + v1.1~Phase6 擴充），部分掉深海
  * 珍珠。condition(state) 由 achievementSystem 呼叫；state 是完整 SaveGame，只在
  * 該成就尚未解鎖時才會被呼叫（見 achievementSystem.js），所以就算條件內部呼叫
  * Economy.computeEffects 之類稍重的函式也不會變成長期的每 tick 負擔。
@@ -80,10 +80,14 @@
       condition: (s) => (s.signalFragments || []).length >= window.App.Data.SIGNAL_FRAGMENT_DEFS.length },
     { id: 'sonar_20', name: '聲納好夥伴', desc: '累計使用聲納脈衝 20 次', pearl: 1,
       condition: (s) => (s.stats.totalSonarUses || 0) >= 20 },
-    { id: 'depth_210000', name: '先驅遺跡盡頭', desc: '下潛至 210000 公尺（目前版本最深處）', pearl: 7,
+    { id: 'depth_210000', name: '先驅遺跡盡頭', desc: '下潛至 210000 公尺', pearl: 7,
       condition: (s) => s.maxDepthEver >= 210000 },
     { id: 'ruins_bestiary', name: '遺跡觀測者', desc: '記錄先驅遺跡的全部 4 種生物', pearl: 3,
-      condition: (s) => ['ruincrab', 'signaljelly', 'echosentinel', 'precursorshade'].every((id) => s.bestiary[id]) }
+      condition: (s) => ['ruincrab', 'signaljelly', 'echosentinel', 'precursorshade'].every((id) => s.bestiary[id]) },
+    { id: 'depth_340000', name: '回音迴廊盡頭', desc: '下潛至 340000 公尺（目前版本最深處）', pearl: 8,
+      condition: (s) => s.maxDepthEver >= 340000 },
+    { id: 'corridor_bestiary', name: '迴廊觀測者', desc: '記錄回音迴廊的全部 4 種生物', pearl: 3,
+      condition: (s) => ['echowalker', 'corridorwatcher', 'silentstalker', 'origineye'].every((id) => s.bestiary[id]) }
   ];
 
   window.App.Data.ACHIEVEMENT_DEFS = ACHIEVEMENT_DEFS;

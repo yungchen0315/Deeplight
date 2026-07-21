@@ -182,6 +182,17 @@
     circle(g, 8, 8, 1, 'PEARL');
     dots(g, [[8, 1], [8, 15], [1, 8], [15, 8]], 'GLOW2');
   });
+  SPRITES.mod_echospire = modSprite((g) => {
+    for (let row = 0; row < 12; row++) { const w = 8 - Math.floor(row / 3); hline(g, 8 - Math.floor(w / 2), 15 - row, w, 'PANEL2'); }
+    for (let r = 2; r <= 6; r += 2) circle(g, 8, 2, r, null);
+    dots(g, [[8, 2], [8, 0]], 'GLOW2');
+  });
+  SPRITES.mod_originlens = modSprite((g) => {
+    circle(g, 8, 8, 7, 'BORDER');
+    circle(g, 8, 8, 5, 'PANEL2');
+    circle(g, 8, 8, 2, 'PEARL');
+    dots(g, [[6, 6], [10, 10]], 'GLOW2');
+  });
 
   /* -------------------------------------------------------------- 生物 */
 
@@ -438,6 +449,31 @@
     for (let x = 4; x <= 24; x++) for (let y = 3; y <= 17; y++) if ((x + y) % 4 === 0) setPx(g, x, y, 'DIM');
     dots(g, [[9, 8], [19, 8]], 'VIOLET');
     dots(g, [[14, 4], [14, 16]], 'PEARL');
+  });
+
+  SPRITES.c_echowalker = creatureSprite(24, 8, (g) => {
+    for (let i = 0; i < 18; i++) { const y = 4 + Math.round(Math.sin(i / 5) * 1.2); setPx(g, 1 + i, y, 'DIM'); }
+    dots(g, [[3, 4], [9, 4], [15, 4]], 'GLOW2');
+  });
+  SPRITES.c_echowalker.frame1 = frame1(24, 8, (g) => {
+    for (let i = 0; i < 18; i++) { const y = 4 + Math.round(Math.sin(i / 5 + 0.6) * 1.2); setPx(g, 1 + i, y, 'DIM'); }
+    dots(g, [[4, 4], [10, 4], [16, 4]], 'GLOW2');
+  });
+  SPRITES.c_corridorwatcher = creatureSprite(16, 16, (g) => {
+    circle(g, 8, 8, 6, 'BORDER');
+    circle(g, 8, 8, 4, null);
+    circle(g, 8, 8, 2, 'GLOW2');
+  });
+  SPRITES.c_silentstalker = creatureSprite(24, 16, (g) => {
+    for (let x = 4; x <= 20; x++) for (let y = 5; y <= 11; y++) if ((x + y) % 3 === 0) setPx(g, x, y, 'DIM');
+    dots(g, [[8, 7], [16, 7]], 'FOAM');
+  });
+  SPRITES.c_origineye = creatureSprite(28, 20, (g) => {
+    ellipse(g, 14, 10, 13, 9, 'PANEL2');
+    circle(g, 14, 10, 6, 'INK');
+    circle(g, 14, 10, 3, 'VIOLET');
+    dots(g, [[14, 10]], 'PEARL');
+    dots(g, [[6, 6], [22, 6], [6, 14], [22, 14]], 'GLOW2');
   });
 
   /* -------------------------------------------------------------- 介面圖示 */

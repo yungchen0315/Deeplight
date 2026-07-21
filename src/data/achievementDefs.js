@@ -82,8 +82,8 @@
       condition: (s) => (s.stats.totalSonarUses || 0) >= 20 },
     { id: 'depth_210000', name: '先驅遺跡盡頭', desc: '下潛至 210000 公尺（目前版本最深處）', pearl: 7,
       condition: (s) => s.maxDepthEver >= 210000 },
-    { id: 'bestiary_36', name: '遺跡觀測者', desc: '深淵圖鑑集滿 36 種', pearl: 3,
-      condition: (s) => Object.keys(s.bestiary).length >= 36 }
+    { id: 'ruins_bestiary', name: '遺跡觀測者', desc: '記錄先驅遺跡的全部 4 種生物', pearl: 3,
+      condition: (s) => ['ruincrab', 'signaljelly', 'echosentinel', 'precursorshade'].every((id) => s.bestiary[id]) }
   ];
 
   window.App.Data.ACHIEVEMENT_DEFS = ACHIEVEMENT_DEFS;

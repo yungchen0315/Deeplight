@@ -1,5 +1,5 @@
 /* ============================================================================
- * creatureDefs.js — 36 種深淵圖鑑生物（企劃書第 8 節 + v1.1/Phase2/Phase3 擴充）。
+ * creatureDefs.js — 40 種深淵圖鑑生物（企劃書第 8 節 + v1.1/Phase2/Phase3/Phase5 擴充）。
  * 每海域 4 種，各含 1 稀有種。首次遇見必掉樣本，之後依 balance 機率掉落。lore
  * 是圖鑑詳細彈窗（bestiaryDetailModal.js）顯示的一小段風味文字，純敘事用途，
  * 不影響任何遊戲數值。
@@ -86,7 +86,16 @@
     { id: 'faultjelly', name: '斷層水母', icon: 'c_faultjelly', zone: 8, rare: false,
       lore: '傘體隨著裂谷深處傳來的地質震動規律收縮，彷彿把整條裂谷的心跳都聽進了身體裡。' },
     { id: 'abyssking', name: '深淵之王', icon: 'c_abyssking', zone: 8, rare: true,
-      lore: '傳說裂谷最深處住著一頭沒有生物學家能歸類的巨大掠食者，只有寥寥幾次目擊紀錄，每一次都只拍到一小段輪廓。' }
+      lore: '傳說裂谷最深處住著一頭沒有生物學家能歸類的巨大掠食者，只有寥寥幾次目擊紀錄，每一次都只拍到一小段輪廓。' },
+    // 先驅遺跡
+    { id: 'ruincrab', name: '遺跡守衛蟹', icon: 'c_ruincrab', zone: 9, rare: false,
+      lore: '外殼帶著明顯人工打磨的稜角，在遺跡結構之間巡邏似地來回走動，動作規律得不像單純覓食——更像是在「執行」什麼。' },
+    { id: 'signaljelly', name: '訊號水母', icon: 'c_signaljelly', zone: 9, rare: false,
+      lore: '傘體內部帶著規律閃爍的螢光脈衝，頻率跟深淵訊號殘片的節奏隱約對得上。沒有人確定牠是天然生物，還是遺跡系統的一部分。' },
+    { id: 'echosentinel', name: '回聲哨兵', icon: 'c_echosentinel', zone: 9, rare: false,
+      lore: '靜止懸浮在遺跡通道入口，只有聲納掃過時才會有反應——一圈微弱的回波，像是某種確認訊號的儀式，確認完畢後又恢復靜止。' },
+    { id: 'precursorshade', name: '先驅之影', icon: 'c_precursorshade', zone: 9, rare: true,
+      lore: '只在遺跡核心深處出現過幾次的巨大輪廓，探照燈掃過的瞬間就已經融入結構的陰影裡。留下的唯一線索，是牆面上一圈跟牠身形吻合的、明顯是「刻意留下」的凹痕。' }
   ];
 
   function creatureById(id) { return CREATURE_DEFS.find((c) => c.id === id); }

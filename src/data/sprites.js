@@ -171,6 +171,17 @@
     circle(g, 8, 10, 3, 'VIOLET');
     dots(g, [[8, 10], [7, 9]], 'GLOW2');
   });
+  SPRITES.mod_abyssnode = modSprite((g) => {
+    for (let t = 0; t < 4; t++) { const a = (t / 4) * Math.PI * 2; vline(g, Math.round(8 + Math.cos(a) * 5), Math.round(8 + Math.sin(a) * 5) - 1, 2, 'PANEL2'); }
+    rect(g, 6, 6, 4, 4, 'BORDER');
+    dots(g, [[7, 7], [9, 9]], 'GLOW2');
+  });
+  SPRITES.mod_voidheart = modSprite((g) => {
+    circle(g, 8, 8, 6, 'INK');
+    circle(g, 8, 8, 4, 'VIOLET');
+    circle(g, 8, 8, 1, 'PEARL');
+    dots(g, [[8, 1], [8, 15], [1, 8], [15, 8]], 'GLOW2');
+  });
 
   /* -------------------------------------------------------------- 生物 */
 
@@ -396,6 +407,37 @@
     ellipse(g, 14, 10, 8, 4, 'PANEL2');
     dots(g, [[9, 8], [19, 8]], 'RED');
     for (let t = 0; t < 5; t++) vline(g, 5 + t * 4, 15, 3, 'DIM');
+  });
+
+  SPRITES.c_ruincrab = creatureSprite(16, 16, (g) => {
+    ellipse(g, 8, 9, 6, 4, 'PANEL2');
+    hline(g, 5, 9, 6, 'BORDER');
+    dots(g, [[2, 7], [14, 7], [2, 11], [14, 11]], 'BORDER');
+    dots(g, [[6, 8], [10, 8]], 'GLOW2');
+  });
+  SPRITES.c_signaljelly = creatureSprite(16, 16, (g) => {
+    ellipse(g, 8, 5, 6, 4, 'VIOLET');
+    dots(g, [[5, 4], [8, 3], [11, 4], [8, 6]], 'PEARL');
+    for (let t = 0; t < 4; t++) vline(g, 4 + t * 3, 8, 6, 'VIOLET');
+    dots(g, [[8, 4]], 'GLOW2');
+  });
+  SPRITES.c_signaljelly.frame1 = frame1(16, 16, (g) => {
+    ellipse(g, 8, 5, 6, 4, 'VIOLET');
+    dots(g, [[5, 4], [8, 3], [11, 4]], 'PEARL');
+    for (let t = 0; t < 4; t++) vline(g, 5 + t * 3, 8, 5, 'VIOLET');
+    dots(g, [[8, 4]], 'GLOW2');
+  });
+  SPRITES.c_echosentinel = creatureSprite(16, 16, (g) => {
+    rect(g, 5, 3, 6, 10, 'PANEL2');
+    hline(g, 4, 5, 8, 'BORDER');
+    hline(g, 4, 10, 8, 'BORDER');
+    dots(g, [[7, 7], [9, 7]], 'GLOW2');
+  });
+  SPRITES.c_precursorshade = creatureSprite(28, 20, (g) => {
+    ellipse(g, 14, 10, 12, 8, 'INK');
+    for (let x = 4; x <= 24; x++) for (let y = 3; y <= 17; y++) if ((x + y) % 4 === 0) setPx(g, x, y, 'DIM');
+    dots(g, [[9, 8], [19, 8]], 'VIOLET');
+    dots(g, [[14, 4], [14, 16]], 'PEARL');
   });
 
   /* -------------------------------------------------------------- 介面圖示 */

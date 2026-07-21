@@ -1,6 +1,6 @@
 /* ============================================================================
- * researchDefs.js — 32 節研究（企劃書第 4d 節 + v1.1/Phase2/Phase3 擴充），花樣本（SP）
- * 購買，轉生時重置。effect 是給 researchSystem/economySystem 讀的通用格式，跟
+ * researchDefs.js — 36 節研究（企劃書第 4d 節 + v1.1/Phase2/Phase3/Phase5 擴充），花樣本
+ * （SP）購買，轉生時重置。effect 是給 researchSystem/economySystem 讀的通用格式，跟
  * refitDefs.js 共用。lore 是研究詳細彈窗（nodeDetailModal.js）顯示的風味文字，
  * 純敘事用途，不影響任何數值。
  * ==========================================================================*/
@@ -69,7 +69,15 @@
     { id: 'r31', name: '裂谷晶簇陣列', cost: 5000, desc: '裂谷晶簇與虛空熔爐產量 x2', effect: { type: 'moduleMultMany', modules: ['riftcrystal', 'voidforge'], value: 2 },
       lore: '把裂谷晶簇的天然共振頻率與虛空熔爐的鍛造熱能連成一套陣列，兩者的產出效率一起被推上新的高度。' },
     { id: 'r32', name: '裂谷之心', cost: 6500, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
-      lore: '目前研究樹的終點，把裂谷深淵所有能被理解、被利用的能量來源全部整合進潛燈號最新一版的核心演算法。' }
+      lore: '目前研究樹的終點，把裂谷深淵所有能被理解、被利用的能量來源全部整合進潛燈號最新一版的核心演算法。' },
+    { id: 'r33', name: '遺跡解讀', cost: 8500, desc: '全螢光產量 +100%', effect: { type: 'allProdMult', value: 2 },
+      lore: '先驅遺跡的能量接口跟潛燈號的系統完全不同規格，光是弄懂怎麼「借」到能量，就花掉了團隊好幾週的時間。' },
+    { id: 'r34', name: '遺跡壓載', cost: 10500, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 },
+      lore: '參考遺跡結構本身抵抗深海壓力的方式重新設計壓載系統，下潛時的震動比過去任何一次改裝都更小。' },
+    { id: 'r35', name: '節點共鳴陣列', cost: 13500, desc: '遺跡節點與虛空之心產量 x2', effect: { type: 'moduleMultMany', modules: ['abyssnode', 'voidheart'], value: 2 },
+      lore: '把外圍節點與核心之間原本就存在、卻被我們忽略的共鳴頻率重新接上，兩者的輸出效率一起被推上新的高度。' },
+    { id: 'r36', name: '先驅回聲', cost: 17500, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '目前研究樹的終點。把先驅遺跡願意「借」給我們的一切能量全部整合進核心演算法——至於它為什麼願意借，暫時還沒有答案。' }
   ];
 
   function researchById(id) { return RESEARCH_DEFS.find((r) => r.id === id); }

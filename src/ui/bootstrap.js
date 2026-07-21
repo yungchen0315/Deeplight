@@ -29,6 +29,7 @@
   let lastTickAt;
   let lastSaveAt;
   let saveFailureWarned = false;
+  let skipNextAutosave = false;
 
   function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
@@ -38,6 +39,10 @@
    *  分頁一關就整份進度消失。這裡只在第一次偵測到失敗時提示一次，避免每次自動
    *  存檔都彈一次 toast 洗版。 */
   function trySave() {
+    // 卸載過程中 visibilitychange（hidden）與 beforeunload 兩個監聽器都可能各自呼叫一次
+    // trySave()，設了旗標就不能只消費一次——不重置也沒關係，反正頁面接下來就會真的
+    // 重新整理，整個模組（含這個旗標）都會被拋棄，不會遺留到下一次正常的自動存檔。
+    if (skipNextAutosave) return true;
     const ok = Save.save(save);
     if (!ok && !saveFailureWarned) {
       saveFailureWarned = true;
@@ -163,6 +168,15 @@
 
     registerServiceWorker();
   }
+
+  /** 匯入存檔後緊接著呼叫 location.reload() 時，卸載流程觸發的 beforeunload 自動存檔
+   *  仍然只認得記憶體裡舊的 `save`（匯入寫進 localStorage 的新內容跟這個閉包變數
+   *  完全無關），若不擋下來就會在畫面真的重新整理之前，被舊存檔蓋掉剛匯入的內容。
+   *  settingsModal.js 的匯入流程呼叫這個函式跳過下一次自動存檔，就是為了避免這個
+   *  競速問題。 */
+  function skipAutosaveOnce() { skipNextAutosave = true; }
+
+  window.App.UI.Bootstrap = { skipAutosaveOnce };
 
   document.addEventListener('DOMContentLoaded', init);
 })();

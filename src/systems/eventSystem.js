@@ -15,7 +15,11 @@
     { id: 'newyear', name: '新年深潮', month: 0, startDay: 1, endDay: 3,
       banner: '🎊 新年深潮：全螢光產量 x1.5，生物出現速度 x1.4', prodMult: 1.5, spawnIntervalMult: 1 / 1.4, rareChanceMult: 1 },
     { id: 'oceansday', name: '世界海洋日', month: 5, startDay: 8, endDay: 8,
-      banner: '🌊 世界海洋日：生物出現速度 x2，稀有機率 x2', prodMult: 1, spawnIntervalMult: 0.5, rareChanceMult: 2 }
+      banner: '🌊 世界海洋日：生物出現速度 x2，稀有機率 x2', prodMult: 1, spawnIntervalMult: 0.5, rareChanceMult: 2 },
+    { id: 'halloween', name: '深海幽靈夜', month: 9, startDay: 30, endDay: 31,
+      banner: '🎃 深海幽靈夜：生物出現速度 x1.5，稀有機率 x1.8', prodMult: 1, spawnIntervalMult: 1 / 1.5, rareChanceMult: 1.8 },
+    { id: 'christmas', name: '聖誕深潮', month: 11, startDay: 24, endDay: 25,
+      banner: '🎄 聖誕深潮：全螢光產量 x1.6，稀有機率 x1.2', prodMult: 1.6, spawnIntervalMult: 1, rareChanceMult: 1.2 }
   ];
 
   /** 回傳今天生效的季節活動，沒有的話回傳 null。同時間只會有一個生效（設計上刻意

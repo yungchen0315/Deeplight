@@ -39,6 +39,11 @@
       id: 'pearlBoostHint',
       message: '手上有深海珍珠了，去「海面」頁面兌換限時加護吧',
       when: (save) => save.pearls >= 1 && !save.boostUntil
+    },
+    {
+      id: 'sonarHint',
+      message: '左上角的 📡 是聲納脈衝：冷卻好了隨時可以按，立即強制刷新一隻路過生物，且那次抽到稀有種的機率有加成',
+      when: (save) => (save.stats.totalTaps || 0) >= 3
     }
   ];
 

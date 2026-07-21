@@ -31,6 +31,15 @@
   let goldenActive = false;
   let signalActive = false;
   let weekendShown = false;
+  let goldenMissFn = null;
+  let signalMissFn = null;
+  // 誘光進度條的強制刷新（forceSpawnSoon）跟聲納脈衝（forceSpawnSonar）共用同一個
+  // spawnTimeoutId 排程位置——同一時間只會有「下一隻要刷新的生物」這一件事，兩邊都只
+  // 是「現在就刷新」的請求。如果各自把稀有加成直接綁進 setTimeout 的 closure 裡，
+  // 後呼叫的那邊會直接覆蓋前者，等於玩家已經花掉聲納冷卻卻拿不到稀有加成。改成一個
+  // 共用的「待生效加成」，由實際觸發的那次 spawnCreature 讀取並清空，兩邊誰先觸發
+  // 都不會遺漏加成。
+  let pendingRareBonusMult = 1;
 
   function render(container, save, onChange) {
     saveRef = save;
@@ -203,8 +212,10 @@
     }
   }
 
-  function spawnCreature(rareBonusMult) {
+  function spawnCreature() {
     if (!active || !sceneEl) return;
+    const rareBonusMult = pendingRareBonusMult;
+    pendingRareBonusMult = 1;
     const def = Creature.rollSpecies(saveRef, rareBonusMult);
     if (!def) { scheduleSpawn(); return; }
     const scale = 3;
@@ -253,21 +264,27 @@
       wrap.style.left = goingRight ? '110%' : '-15%';
     });
 
-    let caught = false;
+    let resolved = false;
     function missGolden() {
-      if (caught) return;
+      if (resolved) return;
+      resolved = true;
+      clearTimeout(timeoutId);
+      goldenMissFn = null;
       goldenActive = false;
       Golden.scheduleNext(saveRef);
       wrap.remove();
     }
+    const timeoutId = setTimeout(missGolden, lifespanMs + 200);
+    goldenMissFn = missGolden;
     U.onTap(wrap, () => {
-      if (caught) return;
-      caught = true;
+      if (resolved) return;
+      resolved = true;
+      clearTimeout(timeoutId);
+      goldenMissFn = null;
       wrap.remove();
       openGoldenChoiceModal();
     });
-    const timeoutId = setTimeout(missGolden, lifespanMs + 200);
-    wrap.addEventListener('transitionend', () => { clearTimeout(timeoutId); missGolden(); });
+    wrap.addEventListener('transitionend', missGolden);
   }
 
   function openGoldenChoiceModal() {
@@ -313,16 +330,23 @@
       wrap.style.left = goingRight ? '110%' : '-15%';
     });
 
-    let caught = false;
+    let resolved = false;
     function missSignal() {
-      if (caught) return;
+      if (resolved) return;
+      resolved = true;
+      clearTimeout(timeoutId);
+      signalMissFn = null;
       signalActive = false;
       Signal.scheduleNext(saveRef);
       wrap.remove();
     }
+    const timeoutId = setTimeout(missSignal, lifespanMs + 200);
+    signalMissFn = missSignal;
     U.onTap(wrap, () => {
-      if (caught) return;
-      caught = true;
+      if (resolved) return;
+      resolved = true;
+      clearTimeout(timeoutId);
+      signalMissFn = null;
       wrap.remove();
       const r = Signal.collect(saveRef);
       signalActive = false;
@@ -333,8 +357,7 @@
       openSignalModal(r.def, r.justCompleted);
       if (onChangeRef) onChangeRef();
     });
-    const timeoutId = setTimeout(missSignal, lifespanMs + 200);
-    wrap.addEventListener('transitionend', () => { clearTimeout(timeoutId); missSignal(); });
+    wrap.addEventListener('transitionend', missSignal);
   }
 
   function openSignalModal(def, justCompleted) {
@@ -507,6 +530,7 @@
     if ((saveRef.nextSonarAt || 0) > now) return;
     saveRef.nextSonarAt = now + D.BALANCE.SONAR_COOLDOWN_MS;
     saveRef.stats.totalSonarUses = (saveRef.stats.totalSonarUses || 0) + 1;
+    pendingRareBonusMult = Math.max(pendingRareBonusMult, D.BALANCE.SONAR_RARE_BONUS_MULT);
     Audio.play('gate');
     FX.popButton(hudRefs.sonarBtn);
     forceSpawnSonar();
@@ -515,7 +539,7 @@
 
   function forceSpawnSonar() {
     if (spawnTimeoutId) clearTimeout(spawnTimeoutId);
-    spawnTimeoutId = setTimeout(() => spawnCreature(D.BALANCE.SONAR_RARE_BONUS_MULT), 200);
+    spawnTimeoutId = setTimeout(spawnCreature, 200);
   }
 
   function deactivate() {
@@ -524,6 +548,12 @@
     spawnTimeoutId = null;
     if (flavorTimeoutId) clearTimeout(flavorTimeoutId);
     flavorTimeoutId = null;
+    // 導航離開時立即結算還在畫面上的金燈魚/訊號殘片，而不是留著計時器在背景繼續
+    // 跑：避免玩家切回潛航畫面時 render() 重置 goldenActive/signalActive，卻讓舊
+    // instance 的計時器晚點才觸發、事後又呼叫一次 scheduleNext 把新 instance 剛
+    // 排好的時間覆蓋掉。
+    if (goldenMissFn) goldenMissFn();
+    if (signalMissFn) signalMissFn();
   }
 
   window.App.UI.DiveScreen = { render, tick, deactivate, forceSpawnSoon };

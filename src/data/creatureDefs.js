@@ -1,5 +1,5 @@
 /* ============================================================================
- * creatureDefs.js — 52 種深淵圖鑑生物（企劃書第 8 節 + v1.1~Phase8 擴充）。
+ * creatureDefs.js — 56 種深淵圖鑑生物（企劃書第 8 節 + v1.1~Phase9 擴充）。
  * 每海域 4 種，各含 1 稀有種。首次遇見必掉樣本，之後依 balance 機率掉落。lore
  * 是圖鑑詳細彈窗（bestiaryDetailModal.js）顯示的一小段風味文字，純敘事用途，
  * 不影響任何遊戲數值。
@@ -122,7 +122,16 @@
     { id: 'echohunter', name: '回聲獵人', icon: 'c_echohunter', zone: 12, rare: false,
       lore: '完全依賴回聲定位捕獵的深塹掠食者，游動時會主動發出一連串高頻脈衝——聽起來詭異地跟低語浮標的震動節奏很像。' },
     { id: 'thewhisperer', name: '低語者', icon: 'c_thewhisperer', zone: 12, rare: true,
-      lore: '甦醒者當初朝潛燈號游來，原來不是攻擊，是引路——牠把潛燈號帶到了這裡，然後就再也沒有出現過。取而代之的，是這個看不清全貌、卻感覺得到牠一直在「說話」的存在。目擊紀錄到此為止。' }
+      lore: '甦醒者當初朝潛燈號游來，原來不是攻擊，是引路——牠把潛燈號帶到了這裡，然後就再也沒有出現過。取而代之的，是這個看不清全貌、卻感覺得到牠一直在「說話」的存在。目擊紀錄到此為止。' },
+    // 本源塹
+    { id: 'sourceswarm', name: '本源蟲群', icon: 'c_sourceswarm', zone: 13, rare: false,
+      lore: '密密麻麻的細小發光體，聚成一團緩慢移動，發光的頻率跟低語塹浮標群的震動節奏一模一樣——只是這次不是浮標在震動，是活生生的生物在發光。' },
+    { id: 'chasmwanderer', name: '深壑巡者', icon: 'c_chasmwanderer', zone: 13, rare: false,
+      lore: '沿著本源塹邊緣緩慢漂游的細長生物，路線精準覆蓋了先驅遺跡、沉眠都市、低語塹三處節點造型都出現過的紋路，像是在巡視同一套系統的不同分部。' },
+    { id: 'sourceguardian', name: '訊源守衛', icon: 'c_sourceguardian', zone: 13, rare: false,
+      lore: '比石化守衛、深塹守衛都更龐大的守衛型生物，固定站在本源之心外圍。跟其他守衛不同，牠會對著潛燈號的方向緩緩點頭，像是某種行禮。' },
+    { id: 'thesource', name: '本源', icon: 'c_thesource', zone: 13, rare: true,
+      lore: '先驅之影、起源之眼、甦醒者、低語者——原來全部都指向同一個存在。本源不迴避、不觀察、不引路，牠只是「在」，龐大得探照燈照不出邊界。目擊紀錄裡唯一的文字備註只有一句：找到源頭了，但還不知道這代表結束，還是開始。' }
   ];
 
   function creatureById(id) { return CREATURE_DEFS.find((c) => c.id === id); }

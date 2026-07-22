@@ -1,5 +1,5 @@
 /* ============================================================================
- * moduleDefs.js — 26 種發光模組（企劃書第 4b 節 + v1.1~Phase8 擴充）。cost(n)
+ * moduleDefs.js — 28 種發光模組（企劃書第 4b 節 + v1.1~Phase9 擴充）。cost(n)
  * 與升級節點的計算交給 economySystem，這裡只放靜態資料。lore 是模組詳細彈窗
  * （moduleDetailModal.js）顯示的風味文字，純敘事用途，不影響任何數值。
  * ==========================================================================*/
@@ -56,7 +56,11 @@
     { id: 'whisperbuoy', name: '低語浮標', icon: 'mod_whisperbuoy', baseCost: 5e27, baseProd: 7e19, unlockDepth: 545000,
       lore: '甦醒者帶著潛燈號游到的地方，漂浮著一串串會發出低頻震動的浮標，震動的節奏聽久了，很難不覺得裡面藏著某種語言。' },
     { id: 'riftheart', name: '深塹之心', icon: 'mod_riftheart', baseCost: 7.5e28, baseProd: 5e20, unlockDepth: 690000,
-      lore: '低語塹最深處一團持續脈動的能量核心，接上纜線後，浮標群的震動節奏瞬間變得整齊劃一——像是終於等到了「聽眾」。' }
+      lore: '低語塹最深處一團持續脈動的能量核心，接上纜線後，浮標群的震動節奏瞬間變得整齊劃一——像是終於等到了「聽眾」。' },
+    { id: 'sourceanchor', name: '本源錨', icon: 'mod_sourceanchor', baseCost: 1.1e30, baseProd: 3.5e21, unlockDepth: 845000,
+      lore: '本源塹入口散落著一批錨狀構造，跟先驅遺跡、沉眠都市、低語塹的節點造型都不完全相同——像是同一套系統，卻是不同世代的版本。' },
+    { id: 'sourceheart', name: '本源之心', icon: 'mod_sourceheart', baseCost: 1.7e31, baseProd: 2.5e22, unlockDepth: 1050000,
+      lore: '本源塹最深處一團體積遠超前幾處「之心」的能量核心，接上纜線的瞬間，先驅遺跡、沉眠都市、低語塹的殘留訊號同時閃了一下——彷彿全部連上了同一個源頭。' }
   ];
 
   function moduleById(id) { return MODULE_DEFS.find((m) => m.id === id); }

@@ -214,6 +214,17 @@
     circle(g, 8, 8, 1, 'PEARL');
     for (let r = 0; r < 4; r++) { const a = (r / 4) * Math.PI * 2; dots(g, [[Math.round(8 + Math.cos(a) * 6), Math.round(8 + Math.sin(a) * 6)]], 'GLOW2'); }
   });
+  SPRITES.mod_sourceanchor = modSprite((g) => {
+    hline(g, 3, 2, 10, 'BORDER'); vline(g, 8, 2, 11, 'BORDER');
+    dots(g, [[3, 11], [12, 11], [3, 12], [12, 12], [5, 12], [10, 12]], 'PANEL2');
+    dots(g, [[8, 2]], 'GLOW2');
+  });
+  SPRITES.mod_sourceheart = modSprite((g) => {
+    circle(g, 8, 8, 7, 'VIOLET');
+    circle(g, 8, 8, 5, 'INK');
+    circle(g, 8, 8, 2, 'PEARL');
+    dots(g, [[8, 1], [8, 15], [1, 8], [15, 8], [3, 3], [13, 13]], 'GLOW2');
+  });
 
   /* -------------------------------------------------------------- 生物 */
 
@@ -546,6 +557,28 @@
   SPRITES.c_thewhisperer = creatureSprite(28, 28, (g) => {
     for (let x = 4; x <= 24; x++) for (let y = 4; y <= 24; y++) if (((x - 14) * (x - 14) + (y - 14) * (y - 14)) <= 144 && Math.random() < 0.5) setPx(g, x, y, 'VIOLET');
     dots(g, [[14, 14]], 'PEARL');
+  });
+
+  SPRITES.c_sourceswarm = creatureSprite(20, 16, (g) => {
+    const pts = [[3, 4], [6, 3], [9, 5], [5, 7], [8, 8], [11, 9], [4, 10], [7, 11], [10, 12], [13, 6], [14, 10], [16, 8]];
+    dots(g, pts, 'GLOW2');
+  });
+  SPRITES.c_chasmwanderer = creatureSprite(24, 8, (g) => {
+    for (let i = 0; i < 20; i++) { const y = 4 + Math.round(Math.sin(i / 4.5) * 2.5); setPx(g, 1 + i, y, 'DIM'); }
+    dots(g, [[2, 2], [21, 5]], 'VIOLET');
+  });
+  SPRITES.c_sourceguardian = creatureSprite(20, 24, (g) => {
+    rect(g, 5, 2, 10, 8, 'PANEL2');
+    rect(g, 4, 10, 12, 13, 'PANEL2');
+    dots(g, [[8, 5], [12, 5]], 'GLOW2');
+    for (let x = 5; x <= 14; x += 3) for (let y = 11; y <= 21; y += 3) setPx(g, x, y, 'BORDER');
+  });
+  SPRITES.c_thesource = creatureSprite(32, 28, (g) => {
+    ellipse(g, 16, 14, 15, 13, 'INK');
+    for (let x = 2; x <= 30; x++) for (let y = 2; y <= 26; y++) if (((x - 16) * (x - 16) + (y - 14) * (y - 14)) <= 169 && Math.random() < 0.35) setPx(g, x, y, 'VIOLET');
+    circle(g, 16, 14, 5, 'PANEL2');
+    circle(g, 16, 14, 2, 'PEARL');
+    dots(g, [[6, 8], [26, 8], [6, 20], [26, 20]], 'GLOW2');
   });
 
   /* -------------------------------------------------------------- 介面圖示 */

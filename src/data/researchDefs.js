@@ -1,5 +1,5 @@
 /* ============================================================================
- * researchDefs.js — 40 節研究（企劃書第 4d 節 + v1.1~Phase6 擴充），花樣本
+ * researchDefs.js — 44 節研究（企劃書第 4d 節 + v1.1~Phase7 擴充），花樣本
  * （SP）購買，轉生時重置。effect 是給 researchSystem/economySystem 讀的通用格式，跟
  * refitDefs.js 共用。lore 是研究詳細彈窗（nodeDetailModal.js）顯示的風味文字，
  * 純敘事用途，不影響任何數值。
@@ -85,7 +85,15 @@
     { id: 'r39', name: '尖塔透鏡共鳴', cost: 34000, desc: '回音尖塔與起源透鏡產量 x2', effect: { type: 'moduleMultMany', modules: ['echospire', 'originlens'], value: 2 },
       lore: '回音尖塔負責「聽」，起源透鏡負責「看」，把兩者的資料流接在一起之後，輸出效率遠超過個別運作時的總和。' },
     { id: 'r40', name: '起源回響', cost: 43000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
-      lore: '目前研究樹的終點。把迴廊深處願意透露的一切都整合進核心演算法——透鏡另一端到底看到了什麼，暫時還沒有答案。' }
+      lore: '把迴廊深處願意透露的一切都整合進核心演算法——透鏡另一端到底看到了什麼，暫時還沒有答案。' },
+    { id: 'r41', name: '都市解密', cost: 55000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '沉眠都市的能量接口比先驅遺跡更複雜、也更「有系統」——這裡不是零散的節點，是一整套曾經運作過的城市級電網。' },
+    { id: 'r42', name: '都市壓載', cost: 68000, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 },
+      lore: '參考城市街道規劃的方式重新設計下潛路徑，沿著曾經是「主幹道」的方向前進，阻力比預期小得多。' },
+    { id: 'r43', name: '中繼核心共鳴', cost: 85000, desc: '都市中繼站與甦醒核心產量 x2', effect: { type: 'moduleMultMany', modules: ['cityrelay', 'awakencore'], value: 2 },
+      lore: '把城市外圍的中繼站訊號跟核心的甦醒脈動接上同一個頻率，兩者的輸出效率一起被推上新的高度。' },
+    { id: 'r44', name: '甦醒回聲', cost: 105000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '目前研究樹的終點。把沉眠都市甦醒過程中釋放的一切能量全部整合進核心演算法——這座城市為什麼會醒，暫時還沒有答案。' }
   ];
 
   function researchById(id) { return RESEARCH_DEFS.find((r) => r.id === id); }

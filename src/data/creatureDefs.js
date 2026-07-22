@@ -1,5 +1,5 @@
 /* ============================================================================
- * creatureDefs.js — 44 種深淵圖鑑生物（企劃書第 8 節 + v1.1~Phase6 擴充）。
+ * creatureDefs.js — 48 種深淵圖鑑生物（企劃書第 8 節 + v1.1~Phase7 擴充）。
  * 每海域 4 種，各含 1 稀有種。首次遇見必掉樣本，之後依 balance 機率掉落。lore
  * 是圖鑑詳細彈窗（bestiaryDetailModal.js）顯示的一小段風味文字，純敘事用途，
  * 不影響任何遊戲數值。
@@ -104,7 +104,16 @@
     { id: 'silentstalker', name: '靜默潛行者', icon: 'c_silentstalker', zone: 10, rare: false,
       lore: '全身沒有一絲多餘的擾動，游過迴廊時連儀表板最靈敏的水流感測器都量不到牠的存在，只有目視才能勉強捕捉到一道極淡的殘影。' },
     { id: 'origineye', name: '起源之眼', icon: 'c_origineye', zone: 10, rare: true,
-      lore: '傳說迴廊盡頭有什麼東西一直「醒著」，只用一隻巨大的複眼觀察經過的一切。目擊紀錄裡，那隻眼睛從頭到尾沒有眨過一次，也沒有移開視線。' }
+      lore: '傳說迴廊盡頭有什麼東西一直「醒著」，只用一隻巨大的複眼觀察經過的一切。目擊紀錄裡，那隻眼睛從頭到尾沒有眨過一次，也沒有移開視線。' },
+    // 沉眠都市
+    { id: 'stoneguardian', name: '石化守衛', icon: 'c_stoneguardian', zone: 11, rare: false,
+      lore: '矗立在城市街口一動也不動的巨大人形輪廓，表面覆滿礦物結晶，乍看像雕像——直到探照燈照過去的瞬間，它的「頭」緩緩轉了過來。' },
+    { id: 'echodweller', name: '迴聲居民', icon: 'c_echodweller', zone: 11, rare: false,
+      lore: '半透明的人形輪廓，沿著城市街道重複走著同一段路線，像是被困在某個已經結束很久的日常裡，對潛燈號的燈暈完全視而不見。' },
+    { id: 'citypatrol', name: '都市巡邏者', icon: 'c_citypatrol', zone: 11, rare: false,
+      lore: '沿著城市外圍規律巡邏的機械狀生物，路線精準得像是還在執行某種從未被取消的勤務。跟遺跡守衛蟹不同，牠會停下來「看」潛燈號幾秒才離開。' },
+    { id: 'theawakened', name: '甦醒者', icon: 'c_theawakened', zone: 11, rare: true,
+      lore: '只在甦醒核心亮起後才出現過的巨大輪廓，跟先驅之影、起源之眼都不一樣——牠不迴避、不靜止觀察，牠會主動朝探照燈的方向游過來。目擊紀錄到此為止。' }
   ];
 
   function creatureById(id) { return CREATURE_DEFS.find((c) => c.id === id); }

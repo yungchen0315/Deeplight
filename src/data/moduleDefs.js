@@ -1,5 +1,5 @@
 /* ============================================================================
- * moduleDefs.js — 22 種發光模組（企劃書第 4b 節 + v1.1~Phase6 擴充）。cost(n)
+ * moduleDefs.js — 24 種發光模組（企劃書第 4b 節 + v1.1~Phase7 擴充）。cost(n)
  * 與升級節點的計算交給 economySystem，這裡只放靜態資料。lore 是模組詳細彈窗
  * （moduleDetailModal.js）顯示的風味文字，純敘事用途，不影響任何數值。
  * ==========================================================================*/
@@ -48,7 +48,11 @@
     { id: 'echospire', name: '回音尖塔', icon: 'mod_echospire', baseCost: 1e23, baseProd: 2e16, unlockDepth: 215000,
       lore: '矗立在迴廊入口的尖塔狀構造，表面刻痕會把聲納回波放大再送回去——難怪先前的聲納訊號穿過通道後，久久沒有回音，原來只是被這裡「延遲」了。' },
     { id: 'originlens', name: '起源透鏡', icon: 'mod_originlens', baseCost: 1.5e24, baseProd: 1.4e17, unlockDepth: 270000,
-      lore: '迴廊深處一面巨大的透鏡狀結構，看過去的畫面總是慢半拍、又帶著奇異的重影。工程日誌懷疑，它折射的可能不只是光。' }
+      lore: '迴廊深處一面巨大的透鏡狀結構，看過去的畫面總是慢半拍、又帶著奇異的重影。工程日誌懷疑，它折射的可能不只是光。' },
+    { id: 'cityrelay', name: '都市中繼站', icon: 'mod_cityrelay', baseCost: 2.2e25, baseProd: 1e18, unlockDepth: 345000,
+      lore: '迴廊盡頭那片黑暗的另一側，是一整座沉睡的城市——這座中繼站矗立在市郊，接上線路後開始傳輸一種規律得像廣播的能量訊號。' },
+    { id: 'awakencore', name: '甦醒核心', icon: 'mod_awakencore', baseCost: 3.3e26, baseProd: 7e18, unlockDepth: 440000,
+      lore: '城市中心那座巨大核心構造，接上纜線的瞬間整片城市的燈光同步亮了一下又暗下去——像是在打盹的巨獸被輕輕碰了一下肩膀。' }
   ];
 
   function moduleById(id) { return MODULE_DEFS.find((m) => m.id === id); }

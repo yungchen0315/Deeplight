@@ -1,15 +1,15 @@
 /* ============================================================================
- * zoneDefs.js — 十一段海域主幹（企劃書第 4a 節 + v1.1~Phase6 擴充）。depth 會被夾在
+ * zoneDefs.js — 十二段海域主幹（企劃書第 4a 節 + v1.1~Phase7 擴充）。depth 會被夾在
  * [minDepth, anchorDepth] 之間，直到玩家花 gateCost 通過錨點才能進入下一海域。
  * filterHue 是 CSS hue-rotate 濾鏡角度，讓深層海域有獨立色調又不必新增色盤顏色
  * （企劃書要求全遊戲硬上限 20 色，見 palette.js）。
- * gateCost 曲線：0~3 段是上一輪依實測回饋調整過的（見當時的模擬結果），4~9 段
+ * gateCost 曲線：0~3 段是上一輪依實測回饋調整過的（見當時的模擬結果），4~10 段
  * 用同一套模擬工具（含研究樹/模組升級/壓載）校正，把「時間到下一海域」的成長率
- * 抹平成穩定的 1.3~2.5 倍區間，取代原本忽快忽慢的曲線。id 9 的 gateCost 這次隨著
- * 第 10 海域（回音迴廊）正式開放重新校正過（模擬結果：z8→z9 約 30.9h，z9→z10 約
- * 52.3h，比例 1.69x，落在同一區間內）。id 10 的 gateCost 目前無法被觸發（下一個
+ * 抹平成穩定的 1.3~2.5 倍區間，取代原本忽快忽慢的曲線。id 10 的 gateCost 這次隨著
+ * 第 11 海域（沉眠都市）正式開放重新校正過（模擬結果：z9→z10 約 47.2h，z10→z11 約
+ * 81.5h，比例 1.73x，落在同一區間內）。id 11 的 gateCost 目前無法被觸發（下一個
  * 海域是 comingSoon 的預告牌，descentSystem.passGate 會擋下），先延續同一套倍率
- * 保留一個佔位數值，等真的開放第 12 海域時再一併重新校正。
+ * 保留一個佔位數值，等真的開放第 13 海域時再一併重新校正。
  * ==========================================================================*/
 (function () {
   const ZONE_DEFS = [
@@ -23,8 +23,9 @@
     { id: 7, name: '熱泉海淵', minDepth: 55000, anchorDepth: 80000, mult: 9000, bg: 'INK', filterHue: 300, gateCost: 8.2e23 },
     { id: 8, name: '裂谷深淵', minDepth: 80000, anchorDepth: 130000, mult: 35000, bg: 'INK', filterHue: 160, gateCost: 2e26 },
     { id: 9, name: '先驅遺跡', minDepth: 130000, anchorDepth: 210000, mult: 130000, bg: 'INK', filterHue: 200, gateCost: 1.5e29 },
-    { id: 10, name: '回音迴廊', minDepth: 210000, anchorDepth: 340000, mult: 500000, bg: 'INK', filterHue: 20, gateCost: 3e32 },
-    { id: 11, name: '深海溝底．即將開放', minDepth: 340000, anchorDepth: 340000, mult: 500000, bg: 'INK', filterHue: 20, gateCost: null, comingSoon: true }
+    { id: 10, name: '回音迴廊', minDepth: 210000, anchorDepth: 340000, mult: 500000, bg: 'INK', filterHue: 20, gateCost: 8.5e31 },
+    { id: 11, name: '沉眠都市', minDepth: 340000, anchorDepth: 540000, mult: 2000000, bg: 'INK', filterHue: 340, gateCost: 1.7e35 },
+    { id: 12, name: '深海溝底．即將開放', minDepth: 540000, anchorDepth: 540000, mult: 2000000, bg: 'INK', filterHue: 340, gateCost: null, comingSoon: true }
   ];
 
   function zoneById(id) { return ZONE_DEFS.find((z) => z.id === id); }

@@ -193,6 +193,17 @@
     circle(g, 8, 8, 2, 'PEARL');
     dots(g, [[6, 6], [10, 10]], 'GLOW2');
   });
+  SPRITES.mod_cityrelay = modSprite((g) => {
+    rect(g, 6, 2, 4, 12, 'HULL2');
+    for (let y = 3; y <= 11; y += 3) { hline(g, 3, y, 3, 'BORDER'); hline(g, 10, y, 3, 'BORDER'); }
+    dots(g, [[8, 2], [8, 1]], 'GLOW2');
+  });
+  SPRITES.mod_awakencore = modSprite((g) => {
+    ellipse(g, 8, 9, 7, 6, 'PANEL2');
+    for (let x = 3; x <= 13; x += 2) vline(g, x, 3, 3, 'BORDER');
+    circle(g, 8, 9, 3, 'AMBER');
+    dots(g, [[8, 9]], 'GLOW2');
+  });
 
   /* -------------------------------------------------------------- 生物 */
 
@@ -474,6 +485,35 @@
     circle(g, 14, 10, 3, 'VIOLET');
     dots(g, [[14, 10]], 'PEARL');
     dots(g, [[6, 6], [22, 6], [6, 14], [22, 14]], 'GLOW2');
+  });
+
+  SPRITES.c_stoneguardian = creatureSprite(16, 24, (g) => {
+    rect(g, 4, 2, 8, 6, 'DIM');
+    rect(g, 3, 8, 10, 12, 'DIM');
+    dots(g, [[6, 4], [10, 4]], 'RED');
+    for (let x = 4; x <= 12; x += 2) for (let y = 8; y <= 19; y += 3) setPx(g, x, y, 'BORDER');
+  });
+  SPRITES.c_echodweller = creatureSprite(16, 24, (g) => {
+    ellipse(g, 8, 6, 4, 5, 'FOAM');
+    rect(g, 5, 10, 6, 12, 'FOAM');
+    dots(g, [[6, 5], [10, 5]], 'INK');
+  });
+  SPRITES.c_echodweller.frame1 = frame1(16, 24, (g) => {
+    ellipse(g, 8, 6, 4, 5, 'FOAM');
+    rect(g, 6, 10, 6, 12, 'FOAM');
+    dots(g, [[6, 5], [10, 5]], 'INK');
+  });
+  SPRITES.c_citypatrol = creatureSprite(20, 16, (g) => {
+    ellipse(g, 10, 8, 8, 5, 'BORDER');
+    rect(g, 8, 3, 4, 4, 'PANEL2');
+    dots(g, [[10, 5]], 'RED');
+    dots(g, [[4, 8], [16, 8]], 'GLOW2');
+  });
+  SPRITES.c_theawakened = creatureSprite(32, 24, (g) => {
+    ellipse(g, 16, 12, 15, 10, 'INK');
+    ellipse(g, 16, 12, 9, 6, 'PANEL2');
+    dots(g, [[10, 9], [22, 9]], 'RED');
+    for (let t = 0; t < 6; t++) vline(g, 4 + t * 5, 19, 4 - (t % 2), 'DIM');
   });
 
   /* -------------------------------------------------------------- 介面圖示 */

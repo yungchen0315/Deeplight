@@ -1,5 +1,5 @@
 /* ============================================================================
- * achievementDefs.js — 41 個成就（企劃書第 7 節 + v1.1~Phase6 擴充），部分掉深海
+ * achievementDefs.js — 43 個成就（企劃書第 7 節 + v1.1~Phase7 擴充），部分掉深海
  * 珍珠。condition(state) 由 achievementSystem 呼叫；state 是完整 SaveGame，只在
  * 該成就尚未解鎖時才會被呼叫（見 achievementSystem.js），所以就算條件內部呼叫
  * Economy.computeEffects 之類稍重的函式也不會變成長期的每 tick 負擔。
@@ -84,10 +84,14 @@
       condition: (s) => s.maxDepthEver >= 210000 },
     { id: 'ruins_bestiary', name: '遺跡觀測者', desc: '記錄先驅遺跡的全部 4 種生物', pearl: 3,
       condition: (s) => ['ruincrab', 'signaljelly', 'echosentinel', 'precursorshade'].every((id) => s.bestiary[id]) },
-    { id: 'depth_340000', name: '回音迴廊盡頭', desc: '下潛至 340000 公尺（目前版本最深處）', pearl: 8,
+    { id: 'depth_340000', name: '回音迴廊盡頭', desc: '下潛至 340000 公尺', pearl: 8,
       condition: (s) => s.maxDepthEver >= 340000 },
     { id: 'corridor_bestiary', name: '迴廊觀測者', desc: '記錄回音迴廊的全部 4 種生物', pearl: 3,
-      condition: (s) => ['echowalker', 'corridorwatcher', 'silentstalker', 'origineye'].every((id) => s.bestiary[id]) }
+      condition: (s) => ['echowalker', 'corridorwatcher', 'silentstalker', 'origineye'].every((id) => s.bestiary[id]) },
+    { id: 'depth_540000', name: '沉眠都市盡頭', desc: '下潛至 540000 公尺（目前版本最深處）', pearl: 9,
+      condition: (s) => s.maxDepthEver >= 540000 },
+    { id: 'city_bestiary', name: '都市觀測者', desc: '記錄沉眠都市的全部 4 種生物', pearl: 3,
+      condition: (s) => ['stoneguardian', 'echodweller', 'citypatrol', 'theawakened'].every((id) => s.bestiary[id]) }
   ];
 
   window.App.Data.ACHIEVEMENT_DEFS = ACHIEVEMENT_DEFS;

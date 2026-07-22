@@ -1,6 +1,6 @@
 /* ============================================================================
- * moduleDefs.js — 18 種發光模組（企劃書第 4b 節 + v1.1/Phase2/Phase3 擴充）。cost(n) 與
- * 升級節點的計算交給 economySystem，這裡只放靜態資料。lore 是模組詳細彈窗
+ * moduleDefs.js — 28 種發光模組（企劃書第 4b 節 + v1.1~Phase9 擴充）。cost(n)
+ * 與升級節點的計算交給 economySystem，這裡只放靜態資料。lore 是模組詳細彈窗
  * （moduleDetailModal.js）顯示的風味文字，純敘事用途，不影響任何數值。
  * ==========================================================================*/
 (function () {
@@ -40,7 +40,27 @@
     { id: 'riftcrystal', name: '裂谷晶簇', icon: 'mod_riftcrystal', baseCost: 2e18, baseProd: 8e12, unlockDepth: 85000,
       lore: '沿著海底裂谷邊緣生長的巨大結晶簇，斷面能看到一圈圈螢光年輪，像是隨著裂谷擴張一年年累積下來的。' },
     { id: 'voidforge', name: '虛空熔爐', icon: 'mod_voidforge', baseCost: 3e19, baseProd: 6e13, unlockDepth: 105000,
-      lore: '架在裂谷最深處的巨型熔爐狀構造，爐口對著地殼最薄弱的裂縫，把地心深處滲出的能量硬生生鍛造成螢光。' }
+      lore: '架在裂谷最深處的巨型熔爐狀構造，爐口對著地殼最薄弱的裂縫，把地心深處滲出的能量硬生生鍛造成螢光。' },
+    { id: 'abyssnode', name: '遺跡節點', icon: 'mod_abyssnode', baseCost: 4.5e20, baseProd: 4e14, unlockDepth: 135000,
+      lore: '先驅遺跡外圍散落的規則幾何構造之一，接上線路後開始穩定輸出——不知道原本的用途是什麼，但它顯然還在正常運作。' },
+    { id: 'voidheart', name: '虛空之心', icon: 'mod_voidheart', baseCost: 7e21, baseProd: 3e15, unlockDepth: 165000,
+      lore: '遺跡最深處的核心構造，比任何其他節點都更龐大也更古老。接上纜線的瞬間，整艘潛燈號的燈光同步閃爍了一下——彷彿它「認出」了什麼。' },
+    { id: 'echospire', name: '回音尖塔', icon: 'mod_echospire', baseCost: 1e23, baseProd: 2e16, unlockDepth: 215000,
+      lore: '矗立在迴廊入口的尖塔狀構造，表面刻痕會把聲納回波放大再送回去——難怪先前的聲納訊號穿過通道後，久久沒有回音，原來只是被這裡「延遲」了。' },
+    { id: 'originlens', name: '起源透鏡', icon: 'mod_originlens', baseCost: 1.5e24, baseProd: 1.4e17, unlockDepth: 270000,
+      lore: '迴廊深處一面巨大的透鏡狀結構，看過去的畫面總是慢半拍、又帶著奇異的重影。工程日誌懷疑，它折射的可能不只是光。' },
+    { id: 'cityrelay', name: '都市中繼站', icon: 'mod_cityrelay', baseCost: 2.2e25, baseProd: 1e18, unlockDepth: 345000,
+      lore: '迴廊盡頭那片黑暗的另一側，是一整座沉睡的城市——這座中繼站矗立在市郊，接上線路後開始傳輸一種規律得像廣播的能量訊號。' },
+    { id: 'awakencore', name: '甦醒核心', icon: 'mod_awakencore', baseCost: 3.3e26, baseProd: 7e18, unlockDepth: 440000,
+      lore: '城市中心那座巨大核心構造，接上纜線的瞬間整片城市的燈光同步亮了一下又暗下去——像是在打盹的巨獸被輕輕碰了一下肩膀。' },
+    { id: 'whisperbuoy', name: '低語浮標', icon: 'mod_whisperbuoy', baseCost: 5e27, baseProd: 7e19, unlockDepth: 545000,
+      lore: '甦醒者帶著潛燈號游到的地方，漂浮著一串串會發出低頻震動的浮標，震動的節奏聽久了，很難不覺得裡面藏著某種語言。' },
+    { id: 'riftheart', name: '深塹之心', icon: 'mod_riftheart', baseCost: 7.5e28, baseProd: 5e20, unlockDepth: 690000,
+      lore: '低語塹最深處一團持續脈動的能量核心，接上纜線後，浮標群的震動節奏瞬間變得整齊劃一——像是終於等到了「聽眾」。' },
+    { id: 'sourceanchor', name: '本源錨', icon: 'mod_sourceanchor', baseCost: 1.1e30, baseProd: 3.5e21, unlockDepth: 845000,
+      lore: '本源塹入口散落著一批錨狀構造，跟先驅遺跡、沉眠都市、低語塹的節點造型都不完全相同——像是同一套系統，卻是不同世代的版本。' },
+    { id: 'sourceheart', name: '本源之心', icon: 'mod_sourceheart', baseCost: 1.7e31, baseProd: 2.5e22, unlockDepth: 1050000,
+      lore: '本源塹最深處一團體積遠超前幾處「之心」的能量核心，接上纜線的瞬間，先驅遺跡、沉眠都市、低語塹的殘留訊號同時閃了一下——彷彿全部連上了同一個源頭。' }
   ];
 
   function moduleById(id) { return MODULE_DEFS.find((m) => m.id === id); }

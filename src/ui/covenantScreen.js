@@ -58,7 +58,7 @@
 
     const infoPanel = U.el('div', 'panel');
     infoPanel.appendChild(U.el('div', 'panelTitle', '深淵協約（已完成 ' + save.covenantCount + ' 次）'));
-    infoPanel.appendChild(U.el('div', 'subHint', '深淵印記：' + save.sigilPoints));
+    infoPanel.appendChild(U.el('div', 'subHint', '深淵印記：' + U.formatNum(save.sigilPoints)));
     const eligible = Covenant.eligible(save);
     if (!eligible) {
       const B = D.BALANCE;

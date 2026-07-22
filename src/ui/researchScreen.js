@@ -15,7 +15,7 @@
     U.clearNode(container);
 
     const panel = U.el('div', 'panel');
-    panel.appendChild(U.el('div', 'panelTitle', '研究（樣本 ' + save.samples + '）'));
+    panel.appendChild(U.el('div', 'panelTitle', '研究（樣本 ' + U.formatNum(save.samples) + '）'));
     D.RESEARCH_DEFS.forEach((def) => {
       const done = save.research.includes(def.id);
       const row = U.el('div', 'researchRow' + (done ? ' researchDone' : ''));
@@ -25,7 +25,7 @@
       row.appendChild(U.el('span', 'researchDesc', def.desc));
       if (!done) {
         const check = Research.canBuy(save, def.id);
-        const btn = U.el('button', 'smallBtn' + (check.ok ? '' : ' disabled'), def.cost + ' SP');
+        const btn = U.el('button', 'smallBtn' + (check.ok ? '' : ' disabled'), U.formatNum(def.cost) + ' SP');
         U.onTap(btn, () => {
           const r = Research.buy(save, def.id);
           if (r.ok) { Audio.play('upgrade'); FX.popButton(btn); onChange(); } else { Audio.play('error'); Toast.toast(r.reason); }

@@ -171,6 +171,60 @@
     circle(g, 8, 10, 3, 'VIOLET');
     dots(g, [[8, 10], [7, 9]], 'GLOW2');
   });
+  SPRITES.mod_abyssnode = modSprite((g) => {
+    for (let t = 0; t < 4; t++) { const a = (t / 4) * Math.PI * 2; vline(g, Math.round(8 + Math.cos(a) * 5), Math.round(8 + Math.sin(a) * 5) - 1, 2, 'PANEL2'); }
+    rect(g, 6, 6, 4, 4, 'BORDER');
+    dots(g, [[7, 7], [9, 9]], 'GLOW2');
+  });
+  SPRITES.mod_voidheart = modSprite((g) => {
+    circle(g, 8, 8, 6, 'INK');
+    circle(g, 8, 8, 4, 'VIOLET');
+    circle(g, 8, 8, 1, 'PEARL');
+    dots(g, [[8, 1], [8, 15], [1, 8], [15, 8]], 'GLOW2');
+  });
+  SPRITES.mod_echospire = modSprite((g) => {
+    for (let row = 0; row < 12; row++) { const w = 8 - Math.floor(row / 3); hline(g, 8 - Math.floor(w / 2), 15 - row, w, 'PANEL2'); }
+    for (let r = 2; r <= 6; r += 2) circle(g, 8, 2, r, null);
+    dots(g, [[8, 2], [8, 0]], 'GLOW2');
+  });
+  SPRITES.mod_originlens = modSprite((g) => {
+    circle(g, 8, 8, 7, 'BORDER');
+    circle(g, 8, 8, 5, 'PANEL2');
+    circle(g, 8, 8, 2, 'PEARL');
+    dots(g, [[6, 6], [10, 10]], 'GLOW2');
+  });
+  SPRITES.mod_cityrelay = modSprite((g) => {
+    rect(g, 6, 2, 4, 12, 'HULL2');
+    for (let y = 3; y <= 11; y += 3) { hline(g, 3, y, 3, 'BORDER'); hline(g, 10, y, 3, 'BORDER'); }
+    dots(g, [[8, 2], [8, 1]], 'GLOW2');
+  });
+  SPRITES.mod_awakencore = modSprite((g) => {
+    ellipse(g, 8, 9, 7, 6, 'PANEL2');
+    for (let x = 3; x <= 13; x += 2) vline(g, x, 3, 3, 'BORDER');
+    circle(g, 8, 9, 3, 'AMBER');
+    dots(g, [[8, 9]], 'GLOW2');
+  });
+  SPRITES.mod_whisperbuoy = modSprite((g) => {
+    for (let i = 0; i < 3; i++) { const cx = 3 + i * 5; circle(g, cx, 5, 2, 'HULL'); vline(g, cx, 7, 6, 'BORDER'); }
+    dots(g, [[3, 5], [8, 5], [13, 5]], 'GLOW2');
+  });
+  SPRITES.mod_riftheart = modSprite((g) => {
+    circle(g, 8, 8, 7, 'INK');
+    circle(g, 8, 8, 4, 'VIOLET');
+    circle(g, 8, 8, 1, 'PEARL');
+    for (let r = 0; r < 4; r++) { const a = (r / 4) * Math.PI * 2; dots(g, [[Math.round(8 + Math.cos(a) * 6), Math.round(8 + Math.sin(a) * 6)]], 'GLOW2'); }
+  });
+  SPRITES.mod_sourceanchor = modSprite((g) => {
+    hline(g, 3, 2, 10, 'BORDER'); vline(g, 8, 2, 11, 'BORDER');
+    dots(g, [[3, 11], [12, 11], [3, 12], [12, 12], [5, 12], [10, 12]], 'PANEL2');
+    dots(g, [[8, 2]], 'GLOW2');
+  });
+  SPRITES.mod_sourceheart = modSprite((g) => {
+    circle(g, 8, 8, 7, 'VIOLET');
+    circle(g, 8, 8, 5, 'INK');
+    circle(g, 8, 8, 2, 'PEARL');
+    dots(g, [[8, 1], [8, 15], [1, 8], [15, 8], [3, 3], [13, 13]], 'GLOW2');
+  });
 
   /* -------------------------------------------------------------- 生物 */
 
@@ -396,6 +450,135 @@
     ellipse(g, 14, 10, 8, 4, 'PANEL2');
     dots(g, [[9, 8], [19, 8]], 'RED');
     for (let t = 0; t < 5; t++) vline(g, 5 + t * 4, 15, 3, 'DIM');
+  });
+
+  SPRITES.c_ruincrab = creatureSprite(16, 16, (g) => {
+    ellipse(g, 8, 9, 6, 4, 'PANEL2');
+    hline(g, 5, 9, 6, 'BORDER');
+    dots(g, [[2, 7], [14, 7], [2, 11], [14, 11]], 'BORDER');
+    dots(g, [[6, 8], [10, 8]], 'GLOW2');
+  });
+  SPRITES.c_signaljelly = creatureSprite(16, 16, (g) => {
+    ellipse(g, 8, 5, 6, 4, 'VIOLET');
+    dots(g, [[5, 4], [8, 3], [11, 4], [8, 6]], 'PEARL');
+    for (let t = 0; t < 4; t++) vline(g, 4 + t * 3, 8, 6, 'VIOLET');
+    dots(g, [[8, 4]], 'GLOW2');
+  });
+  SPRITES.c_signaljelly.frame1 = frame1(16, 16, (g) => {
+    ellipse(g, 8, 5, 6, 4, 'VIOLET');
+    dots(g, [[5, 4], [8, 3], [11, 4]], 'PEARL');
+    for (let t = 0; t < 4; t++) vline(g, 5 + t * 3, 8, 5, 'VIOLET');
+    dots(g, [[8, 4]], 'GLOW2');
+  });
+  SPRITES.c_echosentinel = creatureSprite(16, 16, (g) => {
+    rect(g, 5, 3, 6, 10, 'PANEL2');
+    hline(g, 4, 5, 8, 'BORDER');
+    hline(g, 4, 10, 8, 'BORDER');
+    dots(g, [[7, 7], [9, 7]], 'GLOW2');
+  });
+  SPRITES.c_precursorshade = creatureSprite(28, 20, (g) => {
+    ellipse(g, 14, 10, 12, 8, 'INK');
+    for (let x = 4; x <= 24; x++) for (let y = 3; y <= 17; y++) if ((x + y) % 4 === 0) setPx(g, x, y, 'DIM');
+    dots(g, [[9, 8], [19, 8]], 'VIOLET');
+    dots(g, [[14, 4], [14, 16]], 'PEARL');
+  });
+
+  SPRITES.c_echowalker = creatureSprite(24, 8, (g) => {
+    for (let i = 0; i < 18; i++) { const y = 4 + Math.round(Math.sin(i / 5) * 1.2); setPx(g, 1 + i, y, 'DIM'); }
+    dots(g, [[3, 4], [9, 4], [15, 4]], 'GLOW2');
+  });
+  SPRITES.c_echowalker.frame1 = frame1(24, 8, (g) => {
+    for (let i = 0; i < 18; i++) { const y = 4 + Math.round(Math.sin(i / 5 + 0.6) * 1.2); setPx(g, 1 + i, y, 'DIM'); }
+    dots(g, [[4, 4], [10, 4], [16, 4]], 'GLOW2');
+  });
+  SPRITES.c_corridorwatcher = creatureSprite(16, 16, (g) => {
+    circle(g, 8, 8, 6, 'BORDER');
+    circle(g, 8, 8, 4, null);
+    circle(g, 8, 8, 2, 'GLOW2');
+  });
+  SPRITES.c_silentstalker = creatureSprite(24, 16, (g) => {
+    for (let x = 4; x <= 20; x++) for (let y = 5; y <= 11; y++) if ((x + y) % 3 === 0) setPx(g, x, y, 'DIM');
+    dots(g, [[8, 7], [16, 7]], 'FOAM');
+  });
+  SPRITES.c_origineye = creatureSprite(28, 20, (g) => {
+    ellipse(g, 14, 10, 13, 9, 'PANEL2');
+    circle(g, 14, 10, 6, 'INK');
+    circle(g, 14, 10, 3, 'VIOLET');
+    dots(g, [[14, 10]], 'PEARL');
+    dots(g, [[6, 6], [22, 6], [6, 14], [22, 14]], 'GLOW2');
+  });
+
+  SPRITES.c_stoneguardian = creatureSprite(16, 24, (g) => {
+    rect(g, 4, 2, 8, 6, 'DIM');
+    rect(g, 3, 8, 10, 12, 'DIM');
+    dots(g, [[6, 4], [10, 4]], 'RED');
+    for (let x = 4; x <= 12; x += 2) for (let y = 8; y <= 19; y += 3) setPx(g, x, y, 'BORDER');
+  });
+  SPRITES.c_echodweller = creatureSprite(16, 24, (g) => {
+    ellipse(g, 8, 6, 4, 5, 'FOAM');
+    rect(g, 5, 10, 6, 12, 'FOAM');
+    dots(g, [[6, 5], [10, 5]], 'INK');
+  });
+  SPRITES.c_echodweller.frame1 = frame1(16, 24, (g) => {
+    ellipse(g, 8, 6, 4, 5, 'FOAM');
+    rect(g, 6, 10, 6, 12, 'FOAM');
+    dots(g, [[6, 5], [10, 5]], 'INK');
+  });
+  SPRITES.c_citypatrol = creatureSprite(20, 16, (g) => {
+    ellipse(g, 10, 8, 8, 5, 'BORDER');
+    rect(g, 8, 3, 4, 4, 'PANEL2');
+    dots(g, [[10, 5]], 'RED');
+    dots(g, [[4, 8], [16, 8]], 'GLOW2');
+  });
+  SPRITES.c_theawakened = creatureSprite(32, 24, (g) => {
+    ellipse(g, 16, 12, 15, 10, 'INK');
+    ellipse(g, 16, 12, 9, 6, 'PANEL2');
+    dots(g, [[10, 9], [22, 9]], 'RED');
+    for (let t = 0; t < 6; t++) vline(g, 4 + t * 5, 19, 4 - (t % 2), 'DIM');
+  });
+
+  SPRITES.c_whisperingshoal = creatureSprite(24, 16, (g) => {
+    const rows = [4, 6, 9, 11, 7, 13];
+    rows.forEach((y, i) => { const x = 2 + i * 3; rect(g, x, y, 3, 1, 'BLUE'); setPx(g, x - 1, y, 'GLOW2'); });
+  });
+  SPRITES.c_whisperingshoal.frame1 = frame1(24, 16, (g) => {
+    const rows = [5, 7, 8, 12, 6, 12];
+    rows.forEach((y, i) => { const x = 2 + i * 3; rect(g, x, y, 3, 1, 'BLUE'); setPx(g, x - 1, y, 'GLOW2'); });
+  });
+  SPRITES.c_riftsentinel = creatureSprite(16, 16, (g) => {
+    circle(g, 8, 8, 6, 'DIM');
+    circle(g, 8, 8, 3, null);
+    dots(g, [[8, 2], [8, 14], [2, 8], [14, 8]], 'BORDER');
+  });
+  SPRITES.c_echohunter = creatureSprite(24, 8, (g) => {
+    for (let i = 0; i < 20; i++) { const y = 4 + Math.round(Math.sin(i / 3.5) * 2); setPx(g, 1 + i, y, 'DIM'); }
+    dots(g, [[2, 2]], 'GLOW2');
+  });
+  SPRITES.c_thewhisperer = creatureSprite(28, 28, (g) => {
+    for (let x = 4; x <= 24; x++) for (let y = 4; y <= 24; y++) if (((x - 14) * (x - 14) + (y - 14) * (y - 14)) <= 144 && Math.random() < 0.5) setPx(g, x, y, 'VIOLET');
+    dots(g, [[14, 14]], 'PEARL');
+  });
+
+  SPRITES.c_sourceswarm = creatureSprite(20, 16, (g) => {
+    const pts = [[3, 4], [6, 3], [9, 5], [5, 7], [8, 8], [11, 9], [4, 10], [7, 11], [10, 12], [13, 6], [14, 10], [16, 8]];
+    dots(g, pts, 'GLOW2');
+  });
+  SPRITES.c_chasmwanderer = creatureSprite(24, 8, (g) => {
+    for (let i = 0; i < 20; i++) { const y = 4 + Math.round(Math.sin(i / 4.5) * 2.5); setPx(g, 1 + i, y, 'DIM'); }
+    dots(g, [[2, 2], [21, 5]], 'VIOLET');
+  });
+  SPRITES.c_sourceguardian = creatureSprite(20, 24, (g) => {
+    rect(g, 5, 2, 10, 8, 'PANEL2');
+    rect(g, 4, 10, 12, 13, 'PANEL2');
+    dots(g, [[8, 5], [12, 5]], 'GLOW2');
+    for (let x = 5; x <= 14; x += 3) for (let y = 11; y <= 21; y += 3) setPx(g, x, y, 'BORDER');
+  });
+  SPRITES.c_thesource = creatureSprite(32, 28, (g) => {
+    ellipse(g, 16, 14, 15, 13, 'INK');
+    for (let x = 2; x <= 30; x++) for (let y = 2; y <= 26; y++) if (((x - 16) * (x - 16) + (y - 14) * (y - 14)) <= 169 && Math.random() < 0.35) setPx(g, x, y, 'VIOLET');
+    circle(g, 16, 14, 5, 'PANEL2');
+    circle(g, 16, 14, 2, 'PEARL');
+    dots(g, [[6, 8], [26, 8], [6, 20], [26, 20]], 'GLOW2');
   });
 
   /* -------------------------------------------------------------- 介面圖示 */

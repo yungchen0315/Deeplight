@@ -191,6 +191,9 @@ button { font-family: inherit; border: none; cursor: pointer; }
   padding: 10px 0; font-size: 13px;
 }
 .navBtn.navActive { color: #45E8BC; border-top: 2px solid #45E8BC; margin-top: -2px; }
+.navBtn.navTutorialHighlight { color: #45E8BC; box-shadow: inset 0 0 0 2px #45E8BC; border-radius: 4px; }
+.navBtn.navTutorialHighlight.navTutorialPulse { animation: navTutorialPulse 1.2s ease-in-out infinite; }
+@keyframes navTutorialPulse { 0%, 100% { box-shadow: inset 0 0 0 2px #45E8BC; } 50% { box-shadow: inset 0 0 0 2px #45E8BC, 0 0 8px 2px #45E8BC; } }
 
 /* ---------------------------------------------------------------------- */
 /* Toast                                                                    */

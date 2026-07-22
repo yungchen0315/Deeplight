@@ -1,6 +1,6 @@
 /* ============================================================================
- * researchDefs.js — 32 節研究（企劃書第 4d 節 + v1.1/Phase2/Phase3 擴充），花樣本（SP）
- * 購買，轉生時重置。effect 是給 researchSystem/economySystem 讀的通用格式，跟
+ * researchDefs.js — 52 節研究（企劃書第 4d 節 + v1.1~Phase9 擴充），花樣本
+ * （SP）購買，轉生時重置。effect 是給 researchSystem/economySystem 讀的通用格式，跟
  * refitDefs.js 共用。lore 是研究詳細彈窗（nodeDetailModal.js）顯示的風味文字，
  * 純敘事用途，不影響任何數值。
  * ==========================================================================*/
@@ -69,7 +69,47 @@
     { id: 'r31', name: '裂谷晶簇陣列', cost: 5000, desc: '裂谷晶簇與虛空熔爐產量 x2', effect: { type: 'moduleMultMany', modules: ['riftcrystal', 'voidforge'], value: 2 },
       lore: '把裂谷晶簇的天然共振頻率與虛空熔爐的鍛造熱能連成一套陣列，兩者的產出效率一起被推上新的高度。' },
     { id: 'r32', name: '裂谷之心', cost: 6500, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
-      lore: '目前研究樹的終點，把裂谷深淵所有能被理解、被利用的能量來源全部整合進潛燈號最新一版的核心演算法。' }
+      lore: '把裂谷深淵所有能被理解、被利用的能量來源全部整合進潛燈號最新一版的核心演算法。' },
+    { id: 'r33', name: '遺跡解讀', cost: 8500, desc: '全螢光產量 +100%', effect: { type: 'allProdMult', value: 2 },
+      lore: '先驅遺跡的能量接口跟潛燈號的系統完全不同規格，光是弄懂怎麼「借」到能量，就花掉了團隊好幾週的時間。' },
+    { id: 'r34', name: '遺跡壓載', cost: 10500, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 },
+      lore: '參考遺跡結構本身抵抗深海壓力的方式重新設計壓載系統，下潛時的震動比過去任何一次改裝都更小。' },
+    { id: 'r35', name: '節點共鳴陣列', cost: 13500, desc: '遺跡節點與虛空之心產量 x2', effect: { type: 'moduleMultMany', modules: ['abyssnode', 'voidheart'], value: 2 },
+      lore: '把外圍節點與核心之間原本就存在、卻被我們忽略的共鳴頻率重新接上，兩者的輸出效率一起被推上新的高度。' },
+    { id: 'r36', name: '先驅回聲', cost: 17500, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '把先驅遺跡願意「借」給我們的一切能量全部整合進核心演算法——至於它為什麼願意借，暫時還沒有答案。' },
+    { id: 'r37', name: '回音校準', cost: 22000, desc: '全螢光產量 +100%', effect: { type: 'allProdMult', value: 2 },
+      lore: '迴廊裡的回音會被放大又延遲送回，一開始只當作干擾濾掉——後來才發現，濾掉的那部分訊號本身就帶著可用的能量。' },
+    { id: 'r38', name: '迴廊壓載', cost: 27000, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 },
+      lore: '迴廊的水流帶著規律到不自然的節奏，摸清楚這個節奏之後，順著推進反而比逆流下潛更省力。' },
+    { id: 'r39', name: '尖塔透鏡共鳴', cost: 34000, desc: '回音尖塔與起源透鏡產量 x2', effect: { type: 'moduleMultMany', modules: ['echospire', 'originlens'], value: 2 },
+      lore: '回音尖塔負責「聽」，起源透鏡負責「看」，把兩者的資料流接在一起之後，輸出效率遠超過個別運作時的總和。' },
+    { id: 'r40', name: '起源回響', cost: 43000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '把迴廊深處願意透露的一切都整合進核心演算法——透鏡另一端到底看到了什麼，暫時還沒有答案。' },
+    { id: 'r41', name: '都市解密', cost: 55000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '沉眠都市的能量接口比先驅遺跡更複雜、也更「有系統」——這裡不是零散的節點，是一整套曾經運作過的城市級電網。' },
+    { id: 'r42', name: '都市壓載', cost: 68000, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 },
+      lore: '參考城市街道規劃的方式重新設計下潛路徑，沿著曾經是「主幹道」的方向前進，阻力比預期小得多。' },
+    { id: 'r43', name: '中繼核心共鳴', cost: 85000, desc: '都市中繼站與甦醒核心產量 x2', effect: { type: 'moduleMultMany', modules: ['cityrelay', 'awakencore'], value: 2 },
+      lore: '把城市外圍的中繼站訊號跟核心的甦醒脈動接上同一個頻率，兩者的輸出效率一起被推上新的高度。' },
+    { id: 'r44', name: '甦醒回聲', cost: 105000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '把沉眠都市甦醒過程中釋放的一切能量全部整合進核心演算法——這座城市為什麼會醒，暫時還沒有答案。' },
+    { id: 'r45', name: '低語解調', cost: 135000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '低語浮標的震動一開始被當成雜訊濾掉，直到有人試著把濾掉的部分單獨錄下來重播——那段節奏，聽起來竟然有點像是在數數。' },
+    { id: 'r46', name: '深塹壓載', cost: 170000, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 },
+      lore: '參考浮標群震動的節奏調整下潛的節奏，兩者對上的瞬間，阻力小得像是這片海塹本身在幫忙推一把。' },
+    { id: 'r47', name: '浮標核心共鳴', cost: 210000, desc: '低語浮標與深塹之心產量 x2', effect: { type: 'moduleMultMany', modules: ['whisperbuoy', 'riftheart'], value: 2 },
+      lore: '把外圍浮標群接收到的震動跟深塹之心的脈動核對過後，兩者的輸出效率一起被推上新的高度——像是外圍終於把訊息完整傳回了核心。' },
+    { id: 'r48', name: '低語回聲', cost: 260000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '把低語塹願意透露的一切能量全部整合進核心演算法——浮標群數的到底是什麼，暫時還沒有答案。' },
+    { id: 'r49', name: '本源解密', cost: 330000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '本源塹的能量接口，跟先驅遺跡、沉眠都市、低語塹三處的規格都能互通——這是第一次確認，四個地方本來就是同一套系統。' },
+    { id: 'r50', name: '本源壓載', cost: 410000, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 },
+      lore: '參考本源塹的結構重新設計壓載系統，這次的改裝幾乎不需要調整——彷彿這套系統本來就是為了讓潛燈號通過而設計的。' },
+    { id: 'r51', name: '雙心共鳴', cost: 510000, desc: '本源錨與本源之心產量 x2', effect: { type: 'moduleMultMany', modules: ['sourceanchor', 'sourceheart'], value: 2 },
+      lore: '把本源錨與本源之心的頻率接上同一個迴路，兩者的輸出效率一起被推上新的高度——這條迴路，感覺不像是潛燈號「接上」它，比較像是它一直在等著被接上。' },
+    { id: 'r52', name: '本源回響', cost: 640000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '目前研究樹的終點。把本源塹願意透露的一切能量全部整合進核心演算法——找到源頭之後，這趟旅程的下一步是什麼，暫時還沒有答案。' }
   ];
 
   function researchById(id) { return RESEARCH_DEFS.find((r) => r.id === id); }

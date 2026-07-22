@@ -29,6 +29,7 @@
   let lastTickAt;
   let lastSaveAt;
   let saveFailureWarned = false;
+  let skipNextAutosave = false;
 
   function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
@@ -38,6 +39,10 @@
    *  分頁一關就整份進度消失。這裡只在第一次偵測到失敗時提示一次，避免每次自動
    *  存檔都彈一次 toast 洗版。 */
   function trySave() {
+    // 卸載過程中 visibilitychange（hidden）與 beforeunload 兩個監聽器都可能各自呼叫一次
+    // trySave()，設了旗標就不能只消費一次——不重置也沒關係，反正頁面接下來就會真的
+    // 重新整理，整個模組（含這個旗標）都會被拋棄，不會遺留到下一次正常的自動存檔。
+    if (skipNextAutosave) return true;
     const ok = Save.save(save);
     if (!ok && !saveFailureWarned) {
       saveFailureWarned = true;
@@ -106,9 +111,20 @@
     if (now - lastSaveAt >= B.AUTOSAVE_INTERVAL_MS) { trySave(); lastSaveAt = now; }
   }
 
+  /** 只有「這個分頁載入時就已經有舊 SW 在控制」才算數，避免玩家第一次安裝時
+   *  controller 從 null 變成新 worker 也被誤判成一次「版本更新」而跳提示。 */
   function registerServiceWorker() {
     if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
+    const hadController = !!navigator.serviceWorker.controller;
     navigator.serviceWorker.register('sw.js').catch(() => { /* 離線優先，註冊失敗不影響遊戲本體 */ });
+    if (!hadController) return;
+    let shown = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (shown) return;
+      shown = true;
+      Modals.showConfirm('偵測到新版本，重新整理即可套用最新內容（目前進度已自動存檔，不會遺失）。', () => location.reload(),
+        { title: '有新版本可用', confirmLabel: '重新整理', cancelLabel: '稍後再說' });
+    });
   }
 
   function init() {
@@ -163,6 +179,15 @@
 
     registerServiceWorker();
   }
+
+  /** 匯入存檔後緊接著呼叫 location.reload() 時，卸載流程觸發的 beforeunload 自動存檔
+   *  仍然只認得記憶體裡舊的 `save`（匯入寫進 localStorage 的新內容跟這個閉包變數
+   *  完全無關），若不擋下來就會在畫面真的重新整理之前，被舊存檔蓋掉剛匯入的內容。
+   *  settingsModal.js 的匯入流程呼叫這個函式跳過下一次自動存檔，就是為了避免這個
+   *  競速問題。 */
+  function skipAutosaveOnce() { skipNextAutosave = true; }
+
+  window.App.UI.Bootstrap = { skipAutosaveOnce };
 
   document.addEventListener('DOMContentLoaded', init);
 })();

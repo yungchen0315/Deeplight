@@ -25,12 +25,12 @@
     document.getElementById('topGlow').textContent = U.formatNum(save.glow);
     document.getElementById('topGlowRate').textContent = U.formatRate(gps) + '/s';
     document.getElementById('topDepth').textContent = Math.floor(save.depth) + ' m';
-    document.getElementById('topSamples').textContent = save.samples;
+    document.getElementById('topSamples').textContent = U.formatNum(save.samples);
 
     const coresEl = document.getElementById('topCores');
-    if (coresEl) coresEl.textContent = save.cores;
+    if (coresEl) coresEl.textContent = U.formatNum(save.cores);
     const pearlsEl = document.getElementById('topPearls');
-    if (pearlsEl) pearlsEl.textContent = save.pearls;
+    if (pearlsEl) pearlsEl.textContent = U.formatNum(save.pearls);
 
     const boostEl = document.getElementById('topBoost');
     if (boostEl) {

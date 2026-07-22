@@ -31,9 +31,19 @@
       when: (save) => window.App.Systems.Covenant.eligible(save) && save.covenantCount === 0
     },
     {
+      id: 'pactHint',
+      message: '已達成永夜盟約門檻！前往「盟約」頁面締結盟約，開啟盟約樹',
+      when: (save) => window.App.Systems.Pact.eligible(save) && save.pactCount === 0
+    },
+    {
       id: 'pearlBoostHint',
       message: '手上有深海珍珠了，去「海面」頁面兌換限時加護吧',
       when: (save) => save.pearls >= 1 && !save.boostUntil
+    },
+    {
+      id: 'sonarHint',
+      message: '左上角的 📡 是聲納脈衝：冷卻好了隨時可以按，立即強制刷新一隻路過生物，且那次抽到稀有種的機率有加成',
+      when: (save) => (save.stats.totalTaps || 0) >= 3
     }
   ];
 

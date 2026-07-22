@@ -185,6 +185,9 @@
         if (!parsed) { Toast.toast('存檔格式錯誤'); return; }
         Modals.showConfirm('匯入將覆蓋目前的存檔進度，確定嗎？', () => {
           Save.save(parsed);
+          // 卸載時的自動存檔只認得記憶體裡舊的存檔物件，不擋下來的話會在畫面真的
+          // 重新整理之前，用舊進度蓋掉剛匯入的內容（見 bootstrap.js 的 skipAutosaveOnce）。
+          if (window.App.UI.Bootstrap) window.App.UI.Bootstrap.skipAutosaveOnce();
           location.reload();
         }, { title: '匯入存檔', danger: true, onCancel: () => open(save, onChange) });
       });
@@ -201,11 +204,14 @@
     U.onTap(resetBtn, () => {
       Modals.showConfirm('確定要重置存檔嗎？此動作無法復原。', () => {
         Save.reset();
+        // 跟匯入存檔一樣的競速問題：卸載時的自動存檔只認得記憶體裡的舊存檔，
+        // 不擋下來就會在畫面真的重新整理之前，把剛清空的存檔重新寫回去。
+        if (window.App.UI.Bootstrap) window.App.UI.Bootstrap.skipAutosaveOnce();
         location.reload();
       }, { title: '重置存檔', danger: true, confirmLabel: '重置', onCancel: () => open(save, onChange) });
     });
     box.appendChild(resetBtn);
-    box.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.6'));
+    box.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.9'));
 
     const closeBtn = U.el('button', 'modalBtn', '關閉');
     U.onTap(closeBtn, close);

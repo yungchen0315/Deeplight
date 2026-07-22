@@ -1,5 +1,5 @@
 /* ============================================================================
- * creatureDefs.js — 36 種深淵圖鑑生物（企劃書第 8 節 + v1.1/Phase2/Phase3 擴充）。
+ * creatureDefs.js — 56 種深淵圖鑑生物（企劃書第 8 節 + v1.1~Phase9 擴充）。
  * 每海域 4 種，各含 1 稀有種。首次遇見必掉樣本，之後依 balance 機率掉落。lore
  * 是圖鑑詳細彈窗（bestiaryDetailModal.js）顯示的一小段風味文字，純敘事用途，
  * 不影響任何遊戲數值。
@@ -86,7 +86,52 @@
     { id: 'faultjelly', name: '斷層水母', icon: 'c_faultjelly', zone: 8, rare: false,
       lore: '傘體隨著裂谷深處傳來的地質震動規律收縮，彷彿把整條裂谷的心跳都聽進了身體裡。' },
     { id: 'abyssking', name: '深淵之王', icon: 'c_abyssking', zone: 8, rare: true,
-      lore: '傳說裂谷最深處住著一頭沒有生物學家能歸類的巨大掠食者，只有寥寥幾次目擊紀錄，每一次都只拍到一小段輪廓。' }
+      lore: '傳說裂谷最深處住著一頭沒有生物學家能歸類的巨大掠食者，只有寥寥幾次目擊紀錄，每一次都只拍到一小段輪廓。' },
+    // 先驅遺跡
+    { id: 'ruincrab', name: '遺跡守衛蟹', icon: 'c_ruincrab', zone: 9, rare: false,
+      lore: '外殼帶著明顯人工打磨的稜角，在遺跡結構之間巡邏似地來回走動，動作規律得不像單純覓食——更像是在「執行」什麼。' },
+    { id: 'signaljelly', name: '訊號水母', icon: 'c_signaljelly', zone: 9, rare: false,
+      lore: '傘體內部帶著規律閃爍的螢光脈衝，頻率跟深淵訊號殘片的節奏隱約對得上。沒有人確定牠是天然生物，還是遺跡系統的一部分。' },
+    { id: 'echosentinel', name: '回聲哨兵', icon: 'c_echosentinel', zone: 9, rare: false,
+      lore: '靜止懸浮在遺跡通道入口，只有聲納掃過時才會有反應——一圈微弱的回波，像是某種確認訊號的儀式，確認完畢後又恢復靜止。' },
+    { id: 'precursorshade', name: '先驅之影', icon: 'c_precursorshade', zone: 9, rare: true,
+      lore: '只在遺跡核心深處出現過幾次的巨大輪廓，探照燈掃過的瞬間就已經融入結構的陰影裡。留下的唯一線索，是牆面上一圈跟牠身形吻合的、明顯是「刻意留下」的凹痕。' },
+    // 回音迴廊
+    { id: 'echowalker', name: '回聲行者', icon: 'c_echowalker', zone: 10, rare: false,
+      lore: '沿著迴廊牆面緩慢移動的細長生物，每走一步都會發出一聲跟自己動作完全同步的回音——分不清是牠在製造回音，還是回音在推著牠走。' },
+    { id: 'corridorwatcher', name: '迴廊守望者', icon: 'c_corridorwatcher', zone: 10, rare: false,
+      lore: '固定懸浮在通道某個定點的環狀生物，探照燈照過去牠也不會移動半分，只有中央那圈螢光會隨聲納脈衝同步明滅，像是在核對通行的是誰。' },
+    { id: 'silentstalker', name: '靜默潛行者', icon: 'c_silentstalker', zone: 10, rare: false,
+      lore: '全身沒有一絲多餘的擾動，游過迴廊時連儀表板最靈敏的水流感測器都量不到牠的存在，只有目視才能勉強捕捉到一道極淡的殘影。' },
+    { id: 'origineye', name: '起源之眼', icon: 'c_origineye', zone: 10, rare: true,
+      lore: '傳說迴廊盡頭有什麼東西一直「醒著」，只用一隻巨大的複眼觀察經過的一切。目擊紀錄裡，那隻眼睛從頭到尾沒有眨過一次，也沒有移開視線。' },
+    // 沉眠都市
+    { id: 'stoneguardian', name: '石化守衛', icon: 'c_stoneguardian', zone: 11, rare: false,
+      lore: '矗立在城市街口一動也不動的巨大人形輪廓，表面覆滿礦物結晶，乍看像雕像——直到探照燈照過去的瞬間，它的「頭」緩緩轉了過來。' },
+    { id: 'echodweller', name: '迴聲居民', icon: 'c_echodweller', zone: 11, rare: false,
+      lore: '半透明的人形輪廓，沿著城市街道重複走著同一段路線，像是被困在某個已經結束很久的日常裡，對潛燈號的燈暈完全視而不見。' },
+    { id: 'citypatrol', name: '都市巡邏者', icon: 'c_citypatrol', zone: 11, rare: false,
+      lore: '沿著城市外圍規律巡邏的機械狀生物，路線精準得像是還在執行某種從未被取消的勤務。跟遺跡守衛蟹不同，牠會停下來「看」潛燈號幾秒才離開。' },
+    { id: 'theawakened', name: '甦醒者', icon: 'c_theawakened', zone: 11, rare: true,
+      lore: '只在甦醒核心亮起後才出現過的巨大輪廓，跟先驅之影、起源之眼都不一樣——牠不迴避、不靜止觀察，牠會主動朝探照燈的方向游過來。目擊紀錄到此為止。' },
+    // 低語塹
+    { id: 'whisperingshoal', name: '低語魚群', icon: 'c_whisperingshoal', zone: 12, rare: false,
+      lore: '成群游動時，每一條魚身側的發光器都會隨著某種節奏明滅，整片魚群看起來像是在同步「說」著同一句話，只是沒有人聽得懂。' },
+    { id: 'riftsentinel', name: '深塹守衛', icon: 'c_riftsentinel', zone: 12, rare: false,
+      lore: '固定漂浮在低語浮標群周圍的環節狀生物，一旦潛燈號的燈暈太靠近某個浮標，牠就會立刻游過來擋在中間。' },
+    { id: 'echohunter', name: '回聲獵人', icon: 'c_echohunter', zone: 12, rare: false,
+      lore: '完全依賴回聲定位捕獵的深塹掠食者，游動時會主動發出一連串高頻脈衝——聽起來詭異地跟低語浮標的震動節奏很像。' },
+    { id: 'thewhisperer', name: '低語者', icon: 'c_thewhisperer', zone: 12, rare: true,
+      lore: '甦醒者當初朝潛燈號游來，原來不是攻擊，是引路——牠把潛燈號帶到了這裡，然後就再也沒有出現過。取而代之的，是這個看不清全貌、卻感覺得到牠一直在「說話」的存在。目擊紀錄到此為止。' },
+    // 本源塹
+    { id: 'sourceswarm', name: '本源蟲群', icon: 'c_sourceswarm', zone: 13, rare: false,
+      lore: '密密麻麻的細小發光體，聚成一團緩慢移動，發光的頻率跟低語塹浮標群的震動節奏一模一樣——只是這次不是浮標在震動，是活生生的生物在發光。' },
+    { id: 'chasmwanderer', name: '深壑巡者', icon: 'c_chasmwanderer', zone: 13, rare: false,
+      lore: '沿著本源塹邊緣緩慢漂游的細長生物，路線精準覆蓋了先驅遺跡、沉眠都市、低語塹三處節點造型都出現過的紋路，像是在巡視同一套系統的不同分部。' },
+    { id: 'sourceguardian', name: '訊源守衛', icon: 'c_sourceguardian', zone: 13, rare: false,
+      lore: '比石化守衛、深塹守衛都更龐大的守衛型生物，固定站在本源之心外圍。跟其他守衛不同，牠會對著潛燈號的方向緩緩點頭，像是某種行禮。' },
+    { id: 'thesource', name: '本源', icon: 'c_thesource', zone: 13, rare: true,
+      lore: '先驅之影、起源之眼、甦醒者、低語者——原來全部都指向同一個存在。本源不迴避、不觀察、不引路，牠只是「在」，龐大得探照燈照不出邊界。目擊紀錄裡唯一的文字備註只有一句：找到源頭了，但還不知道這代表結束，還是開始。' }
   ];
 
   function creatureById(id) { return CREATURE_DEFS.find((c) => c.id === id); }

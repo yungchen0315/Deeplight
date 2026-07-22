@@ -1,5 +1,5 @@
 /* ============================================================================
- * moduleDefs.js — 24 種發光模組（企劃書第 4b 節 + v1.1~Phase7 擴充）。cost(n)
+ * moduleDefs.js — 26 種發光模組（企劃書第 4b 節 + v1.1~Phase8 擴充）。cost(n)
  * 與升級節點的計算交給 economySystem，這裡只放靜態資料。lore 是模組詳細彈窗
  * （moduleDetailModal.js）顯示的風味文字，純敘事用途，不影響任何數值。
  * ==========================================================================*/
@@ -52,7 +52,11 @@
     { id: 'cityrelay', name: '都市中繼站', icon: 'mod_cityrelay', baseCost: 2.2e25, baseProd: 1e18, unlockDepth: 345000,
       lore: '迴廊盡頭那片黑暗的另一側，是一整座沉睡的城市——這座中繼站矗立在市郊，接上線路後開始傳輸一種規律得像廣播的能量訊號。' },
     { id: 'awakencore', name: '甦醒核心', icon: 'mod_awakencore', baseCost: 3.3e26, baseProd: 7e18, unlockDepth: 440000,
-      lore: '城市中心那座巨大核心構造，接上纜線的瞬間整片城市的燈光同步亮了一下又暗下去——像是在打盹的巨獸被輕輕碰了一下肩膀。' }
+      lore: '城市中心那座巨大核心構造，接上纜線的瞬間整片城市的燈光同步亮了一下又暗下去——像是在打盹的巨獸被輕輕碰了一下肩膀。' },
+    { id: 'whisperbuoy', name: '低語浮標', icon: 'mod_whisperbuoy', baseCost: 5e27, baseProd: 7e19, unlockDepth: 545000,
+      lore: '甦醒者帶著潛燈號游到的地方，漂浮著一串串會發出低頻震動的浮標，震動的節奏聽久了，很難不覺得裡面藏著某種語言。' },
+    { id: 'riftheart', name: '深塹之心', icon: 'mod_riftheart', baseCost: 7.5e28, baseProd: 5e20, unlockDepth: 690000,
+      lore: '低語塹最深處一團持續脈動的能量核心，接上纜線後，浮標群的震動節奏瞬間變得整齊劃一——像是終於等到了「聽眾」。' }
   ];
 
   function moduleById(id) { return MODULE_DEFS.find((m) => m.id === id); }

@@ -1,5 +1,5 @@
 /* ============================================================================
- * creatureDefs.js — 48 種深淵圖鑑生物（企劃書第 8 節 + v1.1~Phase7 擴充）。
+ * creatureDefs.js — 52 種深淵圖鑑生物（企劃書第 8 節 + v1.1~Phase8 擴充）。
  * 每海域 4 種，各含 1 稀有種。首次遇見必掉樣本，之後依 balance 機率掉落。lore
  * 是圖鑑詳細彈窗（bestiaryDetailModal.js）顯示的一小段風味文字，純敘事用途，
  * 不影響任何遊戲數值。
@@ -113,7 +113,16 @@
     { id: 'citypatrol', name: '都市巡邏者', icon: 'c_citypatrol', zone: 11, rare: false,
       lore: '沿著城市外圍規律巡邏的機械狀生物，路線精準得像是還在執行某種從未被取消的勤務。跟遺跡守衛蟹不同，牠會停下來「看」潛燈號幾秒才離開。' },
     { id: 'theawakened', name: '甦醒者', icon: 'c_theawakened', zone: 11, rare: true,
-      lore: '只在甦醒核心亮起後才出現過的巨大輪廓，跟先驅之影、起源之眼都不一樣——牠不迴避、不靜止觀察，牠會主動朝探照燈的方向游過來。目擊紀錄到此為止。' }
+      lore: '只在甦醒核心亮起後才出現過的巨大輪廓，跟先驅之影、起源之眼都不一樣——牠不迴避、不靜止觀察，牠會主動朝探照燈的方向游過來。目擊紀錄到此為止。' },
+    // 低語塹
+    { id: 'whisperingshoal', name: '低語魚群', icon: 'c_whisperingshoal', zone: 12, rare: false,
+      lore: '成群游動時，每一條魚身側的發光器都會隨著某種節奏明滅，整片魚群看起來像是在同步「說」著同一句話，只是沒有人聽得懂。' },
+    { id: 'riftsentinel', name: '深塹守衛', icon: 'c_riftsentinel', zone: 12, rare: false,
+      lore: '固定漂浮在低語浮標群周圍的環節狀生物，一旦潛燈號的燈暈太靠近某個浮標，牠就會立刻游過來擋在中間。' },
+    { id: 'echohunter', name: '回聲獵人', icon: 'c_echohunter', zone: 12, rare: false,
+      lore: '完全依賴回聲定位捕獵的深塹掠食者，游動時會主動發出一連串高頻脈衝——聽起來詭異地跟低語浮標的震動節奏很像。' },
+    { id: 'thewhisperer', name: '低語者', icon: 'c_thewhisperer', zone: 12, rare: true,
+      lore: '甦醒者當初朝潛燈號游來，原來不是攻擊，是引路——牠把潛燈號帶到了這裡，然後就再也沒有出現過。取而代之的，是這個看不清全貌、卻感覺得到牠一直在「說話」的存在。目擊紀錄到此為止。' }
   ];
 
   function creatureById(id) { return CREATURE_DEFS.find((c) => c.id === id); }

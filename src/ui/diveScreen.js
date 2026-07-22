@@ -12,6 +12,7 @@
   const Descent = window.App.Systems.Descent;
   const Creature = window.App.Systems.Creature;
   const Quest = window.App.Systems.Quest;
+  const BeginnerQuest = window.App.Systems.BeginnerQuest;
   const Golden = window.App.Systems.Golden;
   const Signal = window.App.Systems.Signal;
   const Event = window.App.Systems.Event;
@@ -377,6 +378,37 @@
   function openQuestModal() {
     Quest.ensureToday(saveRef);
     Modals.showModal((box, close) => {
+      if (!BeginnerQuest.allClaimed(saveRef)) {
+        box.appendChild(U.el('div', 'modalTitle', '新手任務'));
+        D.BEGINNER_QUEST_DEFS.forEach((tpl) => {
+          const claimed = BeginnerQuest.isClaimed(saveRef, tpl.id);
+          const progress = BeginnerQuest.progressFor(saveRef, tpl);
+          const done = BeginnerQuest.isDone(saveRef, tpl);
+          const row = U.el('div', 'questRow' + (claimed ? ' questClaimed' : ''));
+          row.appendChild(U.el('div', 'questLabel', (claimed ? '✔ ' : '') + tpl.label + '（' + Math.floor(progress) + ' / ' + tpl.target + tpl.unit + '）'));
+          const barWrap = U.el('div', 'questBarWrap');
+          const bar = U.el('div', 'questBarFill');
+          bar.style.width = (Math.min(1, progress / tpl.target) * 100) + '%';
+          barWrap.appendChild(bar);
+          row.appendChild(barWrap);
+          if (!claimed) {
+            const rewardLabel = '領取 · ' + tpl.rewardSamples + ' 樣本' + (tpl.rewardPearls ? ' +' + tpl.rewardPearls + ' 珍珠' : '');
+            const btn = U.el('button', 'smallBtn' + (done ? '' : ' disabled'), rewardLabel);
+            U.onTap(btn, () => {
+              const r = BeginnerQuest.claim(saveRef, tpl.id);
+              if (r.ok) {
+                Audio.play('daily'); FX.popButton(btn);
+                Toast.toast('新手任務完成：+' + r.rewardSamples + ' 樣本' + (r.rewardPearls ? '　+' + r.rewardPearls + ' 珍珠' : ''));
+                if (onChangeRef) onChangeRef();
+                close(); openQuestModal();
+              } else { Audio.play('error'); Toast.toast(r.reason); }
+            });
+            row.appendChild(btn);
+          }
+          box.appendChild(row);
+        });
+        box.appendChild(U.el('div', 'settingsSep'));
+      }
       box.appendChild(U.el('div', 'modalTitle', '每日任務'));
       saveRef.quests.items.forEach((item) => {
         const tpl = D.questTemplateById(item.tplId);
@@ -464,6 +496,8 @@
 
     hudRefs.pendingBadge.textContent = save.pendingCreatures > 0 ? ('🔔 ' + save.pendingCreatures) : '';
     hudRefs.pendingBadge.style.display = save.pendingCreatures > 0 ? 'block' : 'none';
+
+    hudRefs.questBtn.classList.toggle('hasBadge', BeginnerQuest.claimableCount(save) > 0);
 
     // 用 currentZone（而非 zoneForDepth(depth)）取得目前海域：depth 到達錨點時會
     // 精準等於 anchorDepth，zoneForDepth 的 `depth < anchorDepth` 判斷在這個邊界值

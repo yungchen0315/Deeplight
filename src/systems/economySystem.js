@@ -89,6 +89,8 @@
     let starTotal = 0;
     Object.keys(save.bestiary || {}).forEach((id) => { starTotal += bestiaryStarLevel(save.bestiary[id].seen || 0); });
     eff.allProdMult *= 1 + starTotal * B.BESTIARY_STAR_PROD_PCT / 100;
+    // 成就產量加成：每解鎖 1 個成就 +0.5%，永久保留、不受任何轉生重置。
+    eff.allProdMult *= 1 + (save.achievements || []).length * B.ACHIEVEMENT_PROD_PCT / 100;
     // 珍珠加護：消耗珍珠換來的限時全產量倍率。
     if (save.boostUntil && Date.now() < save.boostUntil) eff.allProdMult *= B.PEARL_BOOST_MULT;
     // 金燈魚限時增益（產量或下潛速度倍率二選一，見 goldenCreatureSystem）。

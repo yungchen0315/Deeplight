@@ -150,7 +150,9 @@
     container.appendChild(refitPanel);
 
     const achPanel = U.el('div', 'panel');
-    achPanel.appendChild(U.el('div', 'panelTitle', '成就（' + save.achievements.length + ' / ' + D.ACHIEVEMENT_DEFS.length + '）　珍珠 ' + save.pearls));
+    achPanel.appendChild(U.el('div', 'panelTitle', '成就（' + save.achievements.length + ' / ' + D.ACHIEVEMENT_DEFS.length + '）　珍珠 ' + U.formatNum(save.pearls)));
+    const achBonusPct = (save.achievements.length * D.BALANCE.ACHIEVEMENT_PROD_PCT).toFixed(1);
+    achPanel.appendChild(U.el('div', 'subHint', '目前成就加成：全螢光產量 +' + achBonusPct + '%（每解鎖 1 個 +' + D.BALANCE.ACHIEVEMENT_PROD_PCT + '%，永久保留）'));
     D.ACHIEVEMENT_DEFS.forEach((a) => {
       const done = save.achievements.includes(a.id);
       const row = U.el('div', 'achRow' + (done ? ' achDone' : ''));

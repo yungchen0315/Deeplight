@@ -14,10 +14,18 @@
   const SEASONAL_EVENTS = [
     { id: 'newyear', name: '新年深潮', month: 0, startDay: 1, endDay: 3,
       banner: '🎊 新年深潮：全螢光產量 x1.5，生物出現速度 x1.4', prodMult: 1.5, spawnIntervalMult: 1 / 1.4, rareChanceMult: 1 },
+    { id: 'springtide', name: '春分湧昇流', month: 2, startDay: 20, endDay: 21,
+      banner: '🌱 春分湧昇流：生物出現速度 x1.5，稀有機率 x1.2', prodMult: 1, spawnIntervalMult: 1 / 1.5, rareChanceMult: 1.2 },
     { id: 'oceansday', name: '世界海洋日', month: 5, startDay: 8, endDay: 8,
       banner: '🌊 世界海洋日：生物出現速度 x2，稀有機率 x2', prodMult: 1, spawnIntervalMult: 0.5, rareChanceMult: 2 },
+    { id: 'midsummer', name: '仲夏磷光潮', month: 6, startDay: 15, endDay: 16,
+      banner: '✨ 仲夏磷光潮：全螢光產量 x1.6', prodMult: 1.6, spawnIntervalMult: 1, rareChanceMult: 1 },
+    { id: 'autumnsurge', name: '秋分暗湧', month: 8, startDay: 22, endDay: 23,
+      banner: '🍂 秋分暗湧：全螢光產量 x1.4，生物出現速度 x1.3', prodMult: 1.4, spawnIntervalMult: 1 / 1.3, rareChanceMult: 1 },
     { id: 'halloween', name: '深海幽靈夜', month: 9, startDay: 30, endDay: 31,
       banner: '🎃 深海幽靈夜：生物出現速度 x1.5，稀有機率 x1.8', prodMult: 1, spawnIntervalMult: 1 / 1.5, rareChanceMult: 1.8 },
+    { id: 'wintersolstice', name: '冬至極夜', month: 11, startDay: 21, endDay: 22,
+      banner: '❄️ 冬至極夜：生物出現速度 x1.5，稀有機率 x1.5', prodMult: 1, spawnIntervalMult: 1 / 1.5, rareChanceMult: 1.5 },
     { id: 'christmas', name: '聖誕深潮', month: 11, startDay: 24, endDay: 25,
       banner: '🎄 聖誕深潮：全螢光產量 x1.6，稀有機率 x1.2', prodMult: 1.6, spawnIntervalMult: 1, rareChanceMult: 1.2 }
   ];

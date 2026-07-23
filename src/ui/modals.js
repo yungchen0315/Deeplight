@@ -49,8 +49,8 @@
   /** 第一次抵達某片海域時的一次性慶祝——把過閘門這個進度里程碑做成一個值得記住、
    *  也值得截圖分享的時刻，而不只是一行 toast。氛圍文字沿用該海域的環境觀測記錄池。 */
   function showZoneReached(zone, onClose) {
-    const Audio = window.App.Systems.Audio;
-    if (Audio) Audio.play('gate');
+    // 不在這裡再播一次 'gate'——呼叫端（diveScreen.passGate）過閘門當下已經播過了，
+    // 彈窗緊接著出現，這裡再播一次會變成兩聲重疊。
     const D = window.App.Data;
     let flavor = '';
     try {

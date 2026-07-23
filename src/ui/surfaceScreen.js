@@ -74,6 +74,31 @@
     container.appendChild(panel);
   }
 
+  function renderHullSkins(container, save, onChange) {
+    const defs = D.HULL_SKIN_DEFS;
+    if (!defs) return;
+    const panel = U.el('div', 'panel');
+    const unlockedCount = defs.filter((sk) => sk.unlock(save)).length;
+    panel.appendChild(U.el('div', 'panelTitle', '潛燈外觀（' + unlockedCount + ' / ' + defs.length + '）'));
+    panel.appendChild(U.el('div', 'subHint', '純裝飾，不影響數值——選定的塗裝會套用在潛航畫面與潛航護照上'));
+    const grid = U.el('div', 'skinGrid');
+    const current = save.hullSkin || 'default';
+    defs.forEach((sk) => {
+      const unlocked = sk.unlock(save);
+      const selected = current === sk.id;
+      const cell = U.el('div', 'skinCell' + (selected ? ' skinSelected' : '') + (unlocked ? '' : ' skinLocked'));
+      cell.appendChild(PR.spriteCanvasEl(sk.id === 'default' ? 'hull' : 'hull_' + sk.id, 2));
+      cell.appendChild(U.el('div', 'skinName', sk.name));
+      cell.appendChild(U.el('div', 'skinHint', unlocked ? (selected ? '使用中' : '點擊使用') : sk.desc));
+      if (unlocked && !selected) {
+        U.onTap(cell, () => { save.hullSkin = sk.id; Audio.play('buy'); onChange(); });
+      }
+      grid.appendChild(cell);
+    });
+    panel.appendChild(grid);
+    container.appendChild(panel);
+  }
+
   function render(container, save, onChange) {
     U.clearNode(container);
 
@@ -123,6 +148,8 @@
     boostPanel.appendChild(instantBtn);
     container.appendChild(boostPanel);
 
+    renderHullSkins(container, save, onChange);
+
     const refitPanel = U.el('div', 'panel');
     refitPanel.appendChild(U.el('div', 'panelTitle', '重構升級（壓力核心 ' + U.formatNum(save.cores) + '）'));
     D.REFIT_DEFS.forEach((def) => {
@@ -165,19 +192,24 @@
     const statsPanel = U.el('div', 'panel');
     statsPanel.appendChild(U.el('div', 'panelTitle', '統計'));
     const s = save.stats;
+    const deepestZone = D.zoneForDepth(save.maxDepthEver || 0);
     const lines = [
+      '史上最大深度：' + Math.floor(save.maxDepthEver || 0) + ' m（' + (deepestZone ? deepestZone.name : '—') + '）',
       '累計螢光：' + U.formatNum(s.totalGlowEarned || 0),
       '累計點擊：' + (s.totalTaps || 0),
-      '累計壓力核心：' + (s.totalCoresEarned || 0),
+      '累計壓力核心：' + U.formatNum(s.totalCoresEarned || 0),
       '收錄生物：' + Object.keys(save.bestiary).length + ' / ' + D.CREATURE_DEFS.length,
       '購買模組次數：' + (s.totalModulesBought || 0),
       '收集生物次數：' + (s.totalCreaturesCollected || 0),
       '完成研究：' + (s.totalResearchBought || 0) + ' / ' + D.RESEARCH_DEFS.length,
       '通過閘門：' + (s.totalGatesPassed || 0) + ' 次',
+      '里程碑領取：' + save.milestonesClaimed.length + ' / ' + D.MILESTONE_DEFS.length,
       '捕獲金燈魚：' + (s.totalGoldenCaught || 0) + ' 隻',
       '轉生次數：' + save.prestigeCount,
       '深淵協約次數：' + save.covenantCount,
       '深淵印記：' + save.sigils.length + ' / ' + D.SIGIL_DEFS.length,
+      '永夜盟約次數：' + save.pactCount,
+      '盟約樹節點：' + save.nightPactNodes.length + ' / ' + D.PACT_DEFS.length,
       '遊玩時間：' + Math.floor((s.playSeconds || 0) / 60) + ' 分鐘'
     ];
     lines.forEach((line) => statsPanel.appendChild(U.el('div', 'subHint', line)));
@@ -188,7 +220,7 @@
       Toast.toast('已產生潛航護照圖卡');
     });
     statsPanel.appendChild(shareBtn);
-    statsPanel.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.6　·　更多設定請點頂欄齒輪圖示'));
+    statsPanel.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.14　·　更多設定請點頂欄齒輪圖示'));
     container.appendChild(statsPanel);
   }
 

@@ -37,7 +37,7 @@
     ctx.font = '20px sans-serif';
     ctx.fillText('潛航護照', W / 2, 128);
 
-    const hull = D.SPRITES.hull;
+    const hull = D.SPRITES[D.hullSpriteIdFor(save)] || D.SPRITES.hull;
     const scale = 6;
     PR.drawSprite(ctx, hull, W / 2 - (hull.w * scale) / 2, 150, scale);
   }

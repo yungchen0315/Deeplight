@@ -234,6 +234,29 @@
     for (let x = 2; x <= 14; x++) for (let y = 2; y <= 14; y++) if (((x - 8) * (x - 8) + (y - 8) * (y - 8)) <= 36 && Math.random() < 0.6) setPx(g, x, y, 'PANEL2');
     dots(g, [[8, 8]], 'PEARL');
   });
+  SPRITES.mod_guixulamp = modSprite((g) => {
+    // 順流的燈：光暈偏向下方（水流方向），下半亮、上半暗。
+    ellipse(g, 8, 7, 4, 3, 'BORDER');
+    ellipse(g, 8, 11, 5, 4, 'FOAM');
+    dots(g, [[8, 14], [6, 13], [10, 13]], 'GLOW2');
+  });
+  SPRITES.mod_guixucore = modSprite((g) => {
+    // 漩渦核心：一圈圈往中心收束的螺旋點陣。
+    for (let a = 0; a < 26; a++) { const r = 6 - a * 0.22; const ang = a * 0.9; setPx(g, Math.round(8 + Math.cos(ang) * r), Math.round(8 + Math.sin(ang) * r), 'PANEL2'); }
+    dots(g, [[8, 8]], 'PEARL');
+  });
+  SPRITES.mod_torchlamp = modSprite((g) => {
+    // 信標燈：燈體在上，往下投射一道逐漸展開的光束。
+    ellipse(g, 8, 4, 4, 3, 'AMBER');
+    dots(g, [[8, 4]], 'FOAM');
+    for (let y = 7; y <= 14; y++) { const w = y - 6; for (let x = 8 - Math.floor(w / 2); x <= 8 + Math.floor(w / 2); x++) if (Math.random() < 0.7) setPx(g, x, y, 'GLOW2'); }
+  });
+  SPRITES.mod_torchcore = modSprite((g) => {
+    // 傳遞核心：中心亮點，把能量往下方送出的點流。
+    circle(g, 8, 6, 3, 'AMBER');
+    dots(g, [[8, 6]], 'PEARL');
+    dots(g, [[8, 9], [7, 11], [9, 11], [8, 13], [8, 15]], 'GLOW2');
+  });
 
   /* -------------------------------------------------------------- 生物 */
 
@@ -613,6 +636,57 @@
     circle(g, 23, 10, 4, 'INK'); circle(g, 23, 10, 2, 'PEARL');
     dots(g, [[9, 10], [23, 10]], 'VIOLET');
     dots(g, [[16, 4], [16, 16]], 'GLOW2');
+  });
+  SPRITES.c_refluxdrifter = creatureSprite(22, 14, (g) => {
+    // 拖著一條被水流拉長尾跡的漂游者。
+    ellipse(g, 15, 7, 5, 4, 'FOAM');
+    for (let i = 0; i < 12; i++) setPx(g, 10 - i, 7 + Math.round(Math.sin(i / 2)), 'BORDER');
+    dots(g, [[16, 6], [14, 8]], 'GLOW2');
+  });
+  SPRITES.c_ringswimmer = creatureSprite(18, 18, (g) => {
+    // 環狀生物：一圈亮環。
+    for (let a = 0; a < 32; a++) setPx(g, Math.round(9 + Math.cos(a / 32 * 6.28) * 7), Math.round(9 + Math.sin(a / 32 * 6.28) * 7), 'FOAM');
+    dots(g, [[9, 2], [9, 16], [2, 9], [16, 9]], 'GLOW2');
+  });
+  SPRITES.c_guixusentinel = creatureSprite(18, 22, (g) => {
+    // 比門檻守衛更巨大、更老的守望者輪廓。
+    rect(g, 3, 2, 12, 18, 'BORDER');
+    rect(g, 4, 3, 10, 16, 'PANEL2');
+    dots(g, [[7, 7], [11, 7]], 'PEARL');
+    dots(g, [[6, 13], [9, 15], [12, 13]], 'GLOW2');
+  });
+  SPRITES.c_returninglight = creatureSprite(20, 20, (g) => {
+    // 歸光：跟 hull 探照燈同款的光暈——一圈圈方環＋中心亮點，鏡像收束。
+    circle(g, 10, 10, 6, 'BORDER');
+    circle(g, 10, 10, 4, 'FOAM');
+    circle(g, 10, 10, 2, 'PEARL');
+    dots(g, [[10, 1], [10, 19], [1, 10], [19, 10], [4, 4], [16, 16], [4, 16], [16, 4]], 'GLOW2');
+  });
+  SPRITES.c_emberdrifter = creatureSprite(20, 16, (g) => {
+    ellipse(g, 10, 8, 5, 4, 'BORDER');
+    dots(g, [[7, 6], [12, 7], [9, 10], [13, 9], [6, 9]], 'AMBER');
+    dots(g, [[10, 8]], 'GLOW2');
+  });
+  SPRITES.c_lightdrawfish = creatureSprite(22, 10, (g) => {
+    // 游在光束前方領路的魚：魚體在左，後方拖著一道光束。
+    ellipse(g, 5, 5, 3, 2, 'FOAM');
+    dots(g, [[3, 5]], 'AMBER');
+    for (let x = 9; x <= 20; x++) if (Math.random() < 0.6) setPx(g, x, 5 + (x % 2 === 0 ? 0 : (x % 4 === 1 ? -1 : 1)), 'GLOW2');
+  });
+  SPRITES.c_torchsentinel = creatureSprite(16, 20, (g) => {
+    // 守望者：捧著一小簇光，望向下方。
+    rect(g, 5, 4, 6, 14, 'PANEL2');
+    dots(g, [[8, 2], [7, 3], [9, 3]], 'AMBER');
+    dots(g, [[8, 2]], 'FOAM');
+    dots(g, [[7, 9], [9, 9], [8, 13]], 'GLOW2');
+  });
+  SPRITES.c_thesuccessor = creatureSprite(20, 22, (g) => {
+    // 後來者：跟歸光/hull 同款的光暈，但正在上升——下方拖著一小段上升尾跡。
+    circle(g, 10, 8, 6, 'BORDER');
+    circle(g, 10, 8, 4, 'FOAM');
+    circle(g, 10, 8, 2, 'PEARL');
+    dots(g, [[10, 0], [1, 8], [19, 8], [4, 2], [16, 2]], 'GLOW2');
+    dots(g, [[10, 16], [9, 19], [11, 19], [10, 21]], 'AMBER');
   });
 
   /* -------------------------------------------------------------- 介面圖示 */

@@ -120,12 +120,29 @@ body { display: flex; flex-direction: column; height: 100dvh; }
 .gateBtn.gateBtnReady { color: #F2C14E; border-color: #F2C14E; }
 
 .depthLabel {
-  position: absolute; left: 10px; bottom: 10px;
+  position: absolute; left: 10px; bottom: 40px;
   font-size: 12px; color: #D6E5F3;
   background: rgba(16,24,35,0.6);
   padding: 3px 6px;
   z-index: 6;
 }
+
+/* 航路目標：底部常駐橫幅，是玩家「接下來要幹嘛」的常態指引，所以固定貼底、
+ * 整條寬、半透明壓在場景上，不遮擋中央的水域點擊區與上方漂過的生物。 */
+.voyageGoal {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 6;
+  background: rgba(10,18,32,0.82); border-top: 1px solid #33455C;
+  padding: 6px 10px 8px; text-align: center;
+}
+.voyageGoalText { font-size: 12px; color: #D6E5F3; line-height: 1.35; }
+.voyageGoalText .goalPrefix { color: #45E8BC; font-weight: bold; }
+.voyageGoalText .goalProg { color: #7E92A8; }
+.voyageGoalBar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(51,69,92,0.5); }
+.voyageGoalFill { height: 100%; background: #45E8BC; width: 0%; transition: width 0.3s linear; }
+.voyageGoal.goalAdvanced { animation: goalFlash 0.9s ease; }
+@keyframes goalFlash { 0% { background: rgba(69,232,188,0.35); } 100% { background: rgba(10,18,32,0.82); } }
+body.highContrast .voyageGoalText { color: #FFFFFF; }
+body.highContrast .voyageGoalText .goalProg { color: #B8C6D6; }
 
 /* ---------------------------------------------------------------------- */
 /* 通用面板（模組／研究／海面分頁共用）                                       */
@@ -229,6 +246,10 @@ button { font-family: inherit; border: none; cursor: pointer; }
 .modalTitle { font-size: 17px; font-weight: bold; color: #FFB454; margin-bottom: 10px; }
 .modalLine { font-size: 13px; margin: 6px 0; color: #D6E5F3; }
 .modalHighlight { color: #45E8BC; }
+.offlineGoalLine { margin-top: 12px; padding-top: 10px; border-top: 1px solid #33455C; color: #FFB454; font-size: 13px; }
+.zoneReachedKicker { color: #45E8BC; font-size: 12px; letter-spacing: 3px; margin-bottom: 2px; }
+.zoneReachedName { font-size: 26px; margin-bottom: 6px; }
+.zoneReachedFlavor { color: #7E92A8; font-size: 12px; font-style: italic; margin-top: 10px; }
 .discoveryIconWrap { display: flex; justify-content: center; margin: 10px 0; }
 .discoveryName { font-size: 15px; color: #B784FF; }
 .modalBtn {
@@ -333,6 +354,16 @@ button { font-family: inherit; border: none; cursor: pointer; }
 .dailyDay { font-size: 10px; color: #7E92A8; }
 .dailyLabel { font-size: 10px; margin-top: 2px; }
 
+/* 潛燈外觀（hull skin）選擇格 */
+.skinGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; }
+.skinCell { background: #1B2836; border: 1px solid #33455C; padding: 6px 4px; text-align: center; cursor: pointer; }
+.skinCell .pixelIcon { image-rendering: pixelated; }
+.skinCell.skinSelected { border-color: #F2C14E; }
+.skinCell.skinLocked { opacity: 0.5; cursor: default; }
+.skinName { font-size: 11px; margin-top: 4px; color: #D6E5F3; }
+.skinHint { font-size: 9px; margin-top: 2px; color: #7E92A8; }
+.skinCell.skinSelected .skinHint { color: #F2C14E; }
+
 /* ---------------------------------------------------------------------- */
 /* 底部導覽：紅點提示                                                        */
 /* ---------------------------------------------------------------------- */
@@ -425,7 +456,7 @@ body.textScaleXLarge { zoom: 1.3; }
 /* 環境觀測記錄                                                              */
 /* ---------------------------------------------------------------------- */
 .diveFlavorLine {
-  position: absolute; left: 50%; bottom: 72px; transform: translateX(-50%) translateY(8px);
+  position: absolute; left: 50%; bottom: 96px; transform: translateX(-50%) translateY(8px);
   max-width: 86%; text-align: center; color: #7E92A8; font-size: 11px; font-style: italic;
   z-index: 4; opacity: 0; transition: opacity 0.6s, transform 0.6s; pointer-events: none;
 }

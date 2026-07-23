@@ -45,8 +45,13 @@
     save.currentZone += 1;
     save.samples = (save.samples || 0) + 3 + 3 * zone.id;
     save.stats.totalGatesPassed = (save.stats.totalGatesPassed || 0) + 1;
+    // 記錄「這輩子第一次抵達的海域」——只在第一次進入某片海域時回傳 firstTime，
+    // 讓 UI 端可以放一個一次性的抵達慶祝，之後轉生重玩經過同一片海域就不再重複。
+    save.zonesSeen = save.zonesSeen || [];
+    const firstTime = !save.zonesSeen.includes(next.id);
+    if (firstTime) save.zonesSeen.push(next.id);
     window.App.Systems.EventLog.log(save, '通過錨點閘門，進入「' + next.name + '」');
-    return { ok: true, zone: next };
+    return { ok: true, zone: next, firstTime: firstTime };
   }
 
   window.App.Systems.Descent = { advance, atGate, nextZone, gateCost, passGate };

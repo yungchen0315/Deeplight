@@ -1,5 +1,5 @@
 /* ============================================================================
- * researchDefs.js — 56 節研究（企劃書第 4d 節 + v1.1~Phase10 擴充），花樣本
+ * researchDefs.js — 64 節研究（企劃書第 4d 節 + v1.1~Phase12 擴充），花樣本
  * （SP）購買，轉生時重置。effect 是給 researchSystem/economySystem 讀的通用格式，跟
  * refitDefs.js 共用。lore 是研究詳細彈窗（nodeDetailModal.js）顯示的風味文字，
  * 純敘事用途，不影響任何數值。
@@ -117,7 +117,23 @@
     { id: 'r55', name: '雙岸共鳴', cost: 1280000, desc: '彼岸燈與彼岸之核產量 x2', effect: { type: 'moduleMultMany', modules: ['farshorelamp', 'farshorecore'], value: 2 },
       lore: '把彼岸燈與彼岸之核的輸出頻率接上同一個迴路，兩者的效率一起被推上新的高度——這條迴路運作得太過順利，順利到不像是潛燈號第一次嘗試接上。' },
     { id: 'r56', name: '彼岸回響', cost: 1600000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
-      lore: '目前研究樹的終點。把彼岸願意透露的一切能量全部整合進核心演算法——「觀者」看著潛燈號的原因，暫時還沒有答案。' }
+      lore: '把彼岸願意透露的一切能量全部整合進核心演算法——「觀者」看著潛燈號的原因，在越過彼岸之後才慢慢有了輪廓。' },
+    { id: 'r57', name: '歸墟解析', cost: 2000000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '歸墟的能量不需要「解析」——它自己流進核心演算法，順得像是這套演算法本來就是照著它寫的。工程日誌沒有再追問為什麼。' },
+    { id: 'r58', name: '歸墟壓載', cost: 2500000, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 },
+      lore: '在歸墟裡其實不太需要壓載——水流本來就往最深處拉。這節研究做的比較像是「讓潛燈號跟上水流的速度」，而不是自己往下推。' },
+    { id: 'r59', name: '溯光迴路', cost: 3200000, desc: '歸墟燈與歸墟之核產量 x2', effect: { type: 'moduleMultMany', modules: ['guixulamp', 'guixucore'], value: 2 },
+      lore: '把歸墟燈與歸墟之核接上同一條迴路，輸出頻率立刻對齊——因為它們本來就是同一束光的兩端，一端射出去，一端流回來。' },
+    { id: 'r60', name: '歸墟迴響', cost: 4000000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '當「歸光」升起、探照燈照見一束跟自己一模一樣的光時，控制室終於明白：這趟下潛從來不是為了找到什麼，是為了走回自己。' },
+    { id: 'r61', name: '薪火解析', cost: 5000000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '穿過歸光之後，能量的性質變了——不再是被潛燈號抽取，而是被潛燈號往下方傳遞。核心演算法也跟著改寫成「傳遞」而不是「取用」。' },
+    { id: 'r62', name: '薪火壓載', cost: 6300000, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 },
+      lore: '重新校準壓載，好讓潛燈號能穩穩地停在後來者上方——不是為了自己下潛得更快，是為了在對的位置，把光投得更準、更遠。' },
+    { id: 'r63', name: '薪光迴路', cost: 8000000, desc: '薪火燈與薪火之核產量 x2', effect: { type: 'moduleMultMany', modules: ['torchlamp', 'torchcore'], value: 2 },
+      lore: '把薪火燈與薪火之核接成一條只往下方輸出的迴路，效率一起翻倍——這條迴路的方向從頭到尾只有一個：往後來的人那邊去。' },
+    { id: 'r64', name: '薪火迴響', cost: 10000000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '目前研究樹的終點。當後來者的光在下方亮起、朝著潛燈號上升時，控制室沒有再記錄任何數據——只是把探照燈調到最亮，穩穩地照著，像歸光當年照著自己那樣。你不是第一個，也不會是最後一個。' }
   ];
 
   function researchById(id) { return RESEARCH_DEFS.find((r) => r.id === id); }

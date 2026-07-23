@@ -13,6 +13,7 @@
   const Creature = window.App.Systems.Creature;
   const Quest = window.App.Systems.Quest;
   const BeginnerQuest = window.App.Systems.BeginnerQuest;
+  const VoyageGoal = window.App.Systems.VoyageGoal;
   const Golden = window.App.Systems.Golden;
   const Signal = window.App.Systems.Signal;
   const Event = window.App.Systems.Event;
@@ -34,6 +35,7 @@
   let weekendShown = false;
   let goldenMissFn = null;
   let signalMissFn = null;
+  let lastGoalId = null;
   // 誘光進度條的強制刷新（forceSpawnSoon）跟聲納脈衝（forceSpawnSonar）共用同一個
   // spawnTimeoutId 排程位置——同一時間只會有「下一隻要刷新的生物」這一件事，兩邊都只
   // 是「現在就刷新」的請求。如果各自把稀有加成直接綁進 setTimeout 的 closure 裡，
@@ -72,7 +74,7 @@
 
     // 潛燈號本體。
     const hullWrap = U.el('div', 'hullWrap');
-    hullWrap.appendChild(PR.spriteCanvasEl('hull', 4));
+    hullWrap.appendChild(PR.spriteCanvasEl(D.hullSpriteIdFor(save), 4));
     scene.appendChild(hullWrap);
 
     // 待領取的離線生物徽章。
@@ -120,7 +122,19 @@
     const flavorLine = U.el('div', 'diveFlavorLine', '');
     scene.appendChild(flavorLine);
 
-    hudRefs = { haloWrap, pendingBadge, gateBtn, depthLabel, lureFill, boostBtn, questBtn, weekendBanner, flavorLine, sonarBtn };
+    // 航路目標：底部常駐橫幅，永遠告訴玩家「接下來最該做的一件事」，實際文字由
+    // tick() 依當下存檔狀態算出（見 voyageGoalSystem.js）。
+    const goalBanner = U.el('div', 'voyageGoal');
+    const goalText = U.el('div', 'voyageGoalText');
+    goalBanner.appendChild(goalText);
+    const goalBarWrap = U.el('div', 'voyageGoalBar');
+    const goalFill = U.el('div', 'voyageGoalFill');
+    goalBarWrap.appendChild(goalFill);
+    goalBanner.appendChild(goalBarWrap);
+    scene.appendChild(goalBanner);
+
+    hudRefs = { haloWrap, pendingBadge, gateBtn, depthLabel, lureFill, boostBtn, questBtn, weekendBanner, flavorLine, sonarBtn, goalBanner, goalText, goalFill, goalBarWrap };
+    lastGoalId = null;
 
     // 點擊水域＝手動採光（點在生物/按鈕上時各自的 handler 會 stopPropagation）。
     U.onTap(scene, (e) => {
@@ -461,7 +475,10 @@
     Audio.play('gate');
     FX.shake(document.getElementById('screens'), 4, 250);
     FX.burst(sceneEl, 50, 50, 'AMBER', 24);
-    Toast.toast('已加固艙體，進入「' + result.zone.name + '」');
+    // 第一次抵達某片海域：放一個一次性的慶祝彈窗（值得記住的進度里程碑）；
+    // 之後轉生重玩經過同一片海域，就只留一行 toast，不再打斷節奏。
+    if (result.firstTime) Modals.showZoneReached(result.zone);
+    else Toast.toast('已加固艙體，進入「' + result.zone.name + '」');
     if (onChangeRef) onChangeRef();
     tick(saveRef);
   }
@@ -554,6 +571,45 @@
       hudRefs.sonarBtn.textContent = '📡';
       hudRefs.sonarBtn.classList.remove('disabled');
     }
+
+    updateVoyageGoal(save);
+  }
+
+  /** 更新底部航路目標橫幅：文字＋進度條，目標 id 變了（＝上一個目標達成）時閃一下。 */
+  function updateVoyageGoal(save) {
+    if (!VoyageGoal || !hudRefs || !hudRefs.goalBanner) return;
+    const goal = VoyageGoal.currentGoal(save);
+    if (!goal) { hudRefs.goalBanner.style.display = 'none'; return; }
+    hudRefs.goalBanner.style.display = 'block';
+
+    let suffix = '';
+    if (goal.progress) {
+      const p = goal.progress;
+      const remaining = Math.max(0, p.target - p.current);
+      const showNum = p.unit === ' 樣本' || p.unit === ' 種' || p.unit === ' 節'
+        ? Math.floor(p.current) + ' / ' + p.target + p.unit
+        : '還差 ' + U.formatNum(remaining) + (p.unit === ' m' ? ' m' : p.unit);
+      suffix = '（' + showNum + '）';
+    }
+    hudRefs.goalText.innerHTML = '';
+    hudRefs.goalText.appendChild(U.el('span', 'goalPrefix', '🧭 航路目標　'));
+    hudRefs.goalText.appendChild(document.createTextNode(goal.text));
+    if (suffix) hudRefs.goalText.appendChild(U.el('span', 'goalProg', '　' + suffix));
+
+    if (goal.progress && goal.progress.target > 0) {
+      hudRefs.goalBarWrap.style.display = 'block';
+      hudRefs.goalFill.style.width = (Math.min(1, goal.progress.current / goal.progress.target) * 100) + '%';
+    } else {
+      hudRefs.goalBarWrap.style.display = 'none';
+    }
+
+    if (lastGoalId !== null && lastGoalId !== goal.id && (!FX || !FX.isReduced())) {
+      hudRefs.goalBanner.classList.remove('goalAdvanced');
+      // 重新觸發動畫：強制 reflow 後再加 class。
+      void hudRefs.goalBanner.offsetWidth;
+      hudRefs.goalBanner.classList.add('goalAdvanced');
+    }
+    lastGoalId = goal.id;
   }
 
   /** 聲納脈衝：主動技能，冷卻好了隨時可按，立即強制刷新一隻生物（無視正常的隨機

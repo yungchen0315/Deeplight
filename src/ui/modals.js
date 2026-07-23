@@ -17,18 +17,53 @@
     return close;
   }
 
-  function showOfflineReport(report, onClose) {
+  function showOfflineReport(report, save, onClose) {
+    // 舊呼叫端可能只傳 (report, onClose)——若第二個參數是函式，往後相容成 onClose。
+    if (typeof save === 'function') { onClose = save; save = null; }
     const Audio = window.App.Systems.Audio;
     if (Audio) Audio.play('discovery');
     showModal((box, close) => {
-      box.appendChild(U.el('div', 'modalTitle', '潛航報告'));
+      box.appendChild(U.el('div', 'modalTitle', '歡迎回來'));
       box.appendChild(U.el('div', 'modalLine', '離線時間：' + U.formatDurationWords(report.elapsedMs)));
-      box.appendChild(U.el('div', 'modalLine', '獲得螢光：+' + U.formatNum(report.glowGained)));
-      box.appendChild(U.el('div', 'modalLine', '下潛深度：+' + Math.round(report.depthGained) + ' 公尺'));
-      if (report.missedCount > 0) {
-        box.appendChild(U.el('div', 'modalLine modalHighlight', '有 ' + report.missedCount + ' 隻生物趁你不在時游過，回潛航畫面點擊領取'));
+      box.appendChild(U.el('div', 'modalLine modalHighlight', '獲得螢光：+' + U.formatNum(report.glowGained)));
+      if (report.depthGained >= 1) {
+        box.appendChild(U.el('div', 'modalLine', '下潛深度：+' + Math.round(report.depthGained) + ' 公尺'));
       }
-      const btn = U.el('button', 'modalBtn', '知道了');
+      if (report.missedCount > 0) {
+        box.appendChild(U.el('div', 'modalLine', '有 ' + report.missedCount + ' 隻生物趁你不在時游過，回潛航畫面點擊領取'));
+      }
+      // 回訪的當下順手重申「接下來要幹嘛」，讓玩家一回來就有明確的下一步、不會愣住。
+      const VoyageGoal = window.App.Systems.VoyageGoal;
+      if (save && VoyageGoal) {
+        const goal = VoyageGoal.currentGoal(save);
+        if (goal && goal.id !== 'g_done') {
+          box.appendChild(U.el('div', 'modalLine offlineGoalLine', '🧭 接下來：' + goal.text));
+        }
+      }
+      const btn = U.el('button', 'modalBtn', '繼續下潛');
+      U.onTap(btn, () => { close(); if (onClose) onClose(); });
+      box.appendChild(btn);
+    });
+  }
+
+  /** 第一次抵達某片海域時的一次性慶祝——把過閘門這個進度里程碑做成一個值得記住、
+   *  也值得截圖分享的時刻，而不只是一行 toast。氛圍文字沿用該海域的環境觀測記錄池。 */
+  function showZoneReached(zone, onClose) {
+    // 不在這裡再播一次 'gate'——呼叫端（diveScreen.passGate）過閘門當下已經播過了，
+    // 彈窗緊接著出現，這裡再播一次會變成兩聲重疊。
+    const D = window.App.Data;
+    let flavor = '';
+    try {
+      const tier = D.flavorTierForZone(zone.id);
+      const pool = D.AMBIENT_FLAVOR_TIERS[tier];
+      if (pool && pool.length) flavor = U.choice(pool);
+    } catch (e) { /* 氛圍文字只是加分，取不到就不顯示 */ }
+    showModal((box, close) => {
+      box.appendChild(U.el('div', 'modalLine zoneReachedKicker', '抵達新海域'));
+      box.appendChild(U.el('div', 'modalTitle zoneReachedName', zone.name));
+      box.appendChild(U.el('div', 'modalLine modalHighlight', '深度 ' + zone.minDepth + ' m 起'));
+      if (flavor) box.appendChild(U.el('div', 'modalLine zoneReachedFlavor', flavor));
+      const btn = U.el('button', 'modalBtn', '繼續下潛');
       U.onTap(btn, () => { close(); if (onClose) onClose(); });
       box.appendChild(btn);
     });
@@ -108,5 +143,5 @@
     renderPage();
   }
 
-  window.App.UI.Modals = { showModal, showOfflineReport, showDiscoveryCard, showWelcome, showConfirm };
+  window.App.UI.Modals = { showModal, showOfflineReport, showDiscoveryCard, showZoneReached, showWelcome, showConfirm };
 })();

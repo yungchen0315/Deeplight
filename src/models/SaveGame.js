@@ -52,6 +52,8 @@
  *   永久保留、不受任何轉生重置。集滿後 nextSignalAt 不再有意義（不會再出現）。
  * @property {number} nextSignalAt 下一次允許出現深淵訊號的時戳（ms），永久保留、隨時間推進。
  * @property {number} nextSonarAt 聲納脈衝主動技能下一次可用的時戳（ms），開局即可用（預設 0）。
+ * @property {{claimed:string[]}} beginnerQuests 已領取的新手任務 id（BEGINNER_QUEST_DEFS），
+ *   永久保留、不受任何轉生重置，全部領完後潛航畫面就不再顯示這個區塊。
  * ==========================================================================*/
 (function () {
   function createDefaultSave(now) {
@@ -119,7 +121,8 @@
       captainLog: { unlockedIds: [] },
       signalFragments: [],
       nextSignalAt: now + 900000,
-      nextSonarAt: 0
+      nextSonarAt: 0,
+      beginnerQuests: { claimed: [] }
     };
   }
 

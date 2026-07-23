@@ -1,5 +1,5 @@
 /* ============================================================================
- * researchDefs.js — 52 節研究（企劃書第 4d 節 + v1.1~Phase9 擴充），花樣本
+ * researchDefs.js — 56 節研究（企劃書第 4d 節 + v1.1~Phase10 擴充），花樣本
  * （SP）購買，轉生時重置。effect 是給 researchSystem/economySystem 讀的通用格式，跟
  * refitDefs.js 共用。lore 是研究詳細彈窗（nodeDetailModal.js）顯示的風味文字，
  * 純敘事用途，不影響任何數值。
@@ -109,7 +109,15 @@
     { id: 'r51', name: '雙心共鳴', cost: 510000, desc: '本源錨與本源之心產量 x2', effect: { type: 'moduleMultMany', modules: ['sourceanchor', 'sourceheart'], value: 2 },
       lore: '把本源錨與本源之心的頻率接上同一個迴路，兩者的輸出效率一起被推上新的高度——這條迴路，感覺不像是潛燈號「接上」它，比較像是它一直在等著被接上。' },
     { id: 'r52', name: '本源回響', cost: 640000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
-      lore: '目前研究樹的終點。把本源塹願意透露的一切能量全部整合進核心演算法——找到源頭之後，這趟旅程的下一步是什麼，暫時還沒有答案。' }
+      lore: '把本源塹願意透露的一切能量全部整合進核心演算法——找到源頭之後，這趟旅程的下一步是什麼，暫時還沒有答案。' },
+    { id: 'r53', name: '彼岸解密', cost: 810000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '彼岸的能量接口跟先前所有地方都不一樣——不是規格不同，是連「接口」這個概念本身在這裡都不太適用，工程日誌花了很長時間才找到一種堪用的接法。' },
+    { id: 'r54', name: '彼岸壓載', cost: 1020000, desc: '下潛速度 x1.5', effect: { type: 'descentMult', value: 1.5 },
+      lore: '重新設計壓載系統以適應彼岸——這裡的水壓讀數穩定得不正常，穩定到工程日誌懷疑儀表根本沒有量到真正的數字。' },
+    { id: 'r55', name: '雙岸共鳴', cost: 1280000, desc: '彼岸燈與彼岸之核產量 x2', effect: { type: 'moduleMultMany', modules: ['farshorelamp', 'farshorecore'], value: 2 },
+      lore: '把彼岸燈與彼岸之核的輸出頻率接上同一個迴路，兩者的效率一起被推上新的高度——這條迴路運作得太過順利，順利到不像是潛燈號第一次嘗試接上。' },
+    { id: 'r56', name: '彼岸回響', cost: 1600000, desc: '全螢光產量 x2', effect: { type: 'allProdMult', value: 2 },
+      lore: '目前研究樹的終點。把彼岸願意透露的一切能量全部整合進核心演算法——「觀者」看著潛燈號的原因，暫時還沒有答案。' }
   ];
 
   function researchById(id) { return RESEARCH_DEFS.find((r) => r.id === id); }

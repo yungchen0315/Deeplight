@@ -1,5 +1,5 @@
 /* ============================================================================
- * moduleDefs.js — 28 種發光模組（企劃書第 4b 節 + v1.1~Phase9 擴充）。cost(n)
+ * moduleDefs.js — 30 種發光模組（企劃書第 4b 節 + v1.1~Phase10 擴充）。cost(n)
  * 與升級節點的計算交給 economySystem，這裡只放靜態資料。lore 是模組詳細彈窗
  * （moduleDetailModal.js）顯示的風味文字，純敘事用途，不影響任何數值。
  * ==========================================================================*/
@@ -60,7 +60,11 @@
     { id: 'sourceanchor', name: '本源錨', icon: 'mod_sourceanchor', baseCost: 1.1e30, baseProd: 3.5e21, unlockDepth: 845000,
       lore: '本源塹入口散落著一批錨狀構造，跟先驅遺跡、沉眠都市、低語塹的節點造型都不完全相同——像是同一套系統，卻是不同世代的版本。' },
     { id: 'sourceheart', name: '本源之心', icon: 'mod_sourceheart', baseCost: 1.7e31, baseProd: 2.5e22, unlockDepth: 1050000,
-      lore: '本源塹最深處一團體積遠超前幾處「之心」的能量核心，接上纜線的瞬間，先驅遺跡、沉眠都市、低語塹的殘留訊號同時閃了一下——彷彿全部連上了同一個源頭。' }
+      lore: '本源塹最深處一團體積遠超前幾處「之心」的能量核心，接上纜線的瞬間，先驅遺跡、沉眠都市、低語塹的殘留訊號同時閃了一下——彷彿全部連上了同一個源頭。' },
+    { id: 'farshorelamp', name: '彼岸燈', icon: 'mod_farshorelamp', baseCost: 2.5e32, baseProd: 1.7e23, unlockDepth: 1305000,
+      lore: '通過本源之心後遇到的第一座構造，發出的光線色調怪異，照到的陰影方向也跟探照燈的角度對不上——工程日誌懷疑，這裡的「光」可能跟艙外那盞燈是兩種不同的東西。' },
+    { id: 'farshorecore', name: '彼岸之核', icon: 'mod_farshorecore', baseCost: 3.8e33, baseProd: 1.2e24, unlockDepth: 1600000,
+      lore: '彼岸最深處一團輪廓模糊、邊界說不清楚在哪裡的能量核心，接上纜線後不會有任何回饋訊號——工程日誌只確認了一件事：它一直都在輸出能量，不管潛燈號有沒有接上它。' }
   ];
 
   function moduleById(id) { return MODULE_DEFS.find((m) => m.id === id); }

@@ -2,7 +2,7 @@
  * sw.js — Service Worker：cache-first 離線快取。CACHE_NAME 每次發版遞增版本號，
  * activate 階段清掉舊快取。純靜態站台，沒有需要 network-first 的 API 呼叫。
  * ==========================================================================*/
-const CACHE_NAME = 'deeplight-v1.11.0';
+const CACHE_NAME = 'deeplight-v1.13.0';
 
 const PRECACHE_URLS = [
   './',
@@ -28,6 +28,7 @@ const PRECACHE_URLS = [
   'src/data/achievementDefs.js',
   'src/data/milestoneDefs.js',
   'src/data/questDefs.js',
+  'src/data/beginnerQuestDefs.js',
   'src/data/goldenBuffDefs.js',
   'src/data/compendiumDefs.js',
   'src/data/logDefs.js',
@@ -50,6 +51,7 @@ const PRECACHE_URLS = [
   'src/systems/audioSystem.js',
   'src/systems/dailySystem.js',
   'src/systems/questSystem.js',
+  'src/systems/beginnerQuestSystem.js',
   'src/systems/eventSystem.js',
   'src/systems/goldenCreatureSystem.js',
   'src/systems/signalSystem.js',

@@ -1,5 +1,5 @@
 /* ============================================================================
- * achievementDefs.js — 47 個成就（企劃書第 7 節 + v1.1~Phase9 擴充），部分掉深海
+ * achievementDefs.js — 49 個成就（企劃書第 7 節 + v1.1~Phase10 擴充），部分掉深海
  * 珍珠。condition(state) 由 achievementSystem 呼叫；state 是完整 SaveGame，只在
  * 該成就尚未解鎖時才會被呼叫（見 achievementSystem.js），所以就算條件內部呼叫
  * Economy.computeEffects 之類稍重的函式也不會變成長期的每 tick 負擔。
@@ -96,10 +96,14 @@
       condition: (s) => s.maxDepthEver >= 840000 },
     { id: 'rift_bestiary', name: '深塹觀測者', desc: '記錄低語塹的全部 4 種生物', pearl: 3,
       condition: (s) => ['whisperingshoal', 'riftsentinel', 'echohunter', 'thewhisperer'].every((id) => s.bestiary[id]) },
-    { id: 'depth_1300000', name: '本源塹盡頭', desc: '下潛至 1300000 公尺（目前版本最深處）', pearl: 11,
+    { id: 'depth_1300000', name: '本源塹盡頭', desc: '下潛至 1300000 公尺', pearl: 11,
       condition: (s) => s.maxDepthEver >= 1300000 },
     { id: 'source_bestiary', name: '本源觀測者', desc: '記錄本源塹的全部 4 種生物', pearl: 3,
-      condition: (s) => ['sourceswarm', 'chasmwanderer', 'sourceguardian', 'thesource'].every((id) => s.bestiary[id]) }
+      condition: (s) => ['sourceswarm', 'chasmwanderer', 'sourceguardian', 'thesource'].every((id) => s.bestiary[id]) },
+    { id: 'depth_1950000', name: '彼岸盡頭', desc: '下潛至 1950000 公尺（目前版本最深處）', pearl: 12,
+      condition: (s) => s.maxDepthEver >= 1950000 },
+    { id: 'farshore_bestiary', name: '彼岸觀測者', desc: '記錄彼岸的全部 4 種生物', pearl: 3,
+      condition: (s) => ['farshoredrifter', 'mirrorfish', 'thresholdkeeper', 'thewatcher'].every((id) => s.bestiary[id]) }
   ];
 
   window.App.Data.ACHIEVEMENT_DEFS = ACHIEVEMENT_DEFS;

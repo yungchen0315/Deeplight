@@ -1,5 +1,5 @@
 /* ============================================================================
- * creatureDefs.js — 56 種深淵圖鑑生物（企劃書第 8 節 + v1.1~Phase9 擴充）。
+ * creatureDefs.js — 60 種深淵圖鑑生物（企劃書第 8 節 + v1.1~Phase10 擴充）。
  * 每海域 4 種，各含 1 稀有種。首次遇見必掉樣本，之後依 balance 機率掉落。lore
  * 是圖鑑詳細彈窗（bestiaryDetailModal.js）顯示的一小段風味文字，純敘事用途，
  * 不影響任何遊戲數值。
@@ -131,7 +131,16 @@
     { id: 'sourceguardian', name: '訊源守衛', icon: 'c_sourceguardian', zone: 13, rare: false,
       lore: '比石化守衛、深塹守衛都更龐大的守衛型生物，固定站在本源之心外圍。跟其他守衛不同，牠會對著潛燈號的方向緩緩點頭，像是某種行禮。' },
     { id: 'thesource', name: '本源', icon: 'c_thesource', zone: 13, rare: true,
-      lore: '先驅之影、起源之眼、甦醒者、低語者——原來全部都指向同一個存在。本源不迴避、不觀察、不引路，牠只是「在」，龐大得探照燈照不出邊界。目擊紀錄裡唯一的文字備註只有一句：找到源頭了，但還不知道這代表結束，還是開始。' }
+      lore: '先驅之影、起源之眼、甦醒者、低語者——原來全部都指向同一個存在。本源不迴避、不觀察、不引路，牠只是「在」，龐大得探照燈照不出邊界。目擊紀錄裡唯一的文字備註只有一句：找到源頭了，但還不知道這代表結束，還是開始。' },
+    // 彼岸
+    { id: 'farshoredrifter', name: '彼岸漂游者', icon: 'c_farshoredrifter', zone: 14, rare: false,
+      lore: '緩慢漂過彼岸的半透明輪廓，形狀每次目擊都有些微差異，讓人懷疑牠根本沒有固定的形體，只是暫時借用了「看起來像生物」的樣子。' },
+    { id: 'mirrorfish', name: '鏡影魚', icon: 'c_mirrorfish', zone: 14, rare: false,
+      lore: '身體表面像鏡子一樣反射探照燈的光，但反射回來的影像總是慢半拍、角度也對不上——工程日誌形容那個感覺像是「看到自己動作的殘影」。' },
+    { id: 'thresholdkeeper', name: '門檻守衛', icon: 'c_thresholdkeeper', zone: 14, rare: false,
+      lore: '靜止懸浮在彼岸燈與彼岸之核之間的環狀生物，探照燈照過去只有微弱反應——直到潛燈號試圖繞過牠，才第一次移動，擋回原本的位置。' },
+    { id: 'thewatcher', name: '觀者', icon: 'c_thewatcher', zone: 14, rare: true,
+      lore: '先驅之影躲進陰影，起源之眼只是看著，甦醒者主動靠近，低語者開口說話，本源只是存在——觀者不一樣：牠知道潛燈號在看牠，而且牠也在看潛燈號看牠。目擊紀錄第一次出現這樣的備註：從今以後，這裡的一切都知道我們來過。' }
   ];
 
   function creatureById(id) { return CREATURE_DEFS.find((c) => c.id === id); }

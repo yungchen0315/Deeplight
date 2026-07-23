@@ -225,6 +225,15 @@
     circle(g, 8, 8, 2, 'PEARL');
     dots(g, [[8, 1], [8, 15], [1, 8], [15, 8], [3, 3], [13, 13]], 'GLOW2');
   });
+  SPRITES.mod_farshorelamp = modSprite((g) => {
+    ellipse(g, 8, 6, 5, 4, 'FOAM');
+    ellipse(g, 8, 10, 3, 5, 'BORDER');
+    dots(g, [[6, 5], [10, 7]], 'GLOW2');
+  });
+  SPRITES.mod_farshorecore = modSprite((g) => {
+    for (let x = 2; x <= 14; x++) for (let y = 2; y <= 14; y++) if (((x - 8) * (x - 8) + (y - 8) * (y - 8)) <= 36 && Math.random() < 0.6) setPx(g, x, y, 'PANEL2');
+    dots(g, [[8, 8]], 'PEARL');
+  });
 
   /* -------------------------------------------------------------- 生物 */
 
@@ -579,6 +588,31 @@
     circle(g, 16, 14, 5, 'PANEL2');
     circle(g, 16, 14, 2, 'PEARL');
     dots(g, [[6, 8], [26, 8], [6, 20], [26, 20]], 'GLOW2');
+  });
+
+  SPRITES.c_farshoredrifter = creatureSprite(20, 20, (g) => {
+    for (let x = 3; x <= 17; x++) for (let y = 3; y <= 17; y++) if (((x - 10) * (x - 10) + (y - 10) * (y - 10)) <= 49 && Math.random() < 0.4) setPx(g, x, y, 'FOAM');
+    dots(g, [[10, 10]], 'GLOW2');
+  });
+  SPRITES.c_mirrorfish = creatureSprite(24, 8, (g) => {
+    for (let i = 0; i < 20; i++) { const y = 4 + Math.round(Math.sin(i / 3) * 2); setPx(g, 1 + i, y, 'PEARL'); }
+    dots(g, [[2, 3], [21, 5]], 'BORDER');
+  });
+  SPRITES.c_mirrorfish.frame1 = frame1(24, 8, (g) => {
+    for (let i = 0; i < 20; i++) { const y = 4 + Math.round(Math.sin(i / 3 + 0.5) * 2); setPx(g, 1 + i, y, 'PEARL'); }
+    dots(g, [[2, 3], [21, 5]], 'BORDER');
+  });
+  SPRITES.c_thresholdkeeper = creatureSprite(16, 20, (g) => {
+    rect(g, 4, 2, 8, 16, 'BORDER');
+    rect(g, 5, 3, 6, 14, 'PANEL2');
+    dots(g, [[6, 8], [10, 8], [6, 13], [10, 13]], 'GLOW2');
+  });
+  SPRITES.c_thewatcher = creatureSprite(32, 20, (g) => {
+    ellipse(g, 16, 10, 15, 9, 'PANEL2');
+    circle(g, 9, 10, 4, 'INK'); circle(g, 9, 10, 2, 'PEARL');
+    circle(g, 23, 10, 4, 'INK'); circle(g, 23, 10, 2, 'PEARL');
+    dots(g, [[9, 10], [23, 10]], 'VIOLET');
+    dots(g, [[16, 4], [16, 16]], 'GLOW2');
   });
 
   /* -------------------------------------------------------------- 介面圖示 */

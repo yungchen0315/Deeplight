@@ -35,8 +35,10 @@
   function currentGoal(save) {
     const s = save.stats || {};
 
-    // 1. 第一個發光模組：先確保玩家理解「自動產出」這件事。
-    if (!hasModules(save)) {
+    // 1. 第一個發光模組：先確保玩家理解「自動產出」這件事。只在第一輪（還沒轉生過）
+    //    當引導——轉生會把 save.modules 清空，若不加這個守衛，每次重返海面後老玩家都會
+    //    被丟回「買第一個模組」的新手目標，蓋掉真正該有的「潛到下一片海域」長線目標。
+    if (save.prestigeCount < 1 && !hasModules(save)) {
       const firstId = D.MODULE_DEFS[0].id;
       const cost = Econ.moduleCost(save, firstId);
       if (save.glow < cost) {
@@ -50,8 +52,9 @@
       return { id: 'g_first_creature', text: '點擊路過的深海生物，收集第一隻進圖鑑' };
     }
 
-    // 3. 第一個研究：把樣本花掉、理解永久強化。
-    if (save.research.length < 1) {
+    // 3. 第一個研究：把樣本花掉、理解永久強化。同樣只在第一輪引導——轉生會清空
+    //    save.research，加守衛避免老玩家轉生後被丟回「完成第一個研究」的新手目標。
+    if (save.prestigeCount < 1 && save.research.length < 1) {
       const cost = D.RESEARCH_DEFS[0].cost;
       if (save.samples < cost) {
         return { id: 'g_earn_research', text: '多收集生物取得樣本，完成第一個研究', progress: prog(save.samples, cost, ' 樣本') };

@@ -56,6 +56,8 @@
  *   永久保留、不受任何轉生重置，全部領完後潛航畫面就不再顯示這個區塊。
  * @property {number[]} zonesSeen 這輩子第一次抵達過的海域 id 清單，用來判斷是否要
  *   放一次性的「抵達新海域」慶祝；永久保留、不受轉生重置。預設 [0]（開局就在透光帶）。
+ * @property {string} hullSkin 選定的潛燈號外觀 id（HULL_SKIN_DEFS），純裝飾不影響數值；
+ *   永久保留、不受轉生重置。預設 'default'。
  * ==========================================================================*/
 (function () {
   function createDefaultSave(now) {
@@ -125,7 +127,8 @@
       nextSignalAt: now + 900000,
       nextSonarAt: 0,
       beginnerQuests: { claimed: [] },
-      zonesSeen: [0]
+      zonesSeen: [0],
+      hullSkin: 'default'
     };
   }
 

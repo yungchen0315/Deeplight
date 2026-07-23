@@ -74,6 +74,31 @@
     container.appendChild(panel);
   }
 
+  function renderHullSkins(container, save, onChange) {
+    const defs = D.HULL_SKIN_DEFS;
+    if (!defs) return;
+    const panel = U.el('div', 'panel');
+    const unlockedCount = defs.filter((sk) => sk.unlock(save)).length;
+    panel.appendChild(U.el('div', 'panelTitle', '潛燈外觀（' + unlockedCount + ' / ' + defs.length + '）'));
+    panel.appendChild(U.el('div', 'subHint', '純裝飾，不影響數值——選定的塗裝會套用在潛航畫面與潛航護照上'));
+    const grid = U.el('div', 'skinGrid');
+    const current = save.hullSkin || 'default';
+    defs.forEach((sk) => {
+      const unlocked = sk.unlock(save);
+      const selected = current === sk.id;
+      const cell = U.el('div', 'skinCell' + (selected ? ' skinSelected' : '') + (unlocked ? '' : ' skinLocked'));
+      cell.appendChild(PR.spriteCanvasEl(sk.id === 'default' ? 'hull' : 'hull_' + sk.id, 2));
+      cell.appendChild(U.el('div', 'skinName', sk.name));
+      cell.appendChild(U.el('div', 'skinHint', unlocked ? (selected ? '使用中' : '點擊使用') : sk.desc));
+      if (unlocked && !selected) {
+        U.onTap(cell, () => { save.hullSkin = sk.id; Audio.play('buy'); onChange(); });
+      }
+      grid.appendChild(cell);
+    });
+    panel.appendChild(grid);
+    container.appendChild(panel);
+  }
+
   function render(container, save, onChange) {
     U.clearNode(container);
 
@@ -122,6 +147,8 @@
     });
     boostPanel.appendChild(instantBtn);
     container.appendChild(boostPanel);
+
+    renderHullSkins(container, save, onChange);
 
     const refitPanel = U.el('div', 'panel');
     refitPanel.appendChild(U.el('div', 'panelTitle', '重構升級（壓力核心 ' + U.formatNum(save.cores) + '）'));

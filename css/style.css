@@ -354,6 +354,16 @@ button { font-family: inherit; border: none; cursor: pointer; }
 .dailyDay { font-size: 10px; color: #7E92A8; }
 .dailyLabel { font-size: 10px; margin-top: 2px; }
 
+/* 潛燈外觀（hull skin）選擇格 */
+.skinGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; }
+.skinCell { background: #1B2836; border: 1px solid #33455C; padding: 6px 4px; text-align: center; cursor: pointer; }
+.skinCell .pixelIcon { image-rendering: pixelated; }
+.skinCell.skinSelected { border-color: #F2C14E; }
+.skinCell.skinLocked { opacity: 0.5; cursor: default; }
+.skinName { font-size: 11px; margin-top: 4px; color: #D6E5F3; }
+.skinHint { font-size: 9px; margin-top: 2px; color: #7E92A8; }
+.skinCell.skinSelected .skinHint { color: #F2C14E; }
+
 /* ---------------------------------------------------------------------- */
 /* 底部導覽：紅點提示                                                        */
 /* ---------------------------------------------------------------------- */

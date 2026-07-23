@@ -74,7 +74,7 @@
 
     // 潛燈號本體。
     const hullWrap = U.el('div', 'hullWrap');
-    hullWrap.appendChild(PR.spriteCanvasEl('hull', 4));
+    hullWrap.appendChild(PR.spriteCanvasEl(D.hullSpriteIdFor(save), 4));
     scene.appendChild(hullWrap);
 
     // 待領取的離線生物徽章。

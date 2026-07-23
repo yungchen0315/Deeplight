@@ -10,6 +10,13 @@
   function migrate(saveGame) {
     const def = window.App.Models.createDefaultSave(Date.now());
     const priorVersion = saveGame.version || 1;
+    // zonesSeen 回填必須在下面「用預設值補上缺欄位」之前做——否則 saveGame.zonesSeen
+    // 會先被補成預設的 [0]，讓依 maxDepthEver 回填的邏輯永遠不執行，老玩家就會對早就
+    // 經過的海域被連續彈出「抵達新海域」慶祝。
+    if (!Array.isArray(saveGame.zonesSeen)) {
+      const maxD = saveGame.maxDepthEver || 0;
+      saveGame.zonesSeen = window.App.Data.ZONE_DEFS.filter((z) => z.minDepth <= maxD).map((z) => z.id);
+    }
     Object.keys(def).forEach((k) => { if (saveGame[k] === undefined) saveGame[k] = def[k]; });
     if (!saveGame.modules) saveGame.modules = {};
     if (!saveGame.bestiary) saveGame.bestiary = {};

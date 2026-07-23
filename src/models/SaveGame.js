@@ -54,6 +54,8 @@
  * @property {number} nextSonarAt 聲納脈衝主動技能下一次可用的時戳（ms），開局即可用（預設 0）。
  * @property {{claimed:string[]}} beginnerQuests 已領取的新手任務 id（BEGINNER_QUEST_DEFS），
  *   永久保留、不受任何轉生重置，全部領完後潛航畫面就不再顯示這個區塊。
+ * @property {number[]} zonesSeen 這輩子第一次抵達過的海域 id 清單，用來判斷是否要
+ *   放一次性的「抵達新海域」慶祝；永久保留、不受轉生重置。預設 [0]（開局就在透光帶）。
  * ==========================================================================*/
 (function () {
   function createDefaultSave(now) {
@@ -122,7 +124,8 @@
       signalFragments: [],
       nextSignalAt: now + 900000,
       nextSonarAt: 0,
-      beginnerQuests: { claimed: [] }
+      beginnerQuests: { claimed: [] },
+      zonesSeen: [0]
     };
   }
 

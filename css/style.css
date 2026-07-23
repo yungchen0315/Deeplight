@@ -247,6 +247,9 @@ button { font-family: inherit; border: none; cursor: pointer; }
 .modalLine { font-size: 13px; margin: 6px 0; color: #D6E5F3; }
 .modalHighlight { color: #45E8BC; }
 .offlineGoalLine { margin-top: 12px; padding-top: 10px; border-top: 1px solid #33455C; color: #FFB454; font-size: 13px; }
+.zoneReachedKicker { color: #45E8BC; font-size: 12px; letter-spacing: 3px; margin-bottom: 2px; }
+.zoneReachedName { font-size: 26px; margin-bottom: 6px; }
+.zoneReachedFlavor { color: #7E92A8; font-size: 12px; font-style: italic; margin-top: 10px; }
 .discoveryIconWrap { display: flex; justify-content: center; margin: 10px 0; }
 .discoveryName { font-size: 15px; color: #B784FF; }
 .modalBtn {

@@ -475,7 +475,10 @@
     Audio.play('gate');
     FX.shake(document.getElementById('screens'), 4, 250);
     FX.burst(sceneEl, 50, 50, 'AMBER', 24);
-    Toast.toast('已加固艙體，進入「' + result.zone.name + '」');
+    // 第一次抵達某片海域：放一個一次性的慶祝彈窗（值得記住的進度里程碑）；
+    // 之後轉生重玩經過同一片海域，就只留一行 toast，不再打斷節奏。
+    if (result.firstTime) Modals.showZoneReached(result.zone);
+    else Toast.toast('已加固艙體，進入「' + result.zone.name + '」');
     if (onChangeRef) onChangeRef();
     tick(saveRef);
   }

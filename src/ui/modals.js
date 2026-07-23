@@ -46,6 +46,29 @@
     });
   }
 
+  /** 第一次抵達某片海域時的一次性慶祝——把過閘門這個進度里程碑做成一個值得記住、
+   *  也值得截圖分享的時刻，而不只是一行 toast。氛圍文字沿用該海域的環境觀測記錄池。 */
+  function showZoneReached(zone, onClose) {
+    const Audio = window.App.Systems.Audio;
+    if (Audio) Audio.play('gate');
+    const D = window.App.Data;
+    let flavor = '';
+    try {
+      const tier = D.flavorTierForZone(zone.id);
+      const pool = D.AMBIENT_FLAVOR_TIERS[tier];
+      if (pool && pool.length) flavor = U.choice(pool);
+    } catch (e) { /* 氛圍文字只是加分，取不到就不顯示 */ }
+    showModal((box, close) => {
+      box.appendChild(U.el('div', 'modalLine zoneReachedKicker', '抵達新海域'));
+      box.appendChild(U.el('div', 'modalTitle zoneReachedName', zone.name));
+      box.appendChild(U.el('div', 'modalLine modalHighlight', '深度 ' + zone.minDepth + ' m 起'));
+      if (flavor) box.appendChild(U.el('div', 'modalLine zoneReachedFlavor', flavor));
+      const btn = U.el('button', 'modalBtn', '繼續下潛');
+      U.onTap(btn, () => { close(); if (onClose) onClose(); });
+      box.appendChild(btn);
+    });
+  }
+
   function showDiscoveryCard(creatureDef, onClose) {
     showModal((box, close) => {
       box.appendChild(U.el('div', 'modalTitle', '新發現！'));
@@ -120,5 +143,5 @@
     renderPage();
   }
 
-  window.App.UI.Modals = { showModal, showOfflineReport, showDiscoveryCard, showWelcome, showConfirm };
+  window.App.UI.Modals = { showModal, showOfflineReport, showDiscoveryCard, showZoneReached, showWelcome, showConfirm };
 })();

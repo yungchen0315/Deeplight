@@ -1,5 +1,5 @@
 /* ============================================================================
- * achievementDefs.js — 51 個成就（企劃書第 7 節 + v1.1~Phase11 擴充），部分掉深海
+ * achievementDefs.js — 53 個成就（企劃書第 7 節 + v1.1~Phase12 擴充），部分掉深海
  * 珍珠。condition(state) 由 achievementSystem 呼叫；state 是完整 SaveGame，只在
  * 該成就尚未解鎖時才會被呼叫（見 achievementSystem.js），所以就算條件內部呼叫
  * Economy.computeEffects 之類稍重的函式也不會變成長期的每 tick 負擔。
@@ -104,10 +104,14 @@
       condition: (s) => s.maxDepthEver >= 1950000 },
     { id: 'farshore_bestiary', name: '彼岸觀測者', desc: '記錄彼岸的全部 4 種生物', pearl: 3,
       condition: (s) => ['farshoredrifter', 'mirrorfish', 'thresholdkeeper', 'thewatcher'].every((id) => s.bestiary[id]) },
-    { id: 'depth_2900000', name: '歸墟盡頭', desc: '下潛至 2900000 公尺（目前版本最深處）', pearl: 15,
+    { id: 'depth_2900000', name: '歸墟盡頭', desc: '下潛至 2900000 公尺', pearl: 15,
       condition: (s) => s.maxDepthEver >= 2900000 },
     { id: 'guixu_bestiary', name: '歸墟觀測者', desc: '記錄歸墟的全部 4 種生物', pearl: 3,
-      condition: (s) => ['refluxdrifter', 'ringswimmer', 'guixusentinel', 'returninglight'].every((id) => s.bestiary[id]) }
+      condition: (s) => ['refluxdrifter', 'ringswimmer', 'guixusentinel', 'returninglight'].every((id) => s.bestiary[id]) },
+    { id: 'depth_4300000', name: '薪火盡頭', desc: '下潛至 4300000 公尺（目前版本最深處）', pearl: 18,
+      condition: (s) => s.maxDepthEver >= 4300000 },
+    { id: 'kindling_bestiary', name: '薪火觀測者', desc: '記錄薪火的全部 4 種生物', pearl: 3,
+      condition: (s) => ['emberdrifter', 'lightdrawfish', 'torchsentinel', 'thesuccessor'].every((id) => s.bestiary[id]) }
   ];
 
   window.App.Data.ACHIEVEMENT_DEFS = ACHIEVEMENT_DEFS;

@@ -245,6 +245,18 @@
     for (let a = 0; a < 26; a++) { const r = 6 - a * 0.22; const ang = a * 0.9; setPx(g, Math.round(8 + Math.cos(ang) * r), Math.round(8 + Math.sin(ang) * r), 'PANEL2'); }
     dots(g, [[8, 8]], 'PEARL');
   });
+  SPRITES.mod_torchlamp = modSprite((g) => {
+    // 信標燈：燈體在上，往下投射一道逐漸展開的光束。
+    ellipse(g, 8, 4, 4, 3, 'AMBER');
+    dots(g, [[8, 4]], 'FOAM');
+    for (let y = 7; y <= 14; y++) { const w = y - 6; for (let x = 8 - Math.floor(w / 2); x <= 8 + Math.floor(w / 2); x++) if (Math.random() < 0.7) setPx(g, x, y, 'GLOW2'); }
+  });
+  SPRITES.mod_torchcore = modSprite((g) => {
+    // 傳遞核心：中心亮點，把能量往下方送出的點流。
+    circle(g, 8, 6, 3, 'AMBER');
+    dots(g, [[8, 6]], 'PEARL');
+    dots(g, [[8, 9], [7, 11], [9, 11], [8, 13], [8, 15]], 'GLOW2');
+  });
 
   /* -------------------------------------------------------------- 生物 */
 
@@ -649,6 +661,32 @@
     circle(g, 10, 10, 4, 'FOAM');
     circle(g, 10, 10, 2, 'PEARL');
     dots(g, [[10, 1], [10, 19], [1, 10], [19, 10], [4, 4], [16, 16], [4, 16], [16, 4]], 'GLOW2');
+  });
+  SPRITES.c_emberdrifter = creatureSprite(20, 16, (g) => {
+    ellipse(g, 10, 8, 5, 4, 'BORDER');
+    dots(g, [[7, 6], [12, 7], [9, 10], [13, 9], [6, 9]], 'AMBER');
+    dots(g, [[10, 8]], 'GLOW2');
+  });
+  SPRITES.c_lightdrawfish = creatureSprite(22, 10, (g) => {
+    // 游在光束前方領路的魚：魚體在左，後方拖著一道光束。
+    ellipse(g, 5, 5, 3, 2, 'FOAM');
+    dots(g, [[3, 5]], 'AMBER');
+    for (let x = 9; x <= 20; x++) if (Math.random() < 0.6) setPx(g, x, 5 + (x % 2 === 0 ? 0 : (x % 4 === 1 ? -1 : 1)), 'GLOW2');
+  });
+  SPRITES.c_torchsentinel = creatureSprite(16, 20, (g) => {
+    // 守望者：捧著一小簇光，望向下方。
+    rect(g, 5, 4, 6, 14, 'PANEL2');
+    dots(g, [[8, 2], [7, 3], [9, 3]], 'AMBER');
+    dots(g, [[8, 2]], 'FOAM');
+    dots(g, [[7, 9], [9, 9], [8, 13]], 'GLOW2');
+  });
+  SPRITES.c_thesuccessor = creatureSprite(20, 22, (g) => {
+    // 後來者：跟歸光/hull 同款的光暈，但正在上升——下方拖著一小段上升尾跡。
+    circle(g, 10, 8, 6, 'BORDER');
+    circle(g, 10, 8, 4, 'FOAM');
+    circle(g, 10, 8, 2, 'PEARL');
+    dots(g, [[10, 0], [1, 8], [19, 8], [4, 2], [16, 2]], 'GLOW2');
+    dots(g, [[10, 16], [9, 19], [11, 19], [10, 21]], 'AMBER');
   });
 
   /* -------------------------------------------------------------- 介面圖示 */

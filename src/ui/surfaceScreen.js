@@ -193,7 +193,7 @@
       Toast.toast('已產生潛航護照圖卡');
     });
     statsPanel.appendChild(shareBtn);
-    statsPanel.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.13　·　更多設定請點頂欄齒輪圖示'));
+    statsPanel.appendChild(U.el('div', 'subHint', '《潛燈》DEEPLIGHT v1.14　·　更多設定請點頂欄齒輪圖示'));
     container.appendChild(statsPanel);
   }
 

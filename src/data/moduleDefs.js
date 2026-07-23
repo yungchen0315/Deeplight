@@ -1,5 +1,5 @@
 /* ============================================================================
- * moduleDefs.js — 30 種發光模組（企劃書第 4b 節 + v1.1~Phase10 擴充）。cost(n)
+ * moduleDefs.js — 32 種發光模組（企劃書第 4b 節 + v1.1~Phase11 擴充）。cost(n)
  * 與升級節點的計算交給 economySystem，這裡只放靜態資料。lore 是模組詳細彈窗
  * （moduleDetailModal.js）顯示的風味文字，純敘事用途，不影響任何數值。
  * ==========================================================================*/
@@ -64,7 +64,11 @@
     { id: 'farshorelamp', name: '彼岸燈', icon: 'mod_farshorelamp', baseCost: 2.5e32, baseProd: 1.7e23, unlockDepth: 1305000,
       lore: '通過本源之心後遇到的第一座構造，發出的光線色調怪異，照到的陰影方向也跟探照燈的角度對不上——工程日誌懷疑，這裡的「光」可能跟艙外那盞燈是兩種不同的東西。' },
     { id: 'farshorecore', name: '彼岸之核', icon: 'mod_farshorecore', baseCost: 3.8e33, baseProd: 1.2e24, unlockDepth: 1600000,
-      lore: '彼岸最深處一團輪廓模糊、邊界說不清楚在哪裡的能量核心，接上纜線後不會有任何回饋訊號——工程日誌只確認了一件事：它一直都在輸出能量，不管潛燈號有沒有接上它。' }
+      lore: '彼岸最深處一團輪廓模糊、邊界說不清楚在哪裡的能量核心，接上纜線後不會有任何回饋訊號——工程日誌只確認了一件事：它一直都在輸出能量，不管潛燈號有沒有接上它。' },
+    { id: 'guixulamp', name: '歸墟燈', icon: 'mod_guixulamp', baseCost: 5.5e34, baseProd: 8e24, unlockDepth: 1955000,
+      lore: '越過彼岸之後，海水開始朝同一個方向緩緩流動——像是有什麼在最深處把一切慢慢吸進去。這盞燈就是循著那股水流的方向裝上的，照出來的光也一起被拉往深處，不再回頭。' },
+    { id: 'guixucore', name: '歸墟之核', icon: 'mod_guixucore', baseCost: 8e35, baseProd: 6e25, unlockDepth: 2400000,
+      lore: '歸墟最深處的能量核心，所有漂進這片海域的東西最後都繞著它打轉。工程日誌發現一件事：接上它輸出的能量頻率，跟潛燈號自己探照燈的頻率一模一樣——彷彿這裡的光，本來就是從潛燈號自己身上流出去、又流回來的。' }
   ];
 
   function moduleById(id) { return MODULE_DEFS.find((m) => m.id === id); }

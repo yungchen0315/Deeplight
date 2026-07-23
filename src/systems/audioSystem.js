@@ -120,8 +120,8 @@
     if (fn) fn();
   }
 
-  const ZONE_LOWPASS = [500, 350, 220, 120, 110, 100, 90, 80, 70, 60, 50, 42, 36, 30, 25];
-  const ZONE_PING = [660, 587, 523, 440, 415, 392, 349, 330, 294, 262, 233, 220, 196, 175, 156];
+  const ZONE_LOWPASS = [500, 350, 220, 120, 110, 100, 90, 80, 70, 60, 50, 42, 36, 30, 25, 21];
+  const ZONE_PING = [660, 587, 523, 440, 415, 392, 349, 330, 294, 262, 233, 220, 196, 175, 156, 139];
 
   function scheduleAmbientPing() {
     if (!ambientOn || !ctx || !ambientNodes) return;

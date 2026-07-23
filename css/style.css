@@ -246,6 +246,7 @@ button { font-family: inherit; border: none; cursor: pointer; }
 .modalTitle { font-size: 17px; font-weight: bold; color: #FFB454; margin-bottom: 10px; }
 .modalLine { font-size: 13px; margin: 6px 0; color: #D6E5F3; }
 .modalHighlight { color: #45E8BC; }
+.offlineGoalLine { margin-top: 12px; padding-top: 10px; border-top: 1px solid #33455C; color: #FFB454; font-size: 13px; }
 .discoveryIconWrap { display: flex; justify-content: center; margin: 10px 0; }
 .discoveryName { font-size: 15px; color: #B784FF; }
 .modalBtn {

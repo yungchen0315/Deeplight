@@ -155,7 +155,7 @@
       renderScreen(screenId);
     });
 
-    if (offlineReport) Modals.showOfflineReport(offlineReport);
+    if (offlineReport) Modals.showOfflineReport(offlineReport, save);
     if (isNewSave) trySave();
 
     setInterval(loopTick, B.TICK_INTERVAL_MS);
@@ -168,7 +168,7 @@
         const report = Offline.settle(save, n);
         lastTickAt = n;
         if (report) {
-          Modals.showOfflineReport(report);
+          Modals.showOfflineReport(report, save);
           renderScreen(currentScreenId);
         }
         BottomNav.refreshBadges(save);

@@ -17,18 +17,30 @@
     return close;
   }
 
-  function showOfflineReport(report, onClose) {
+  function showOfflineReport(report, save, onClose) {
+    // 舊呼叫端可能只傳 (report, onClose)——若第二個參數是函式，往後相容成 onClose。
+    if (typeof save === 'function') { onClose = save; save = null; }
     const Audio = window.App.Systems.Audio;
     if (Audio) Audio.play('discovery');
     showModal((box, close) => {
-      box.appendChild(U.el('div', 'modalTitle', '潛航報告'));
+      box.appendChild(U.el('div', 'modalTitle', '歡迎回來'));
       box.appendChild(U.el('div', 'modalLine', '離線時間：' + U.formatDurationWords(report.elapsedMs)));
-      box.appendChild(U.el('div', 'modalLine', '獲得螢光：+' + U.formatNum(report.glowGained)));
-      box.appendChild(U.el('div', 'modalLine', '下潛深度：+' + Math.round(report.depthGained) + ' 公尺'));
-      if (report.missedCount > 0) {
-        box.appendChild(U.el('div', 'modalLine modalHighlight', '有 ' + report.missedCount + ' 隻生物趁你不在時游過，回潛航畫面點擊領取'));
+      box.appendChild(U.el('div', 'modalLine modalHighlight', '獲得螢光：+' + U.formatNum(report.glowGained)));
+      if (report.depthGained >= 1) {
+        box.appendChild(U.el('div', 'modalLine', '下潛深度：+' + Math.round(report.depthGained) + ' 公尺'));
       }
-      const btn = U.el('button', 'modalBtn', '知道了');
+      if (report.missedCount > 0) {
+        box.appendChild(U.el('div', 'modalLine', '有 ' + report.missedCount + ' 隻生物趁你不在時游過，回潛航畫面點擊領取'));
+      }
+      // 回訪的當下順手重申「接下來要幹嘛」，讓玩家一回來就有明確的下一步、不會愣住。
+      const VoyageGoal = window.App.Systems.VoyageGoal;
+      if (save && VoyageGoal) {
+        const goal = VoyageGoal.currentGoal(save);
+        if (goal && goal.id !== 'g_done') {
+          box.appendChild(U.el('div', 'modalLine offlineGoalLine', '🧭 接下來：' + goal.text));
+        }
+      }
+      const btn = U.el('button', 'modalBtn', '繼續下潛');
       U.onTap(btn, () => { close(); if (onClose) onClose(); });
       box.appendChild(btn);
     });
